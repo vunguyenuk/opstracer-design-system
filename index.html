@@ -343,8 +343,8 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .stats-section{padding:42px 24px;background:#fff}
 .stat-row{display:grid;grid-template-columns:60px 1fr auto;align-items:center;border-top:1px solid var(--border);padding:14px 0;color:#b3b6b0}
 .stat-row.active{background:var(--ink);color:#fff;padding:18px 14px;border-radius:5px;border:none;margin:8px 0}
-.ai-index{background:var(--ink);color:#fff;padding:58px 24px;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
-.ai-index h3{font-size:34px}.chart{height:220px;border:1px solid #373b32;border-radius:5px;padding:14px;display:flex;align-items:end;gap:8px;background:#1f231d}
+.ops-data{background:var(--ink);color:#fff;padding:58px 24px;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+.ops-data h3{font-size:34px}.chart{height:220px;border:1px solid #373b32;border-radius:5px;padding:14px;display:flex;align-items:end;gap:8px;background:#1f231d}
 .chart i{
   display:block;flex:1;
   background:linear-gradient(180deg,var(--accent-soft) 0%, var(--accent) 58%, var(--accent-hover) 100%);
@@ -503,7 +503,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   h1{font-size:43px}h2{font-size:30px}
   .grid-2,.grid-3,.grid-4,.grid-5,.theme-preview,.media-demo{grid-template-columns:1fr}
   .type-row{grid-template-columns:1fr;gap:5px}
-  .marketing-hero,.feature-split,.ai-index,.auth-screen,.onboard{grid-template-columns:1fr}
+  .marketing-hero,.feature-split,.ops-data,.auth-screen,.onboard{grid-template-columns:1fr}
   .logo-strip{grid-template-columns:repeat(2,1fr);height:auto;padding:22px}
   .resources{grid-template-columns:1fr}
   .app{display:block}.app-side{display:none}.metric-grid{grid-template-columns:1fr}
@@ -760,7 +760,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
         <a href="#enterprise-cta">Enterprise CTA</a>
         <a href="#solutions">Solutions carousel</a>
         <a href="#stats">Stats accordion</a>
-        <a href="#ai-index">AI index / dark section</a>
+        <a href="#ops-data">Operational data / dark section</a>
         <a href="#resources">Resources</a>
         <a href="#footer">Footer</a>
       </div>
@@ -1159,8 +1159,8 @@ button:disabled{cursor:not-allowed;opacity:.48}
           <div class="source-row"><span class="badge ext">DS-01 extension</span></div>
         </div>
         <div class="grid grid-2">
-          <div class="card"><div class="field"><label>Organisation name</label><div class="input">Acme Operations</div></div></div>
-          <div class="card"><div class="field"><label>Keyboard focus</label><div class="input focus">ops@acme.com</div></div></div>
+          <div class="card"><div class="field"><label>Organisation name</label><div class="input">Your organisation</div></div></div>
+          <div class="card"><div class="field"><label>Keyboard focus</label><div class="input focus">oncall@company.example</div></div></div>
         </div>
         <div class="card" style="margin-top:12px">
           <div class="control-row">
@@ -1242,7 +1242,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
         <div class="section-head"><div class="kicker">Marketing / Logo strip</div><h2>Social proof row</h2></div>
         <div class="demo-frame">
           <div class="logo-strip">
-            <div class="fake-logo">Northstar</div><div class="fake-logo">Orbit</div><div class="fake-logo">Relay</div><div class="fake-logo">Silo</div><div class="fake-logo">Beacon</div>
+            <div class="fake-logo">SaaS teams</div><div class="fake-logo">Fintech teams</div><div class="fake-logo">Commerce teams</div><div class="fake-logo">Platform teams</div><div class="fake-logo">Infrastructure teams</div>
           </div>
         </div>
       </section>
@@ -1272,9 +1272,9 @@ button:disabled{cursor:not-allowed;opacity:.48}
         <div class="demo-frame"><div class="stats-section"><div class="stat-row"><b>01</b><span>Mean time to acknowledge</span><strong>—</strong></div><div class="stat-row active"><b>02</b><span>Escalations completed without manual handoff</span><strong>96%</strong></div><div class="stat-row"><b>03</b><span>Schedule coverage</span><strong>—</strong></div></div></div>
       </section>
 
-      <section id="ai-index" class="section">
+      <section id="ops-data" class="section">
         <div class="section-head"><div class="kicker">Marketing / Dark data section</div><h2>Near-black data canvas</h2></div>
-        <div class="demo-frame"><div class="ai-index"><div><div class="kicker" style="color:#a7aba4">Operational visibility</div><h3>See what response actually looks like.</h3><p class="small" style="color:#b8bbb5">Use dark surfaces for high-contrast data moments instead of turning the entire site dark. Data bars should use a lavender gradient rather than one flat purple fill.</p><button class="btn primary compact">Explore metrics</button></div><div class="chart"><i style="height:35%"></i><i style="height:58%"></i><i style="height:47%"></i><i style="height:73%"></i><i style="height:91%"></i><i style="height:76%"></i></div></div></div>
+        <div class="demo-frame"><div class="ops-data"><div><div class="kicker" style="color:#a7aba4">Operational visibility</div><h3>See how every incident was handled.</h3><p class="small" style="color:#b8bbb5">Use dark surfaces for high-contrast response data: acknowledgement time, escalation progress, and schedule coverage. Data bars use the lavender gradient to keep status moments easy to scan.</p><button class="btn primary compact">Review response metrics</button></div><div class="chart"><i style="height:35%"></i><i style="height:58%"></i><i style="height:47%"></i><i style="height:73%"></i><i style="height:91%"></i><i style="height:76%"></i></div></div></div>
       </section>
 
       <section id="resources" class="section">
@@ -1300,7 +1300,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
             <div><div class="kicker">Incident response, simplified</div><h3>Know who is on call. Handle incidents fast.</h3><p>One workflow for responders, schedules, escalation, and incident ownership.</p><button class="btn primary compact">Start setup</button></div>
             <div class="product-window"><div class="bar"></div><div class="mini-metrics"><div class="mini-metric"><span>ACTIVE</span><b>3</b></div><div class="mini-metric"><span>ON CALL</span><b>8</b></div><div class="mini-metric"><span>COVERAGE</span><b>100%</b></div></div></div>
           </div>
-          <div class="logo-strip"><div class="fake-logo">Northstar</div><div class="fake-logo">Orbit</div><div class="fake-logo">Relay</div><div class="fake-logo">Silo</div><div class="fake-logo">Beacon</div></div>
+          <div class="logo-strip"><div class="fake-logo">SaaS teams</div><div class="fake-logo">Fintech teams</div><div class="fake-logo">Commerce teams</div><div class="fake-logo">Platform teams</div><div class="fake-logo">Infrastructure teams</div></div>
           <div class="feature-split"><div class="feature-copy"><div class="kicker">Schedules</div><h3>Clear ownership before the alert arrives.</h3><p>Every responder can see who is primary, who is next, and when ownership changes.</p></div><div class="feature-ui"><div class="panel-list"><div class="panel-line"></div><div class="panel-line"></div><div class="panel-line"></div></div></div></div>
           <div class="enterprise-cta"><h3>One system for the whole response loop.</h3><button class="btn white compact">Book a demo</button></div>
           <div class="footer"><div class="footer-cta"><div><div class="label">Start now</div><h3>Set up your first on-call flow.</h3></div><button class="btn primary compact">Get started</button></div></div>
@@ -1350,7 +1350,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
         <div class="demo-frame">
           <div class="onboard">
             <div class="onboard-side"><h3>Set up OpsTracer</h3><div class="steps"><div class="step done"><i>✓</i><span>Organisation<small>Company details</small></span></div><div class="step current"><i>2</i><span>People<small>Invite responders</small></span></div><div class="step"><i>3</i><span>Contact methods<small>Email, SMS, phone</small></span></div><div class="step"><i>4</i><span>Schedule<small>Define on-call rotation</small></span></div><div class="step"><i>5</i><span>Escalation<small>Fallback routing</small></span></div><div class="step"><i>6</i><span>Service<small>Connect ownership</small></span></div></div></div>
-            <div class="onboard-main"><div class="small">Step 2 of 6</div><h3>Add your responders</h3><p>Invite the people who will receive alerts and appear in your on-call schedule.</p><div class="person-list"><div class="person"><div class="avatar">AC</div><div><b>Alex Chen</b><small>alex@acme.com</small></div><span class="chip resolved">Invited</span></div><div class="person"><div class="avatar">MP</div><div><b>Mina Patel</b><small>mina@acme.com</small></div><span class="chip resolved">Invited</span></div><div class="person"><div class="avatar">+</div><div><b>Add responder</b><small>Name + work email</small></div><button class="top-btn">Add</button></div></div><div class="btn-row" style="justify-content:flex-end;margin-top:18px"><button class="btn outline-dark compact">Back</button><button class="btn primary compact">Save & continue</button></div></div>
+            <div class="onboard-main"><div class="small">Step 2 of 6</div><h3>Add your responders</h3><p>Invite the people who will receive alerts and appear in your on-call schedule.</p><div class="person-list"><div class="person"><div class="avatar">AC</div><div><b>Alex Chen</b><small>alex@company.example</small></div><span class="chip resolved">Invited</span></div><div class="person"><div class="avatar">MP</div><div><b>Mina Patel</b><small>mina@company.example</small></div><span class="chip resolved">Invited</span></div><div class="person"><div class="avatar">+</div><div><b>Add responder</b><small>Name + work email</small></div><button class="top-btn">Add responder</button></div></div><div class="btn-row" style="justify-content:flex-end;margin-top:18px"><button class="btn outline-dark compact">Back</button><button class="btn primary compact">Save and continue</button></div></div>
           </div>
         </div>
       </section>
@@ -1377,7 +1377,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
         </div>
         <div class="media-demo">
           <div class="media-shot"><div class="fake-ui"><div class="fake-ui-row"></div><div class="fake-ui-row"></div><div class="fake-ui-row"></div></div></div>
-          <div class="logo-media"><div>Northstar</div><div>Orbit</div><div>Relay</div><div>Beacon</div></div>
+          <div class="logo-media"><div>SaaS</div><div>Fintech</div><div>Commerce</div><div>Infrastructure</div></div>
         </div>
       </section>
 
@@ -1470,8 +1470,8 @@ button:disabled{cursor:not-allowed;opacity:.48}
     <div class="pane-toolbar"><button type="button" onclick="copyPane('design-code',this)">Copy</button></div>
     <div class="code-card"><pre id="design-code">---
 version: alpha
-name: &quot;Semrush: Your Unfair Advantage for Growing Brand Visibility&quot;
-description: Semrush is the leading platform to grow and measure brand visibility across AI search, SEO, PPC, social, and more.
+name: &quot;OpsTracer: On-call and Incident Response&quot;
+description: OpsTracer helps teams define on-call ownership, route alerts, escalate unanswered incidents, and acknowledge or resolve incidents from web and mobile.
 colors:
   primary: &quot;#c190ff&quot;
   color.focus-blue: &quot;#006dca&quot;
@@ -1573,7 +1573,7 @@ sectionMap:
     border: none
     media: none
     layout: full-width expandable list rows
-  ai-index:
+  operational-data:
     background: &quot;#181e15 + SVG pattern&quot;
     text: &quot;#ffffff&quot;
     border: none
@@ -1621,18 +1621,18 @@ buildTokens:
   layout.cta-height-mobile: 48px
 ---
 
-# Semrush: Your Unfair Advantage for Growing Brand Visibility — Style Reference
-&gt; assertive-data, lavender-accented-dark, high-contrast-section-alternation, custom-type-driven, pattern-textured-surfaces
+# OpsTracer: On-call and Incident Response — Style Reference
+&gt; calm-under-pressure, operationally-direct, lavender-accented-dark, high-contrast-section-alternation, product-led
 
 **Theme:** light
 
 ## Overview
 
-Semrush positions itself as the unfair competitive advantage for brand visibility — a data-authority platform that helps marketers dominate search, AI-generated answers, and every digital channel in between. The brand projects confident intelligence: you win because you have better data and broader reach, not because you outworked the competition.
+OpsTracer is an on-call and incident-response platform for teams that need reliable ownership when systems fail. It connects responders, contact methods, schedules, escalation policies, services, and monitoring integrations so an alert reaches the person on call and remains actionable until it is acknowledged or resolved.
 
-The central design tension is data authority versus approachability. The platform is deeply technical, yet the brand deploys expressive Lazzer type at weight 600, a #c190ff lavender accent against near-black #181e15 surfaces, and direct declarative copy to prevent the product from reading as cold infrastructure. The visual system makes expertise feel energizing rather than impenetrable.
+The central design tension is urgency versus control. Responders may open the product while tired or under pressure, while Admins need to understand when configuration is saved, publishing, or live. Expressive Lazzer type at weight 600, the #c190ff lavender accent, near-black #181e15 data surfaces, and restrained status colors create a system that feels calm, explicit, and dependable.
 
-**Voice:** headlines=Declarative and category-owning — &quot;Be found everywhere search happens,&quot; &quot;Your Unfair Advantage.&quot; Short, punchy, no hedge words, no qualifiers. The brand asserts, it doesn&#x27;t suggest.; body=Direct and data-grounded — leads with capability, then substantiates with proof. &quot;Powered by trusted SEO and competitive data, Semrush One helps your brand show up where customers search, ask, and decide.&quot;; microcopy=Functional with zero decoration — form placeholder &quot;Enter your website,&quot; geo label &quot;US.&quot; The product UI does the talking; microcopy steps aside.; ctas=Verb-led, benefit-implied — &quot;Get insights,&quot; &quot;Try for free,&quot; &quot;Book a demo,&quot; &quot;Explore the index.&quot; Every call to action earns its place by naming the action clearly.
+**Voice:** headlines=Direct and outcome-led — &quot;Know who is on call. Handle incidents fast.&quot; Short, confident, and specific.; body=Operational and consequence-aware — explain what a setting changes and whether it is saved, publishing, or live.; microcopy=Calm under pressure — use familiar terms such as &quot;Acknowledge incident,&quot; &quot;Resolve incident,&quot; and &quot;Coverage starts at 18:00.&quot; Empty states name the operational consequence, not only the absence.; ctas=Verb-led and explicit — &quot;Create schedule,&quot; &quot;Add responder,&quot; &quot;Publish changes,&quot; and &quot;Acknowledge incident.&quot;
 
 ## Colors
 
@@ -1713,14 +1713,14 @@ The central design tension is data authority versus approachability. The platfor
 ## Layout
 
 ### Composition Principles
-- The page is built as a deliberate sequence of named sections — hero → logo strip → two-column product panels → solutions accordion → stats list → AI index dark section → testimonials → resources → footer — where alternating light and dark backgrounds do the work of visual separation. No additional dividers are needed between sections because the surface contrast handles it.
+- The page is built as a deliberate sequence of named sections — hero → trust strip → two-column product panels → solutions accordion → response stats → operational data → resources → footer — where alternating light and dark backgrounds do the work of visual separation. No additional dividers are needed between sections because the surface contrast handles it.
 - 120px padding-top / 120px padding-bottom governs every major content section. The logo bar compresses to ~180px total height. The hero is full-bleed with a CSS gradient background, not an image.
 - Text and CTAs sit left-aligned within a 32px inset rail. Full-bleed section backgrounds span 1440px; all content stays within the 1376px inner rail. Card carousels begin at x:32 with 12px between cards.
 - The 120px section rhythm and the 37% desktop media column are not arbitrary — they signal that this is a platform with depth, not a marketing brochure. Resist the impulse to tighten padding or expand media beyond the evidenced ratio.
 - Compose pages as explicitly named sections. Each section carries its own surface color, text color, media treatment, and component set. There is no generic page container — the section is the unit of composition.
 ### Rhythm
 - 120px padding-top / 120px padding-bottom on major content sections; logo bar uses ~180px height; hero is full-bleed with gradient background.
-- Hero → logo strip → two-column product panels → solutions accordion → stats list → AI index dark section → testimonials → resources → footer; alternating light/dark backgrounds create visual breathing room without relying on decorative dividers.
+- Hero → trust strip → two-column product panels → solutions accordion → response stats → operational data → resources → footer; alternating light/dark backgrounds create visual breathing room without relying on decorative dividers.
 - 120px inter-section whitespace; 24px card interior padding; the stats list is deliberately open and sparse. The ~37% desktop media column ensures product UI is present but doesn&#x27;t crowd the copy.
 ### Implementation Notes
 - Container widths: 1440px full-bleed sections; ~1376px inner content rail (32px side insets); 430px card/article column.
@@ -1736,7 +1736,7 @@ The central design tension is data authority versus approachability. The platfor
 | enterprise_cta | #181e15 | #ffffff | none | none | full-bleed, centered headline + dual CTAs |  |
 | solutions_carousel | #ffffff (section) / #dceeeb (cards) | #181e15 | none | product icon/screenshot per card | horizontal carousel, 430px cards |  |
 | stats_accordion | #ffffff | #d1d2d5 (inactive) / #ffffff (active) | none | none | full-width expandable list rows |  |
-| ai_index | #181e15 + SVG pattern | #ffffff | none | data visualization widget | full-bleed, 120px vertical padding |  |
+| operational_data | #181e15 + SVG pattern | #ffffff | none | acknowledgement, escalation, and coverage data | full-bleed, 120px vertical padding |  |
 | footer | #191b23 | #ffffff | none | none | multi-column link grid + mint CTA strip (#dceeeb) |  |
 | top_banner | #c190ff (purple variant) or green/neutral | #181e15 | none | none | full-bleed, 8px top/bottom padding, 16px side padding |  |
 | hero | linear-gradient(#dceeeb 0%, #e8e1ff 75%, #ffffff 100%) | #181e15 | none | product screenshot right-side; gradient wash | full-bleed 1440px; inner content left-aligned at 32px inset |  |
@@ -1855,7 +1855,7 @@ The central design tension is data authority versus approachability. The platfor
 ### Photography &amp; Media
 - **client_logos:** role=Social proof strip anchored below the hero gradient — the logo row converts brand recognition into enterprise credibility before the visitor scrolls to product detail; aspect=Variable width, 100px height constrained row; crop=Logo only, no background; sized proportionally within the row; masking=None; frame=No frame; transparent background renders directly on the hero gradient&#x27;s white endpoint
 - **product_ui_screenshot:** role=The primary trust signal — product screenshots communicate platform depth and data richness in a way lifestyle photography cannot. They are the brand&#x27;s visual proof of capability.; aspect=Variable; constrained to section column widths (451px or 913px at desktop); crop=Crop to a specific tool view that highlights a data metric or workflow step — avoid generic full-screen dumps; masking=No masking; displayed as flat UI captures within section columns; frame=No decorative frame; the section background (mint gradient or white) provides containment without wrapping the image
-- **resource_article_card:** role=Thought leadership entry point; draws visitors into Semrush&#x27;s content authority beyond the product pitch; aspect=430×521px (0.825 ratio) — portrait card layout; crop=Image fills top portion of card; editorial crop; masking=5px border-radius on card container; frame=White card on white section background — hierarchy is established through typography, not surface contrast
+- **resource_article_card:** role=Operational guidance entry point; helps Admins design dependable coverage and helps Responders understand incident workflows; aspect=430×521px (0.825 ratio) — portrait card layout; crop=Image fills top portion of card; editorial crop; masking=5px border-radius on card container; frame=White card on white section background — hierarchy is established through typography, not surface contrast
 - **product_ui:** role=Product screenshots carry the brand&#x27;s visual identity — not photography. Every feature section uses a UI capture as its primary media.; aspect=Variable; constrained to column container; crop=Tight crop to the relevant data view or tool workflow — avoid showing chrome unrelated to the feature being described; masking=None; frame=Contained within section column; no shadow frame
 - **product_ui_screenshot:** role=Demonstrate platform data and UI depth; builds credibility through specificity; aspect=Variable, fits within panel; crop=Contained within section panel, no bleed; masking=none; frame=Borderless; no drop shadow observed
 - **customer_logo:** role=Social proof strip; aspect=~2:1 wide logos, 100px height; crop=Width varies per logo, 12px gap between; masking=none; frame=none
@@ -1865,7 +1865,7 @@ The central design tension is data authority versus approachability. The platfor
 ### Do
 - All primary and secondary CTA buttons must use border-radius: 100px (fully-pill). Do not apply card radius (5px) or utility radius (4px) to action buttons.
 - Always apply #006dca (focus-blue) as an inset box-shadow (3px) on :focus-visible interactive elements. Never suppress focus rings — this is the only accessible focus indicator color in the system.
-- Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, AI index, testimonials, and resources sections.
+- Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, operational data, testimonials, and resources sections.
 - Apply font-weight 600 to all Lazzer navigation items, CTAs, and display headings. Apply font-weight 500 to Lazzer supporting labels and banner descriptions. Reserve weight 400 for Inter body copy only.
 - Implement focus-visible states using inset box-shadow rings only — never native outline. Use `inset 0 0 0 3px #006dca` (blue) for general interactive elements and `inset 0 0 0 2px #181e15` (near-black) for footer and banner elements.
 - Keep micro-interactions at 0.1s–0.3s. Use 0.1s for transform (icon hover lift), 0.2s for opacity and color changes, and 0.3s for layout-affecting properties (padding, font-size, opacity of panels). The CSS custom property --mp-transition-duration: 200ms and --mp-transition-easing: ease-in-out define the canonical defaults.
@@ -1877,7 +1877,7 @@ The central design tension is data authority versus approachability. The platfor
 - Do not apply weight 700 to Lazzer headings or nav items as a general style — weight 700 is reserved for inline emphasis within specific contexts (e.g., `&lt;b&gt;` inside browser-warning banners). Heading hierarchy is expressed through size, not by escalating weight beyond 600.
 - Do not introduce &#x27;Factor A&#x27; or &#x27;Factor A Variable&#x27; into UI surfaces without explicit design authorization. These @font-face declarations exist in the stylesheet but have no observed component-level usage — they are likely reserved for a specific product sub-brand or campaign context.
 - Do not introduce additional background colors beyond the observed palette (white, #181e15 dark, #dceeeb mint, #e8e1ff lavender gradient, #c190ff accent). Introducing new section backgrounds breaks the deliberate light/dark alternation that structures page rhythm.
-- Do not introduce lifestyle or stock photography. Every feature section uses product UI screenshots and data visualizations as primary media. Photography would undermine the data-authority visual positioning the brand has built.
+- Do not introduce lifestyle or stock photography. Every feature section uses product UI screenshots and operational data as primary media. Photography would weaken the product&#x27;s emphasis on reliable on-call workflows.
 - Do not introduce motion beyond the observed transition set. No keyframe animations were observed outside the global loading spinner (0.75s linear). Do not add entrance animations, scroll-triggered transforms, or parallax effects not present in the evidence.
 - Do not mix arbitrary radius values. The system uses a defined set: 0, 2px, 3px, 4px, 5px, 6px, 10px, 100px (pill), and 50% (circle). Do not introduce values like 8px, 16px, or 24px that are not evidenced in the system.
 - Do not reduce section vertical padding below 120px for content sections. Compressing to 60px or 80px collapses the generous whitespace posture that distinguishes this layout from a typical marketing template.
@@ -1904,7 +1904,7 @@ The central design tension is data authority versus approachability. The platfor
 - card hover elevation/shadow: Cards use 5px radius and pattern backgrounds but no box-shadow — elevation is not part of the card language; use background color and pattern for differentiation instead
 - CSS custom properties for shadow tokens: Shadows are hardcoded per-component rather than tokenized. Implementations should not expect a shadow scale variable like --shadow-md.
 - dark-mode color scheme: No @media (prefers-color-scheme: dark) or dark-mode token variants were found. The palette operates in light mode only.
-- Hero / display-xl headline size (≥56px): The hero headline for &#x27;The unified SEO and AI search solution&#x27; is visible in page text snippets but its font-size is not captured in extracted CSS or browser_size_samples, likely due to bot-blocked JS-rendered stylesheets.
+- Hero / display-xl headline size (≥56px): The current evidence does not confirm an exact display size for the OpsTracer hero. Preserve the documented hierarchy and verify the final size across desktop and mobile.
 - max-width container constraint: Sections render at true 1440px full-bleed with no max-width cap — the 1440px viewport IS the design width. Wider viewports may not be handled.
 - Scroll-triggered or entrance animations: The brand does not use scroll-driven animations or keyframe entrance effects in global/header/footer CSS. Do not add them.
 - extraction_artifact: Factor A custom font is defined via @font-face but has no confirmed usage selectors in the captured CSS — may be used in inner app pages not captured. Treat as secondary display font with unknown homepage usage.
@@ -1932,21 +1932,22 @@ Quick Typography Reference:
 Implementation Rules:
 - All primary and secondary CTA buttons must use border-radius: 100px (fully-pill). Do not apply card radius (5px) or utility radius (4px) to action buttons.
 - Always apply #006dca (focus-blue) as an inset box-shadow (3px) on :focus-visible interactive elements. Never suppress focus rings — this is the only accessible focus indicator color in the system.
-- Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, AI index, testimonials, and resources sections.
+- Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, operational data, testimonials, and resources sections.
 - Apply font-weight 600 to all Lazzer navigation items, CTAs, and display headings. Apply font-weight 500 to Lazzer supporting labels and banner descriptions. Reserve weight 400 for Inter body copy only.
 - Implement focus-visible states using inset box-shadow rings only — never native outline. Use `inset 0 0 0 3px #006dca` (blue) for general interactive elements and `inset 0 0 0 2px #181e15` (near-black) for footer and banner elements.
 - Keep micro-interactions at 0.1s–0.3s. Use 0.1s for transform (icon hover lift), 0.2s for opacity and color changes, and 0.3s for layout-affecting properties (padding, font-size, opacity of panels). The CSS custom property --mp-transition-duration: 200ms and --mp-transition-easing: ease-in-out define the canonical defaults.
 
 Example Component Prompts:
-1. Create a hero section for Semrush: Your Unfair Advantage for Growing Brand Visibility using the documented background, text color, layout, and media treatment. Keep copy hierarchy faithful to the Overview and avoid unsupported decorative styles.
+1. Create an OpsTracer hero for on-call and incident response using the documented background, text color, layout, and product UI treatment. Lead with the outcome: know who is on call, route alerts, and handle incidents fast.
 2. Create a primary_cta_lavender component using its exact background, text, radius, padding, typography, state, and motion guidance. Include focus-visible behavior.
 3. Create a media block that uses client_logos as Social proof strip; establishes enterprise credibility; preserve crop, framing, aspect ratio, and forbidden substitutions.
 
-## Similar Brands
+## Product-fit principles
 
-- Linear - reference for precise product UI, restrained contrast, and disciplined surfaces.
-- Stripe - reference for clear product storytelling and polished implementation detail.
-- Vercel - reference for developer-facing hierarchy and monochrome system discipline.
+- Keep product UI precise, restrained, and easy to scan under pressure.
+- Explain the full alert path: monitoring integration → service → escalation policy → on-call responder.
+- Treat saved, publishing, and live as distinct configuration states.
+- Keep incident actions available when configuration is read-only or unavailable.
 
 ## Quick Start
 
