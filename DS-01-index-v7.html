@@ -1,0 +1,2255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpsTracer DS-01 — Full Design System Preview</title>
+<style>
+:root{
+  --accent:#c190ff;
+  --accent-hover:#b072ff;
+  --focus:#006dca;
+  --border:#d1d2d5;
+  --ink:#181e15;
+  --muted:#6c6e79;
+  --surface:#dceeeb;
+  --lavender:#e8e1ff;
+  --accent-soft:#d8b6ff;
+  --white:#fff;
+  --dark:#191b23;
+  --bg:#f7f7f5;
+  --soft:#f1f2ef;
+
+  --critical:#c93c37;
+  --warning:#b7791f;
+  --ack:#7b61a8;
+  --resolved:#18794e;
+
+  --r-xs:5px;
+  --r-sm:6px;
+  --r-card:5px;
+  --r-utility:4px;
+  --r-pill:100px;
+  --r-action:var(--r-pill);
+  --r-control:var(--r-sm);
+  --r-circle:50%;
+  --action-h-default:48px;
+  --action-h-compact:44px;
+
+  --sidebar:272px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.5;
+}
+h1,h2,h3,h4,.display,.ui{
+  font-family:Lazzer,Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.shell{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);
+  background:#fff;border-right:1px solid var(--border);
+  overflow:auto;padding:24px 16px 40px;z-index:30;
+}
+.brand-lockup{padding:5px 10px 18px;border-bottom:1px solid #ecece9}
+.brand-lockup strong{display:block;font-size:18px;letter-spacing:-.03em}
+.brand-lockup span{font-size:11px;color:var(--muted)}
+.nav-group{margin-top:18px}
+.nav-label{padding:0 10px 6px;font-size:10px;line-height:1;text-transform:uppercase;letter-spacing:.12em;color:#9b9f98;font-weight:800}
+.nav a{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;padding:7px 10px;margin:2px 0;border-radius:6px;
+  font-size:12px;color:#646960;
+}
+.nav a:hover{background:#f4f5f2;color:var(--ink)}
+.nav a.active{background:var(--surface);color:var(--ink);font-weight:800}
+.nav .ext{font-size:9px;color:#9a9d97;border:1px solid #d9dbd6;border-radius:100px;padding:1px 5px}
+.main{grid-column:2;min-width:0}
+.topbar{
+  height:66px;position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 34px;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
+}
+.crumb{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.top-actions{display:flex;gap:8px}
+.top-btn{
+  height:var(--action-h-compact);border:1px solid var(--border);background:#fff;border-radius:100px;
+  padding:0 12px;font-size:11px;font-weight:800;color:var(--ink);
+}
+.top-btn.primary{background:var(--accent);border-color:var(--accent)}
+.page{max-width:1210px;margin:0 auto;padding:54px 44px 120px}
+.section{scroll-margin-top:92px;margin:0 0 92px}
+.section-head{margin-bottom:24px}
+.kicker{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#92968f;font-weight:800;margin-bottom:10px}
+h1,h2,h3,h4{margin:0;letter-spacing:-.035em}
+h1{font-size:58px;line-height:.98;font-weight:600}
+h2{font-size:36px;line-height:1.08;font-weight:600}
+h3{font-size:20px;line-height:1.15;font-weight:600}
+h4{font-size:14px;line-height:1.25;font-weight:600}
+.lede{font-size:16px;color:var(--muted);max-width:780px;margin:13px 0 0}
+.source-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.badge{
+  display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:100px;
+  font-size:10px;font-weight:800;border:1px solid var(--border);background:#fff;
+}
+.badge.source{background:#f6f1ff;border-color:#ded0ff;color:#5e3e87}
+.badge.ext{background:#eef6f4;border-color:#cde1dc;color:#295d52}
+.rule{height:1px;background:var(--border);margin:28px 0}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:18px;
+}
+.card.flat{border:none}
+.label{font-size:11px;font-weight:800;color:var(--muted)}
+.value{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-top:5px}
+.small{font-size:11px;color:var(--muted)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:11px}
+.mono-block{
+  background:#151812;color:#e9eee7;border-radius:6px;padding:16px;overflow:auto;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:11px;line-height:1.7;
+}
+.callout{
+  border:1px solid #ded0ff;background:#f8f4ff;padding:13px 15px;border-radius:5px;
+  font-size:12px;color:#51445f;
+}
+.table-wrap{border:1px solid var(--border);background:#fff;border-radius:6px;overflow:hidden}
+.table-row{
+  display:grid;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border);
+  align-items:center;font-size:11px;
+}
+.table-row:last-child{border-bottom:none}
+.table-head{background:#f4f5f2;color:var(--muted);font-weight:800}
+.c4{grid-template-columns:1.4fr .8fr .8fr 1.3fr}
+.c5{grid-template-columns:1.2fr .8fr .8fr .8fr 1.6fr}
+
+/* Hero intro */
+.intro{
+  min-height:470px;display:flex;align-items:center;
+  background:linear-gradient(180deg,var(--surface) 0%,var(--lavender) 74%,#fff 100%);
+  border:1px solid rgba(24,30,21,.08);border-radius:6px;padding:46px;
+}
+.intro-copy{max-width:820px}
+.intro .lede{font-size:18px;color:#545a52}
+.intro-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
+.intro-meta span{
+  padding:7px 10px;border-radius:100px;border:1px solid rgba(24,30,21,.2);
+  font-size:11px;font-weight:800;background:rgba(255,255,255,.42);
+}
+
+/* Color */
+.color-family-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.color-family{min-width:0;border:1px solid var(--border);border-radius:5px;background:#fff}
+.color-base{
+  width:100%;height:168px;padding:24px;border:0;border-radius:4px 4px 0 0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:var(--color);color:var(--on-color);text-align:left;
+}
+.color-base-copy{display:grid;gap:4px}
+.color-base b{font-size:20px;line-height:1;letter-spacing:-.025em}
+.color-base small{font-size:11px;line-height:1;color:currentColor;opacity:.72}
+.color-hex{
+  flex:0 0 auto;font-size:13px;font-weight:800;opacity:0;transform:translateY(4px);
+  transition:opacity var(--transition-fast),transform var(--transition-fast);
+}
+.color-base:hover .color-hex,.color-base:focus-visible .color-hex,.color-base[data-copied="true"] .color-hex{opacity:1;transform:translateY(0)}
+.color-strip{height:86px;display:grid;grid-template-columns:repeat(10,minmax(0,1fr))}
+.color-shade{
+  position:relative;min-width:0;border:0;padding:0;background:var(--shade);cursor:copy;
+  transition:transform var(--transition-fast),filter var(--transition-fast);
+}
+.color-shade:first-child{border-radius:0 0 0 4px}.color-shade:last-child{border-radius:0 0 4px 0}
+.color-shade::after{
+  content:attr(data-hex);position:absolute;left:50%;bottom:calc(100% + 8px);z-index:4;
+  transform:translate(-50%,4px);padding:5px 7px;border-radius:100px;
+  background:var(--ink);color:#fff;font-size:9px;line-height:1;font-weight:800;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity var(--transition-fast),transform var(--transition-fast);
+}
+.color-shade:hover,.color-shade:focus-visible{z-index:3;transform:translateY(-5px);filter:saturate(1.06)}
+.color-shade:hover::after,.color-shade:focus-visible::after,.color-shade[data-copied="true"]::after{opacity:1;transform:translate(-50%,0)}
+.color-shade[data-copied="true"]::after{content:"Copied"}
+.role-card{padding:0;overflow:hidden}
+.role-swatch{height:60px}
+.role-body{padding:14px}
+.role-body p{font-size:11px;color:var(--muted);margin:6px 0 0}
+
+/* Typography */
+.type-row{display:grid;grid-template-columns:170px 1fr 170px;gap:18px;align-items:start;padding:18px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:12px;font-weight:800}
+.type-sample{font-family:Lazzer,Inter,sans-serif;font-weight:600}
+.type-spec{font-size:10px;color:var(--muted)}
+.font-panel{padding:24px}
+.font-big{font-family:Lazzer,Inter,sans-serif;font-size:42px;font-weight:600;line-height:1.04;letter-spacing:-.035em}
+.font-body{font-size:16px;line-height:1.55;color:var(--muted)}
+
+/* Layout */
+.measure{height:58px;background:var(--surface);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.layout-diagram{background:#fff;border:1px solid var(--border);padding:16px;border-radius:6px}
+.canvas{background:#f3f4f1;border:1px dashed #c4c7c0;padding:14px}
+.rail{background:#fff;border:1px solid var(--border);padding:18px}
+.columns{display:grid;grid-template-columns:63fr 37fr;gap:12px}
+.col{min-height:130px;background:var(--surface);display:grid;place-items:center;font-size:11px;font-weight:800;border-radius:5px}
+.col:nth-child(2){background:var(--lavender)}
+
+/* Spacing specimen */
+.spacing-demo{display:grid;gap:24px}
+.spacing-board{border:1px solid var(--border);border-radius:5px;background:#fff;overflow:hidden}
+.spacing-board-head{
+  min-height:64px;padding:10px 16px 10px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;
+}
+.spacing-board-title{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800}
+.spacing-board-title svg{width:22px;height:22px;padding:4px;border-radius:50%;background:var(--soft)}
+.spacing-stage{
+  position:relative;min-height:500px;padding:40px clamp(24px,6vw,72px) 48px;overflow:hidden;
+  background-color:#eef4f2;
+  background-image:
+    repeating-linear-gradient(90deg,transparent 0,transparent 63px,rgba(24,30,21,.08) 63px,rgba(24,30,21,.08) 64px),
+    repeating-linear-gradient(180deg,transparent 0,transparent 63px,rgba(24,30,21,.06) 63px,rgba(24,30,21,.06) 64px);
+}
+.spacing-stage::after{
+  content:"↔";position:absolute;right:clamp(24px,6vw,72px);top:64px;width:52px;height:52px;
+  display:grid;place-items:center;border-radius:50%;background:var(--accent-soft);color:var(--ink);
+  font-size:22px;font-weight:800;
+}
+.spacing-specimen{width:min(620px,calc(100% - 72px));margin-left:72px}
+.space-gap{height:var(--gap);position:relative;border-left:1px solid rgba(24,30,21,.52)}
+.space-gap::before,.space-gap::after{
+  content:"";position:absolute;left:-6px;width:12px;border-top:1px solid rgba(24,30,21,.52)
+}
+.space-gap::before{top:0}.space-gap::after{bottom:0}
+.gap-label{
+  position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%);
+  min-width:44px;padding:4px 8px;border:1px solid color-mix(in oklch,var(--border),var(--ink) 8%);
+  border-radius:100px;background:rgba(247,247,245,.92);color:var(--ink);
+  font-size:11px;line-height:1;font-weight:800;text-align:center;white-space:nowrap;
+}
+.spacing-eyebrow{font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:.13em;color:#6b746a;font-weight:800}
+.spacing-title{font-size:clamp(40px,5vw,62px);line-height:.98;letter-spacing:-.045em;font-weight:600;max-width:9ch}
+.spacing-copy{margin:0;max-width:30ch;font-size:clamp(17px,2vw,24px);line-height:1.42;color:#596159}
+.spacing-cta{width:min(360px,100%);display:inline-flex;align-items:center;justify-content:space-between}
+.spacing-groups{display:grid;gap:24px}
+.spacing-group{display:grid;gap:12px}
+.spacing-group-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.spacing-group-head h3{font-size:16px}
+.spacing-group-head span{font-size:11px;color:var(--muted)}
+.space-token-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.space-token{
+  min-width:0;min-height:104px;padding:14px;border:1px solid color-mix(in oklch,var(--border),var(--surface) 22%);
+  border-radius:5px;background:color-mix(in oklch,var(--surface),#fff 52%);
+}
+.space-token b{display:block;font-size:16px;line-height:1}.space-token small{display:block;margin-top:5px;color:var(--muted);font-size:10px}
+.space-ruler{height:28px;margin-top:12px;display:flex;align-items:center}
+.space-ruler i{position:relative;display:block;width:min(var(--ruler),100%);min-width:4px;border-top:1px solid #7d857c}
+.space-ruler i::before,.space-ruler i::after{content:"";position:absolute;top:-7px;height:14px;border-left:1px solid #7d857c}
+.space-ruler i::before{left:0}.space-ruler i::after{right:0}
+.space-context-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.space-context{display:grid;gap:12px;padding:16px 0;border-top:1px solid var(--border)}
+.space-context strong{font-size:13px}.space-context p{margin:0;font-size:11px;color:var(--muted)}
+.space-context .space-ruler{margin-top:0}
+
+/* buttons */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{
+  height:var(--action-h-default);border-radius:100px;padding:0 18px;font-weight:600;font-size:14px;letter-spacing:-.2px;
+  border:1px solid transparent;background:#fff;color:var(--ink);
+}
+.btn.primary{background:var(--accent)}
+.btn.primary:hover{background:var(--accent-hover)}
+.btn.outline-dark{border-color:var(--ink);background:transparent}
+.btn.white{background:#fff;border-color:#fff}
+.btn.ghost-white{background:transparent;color:#fff;border-color:#fff}
+.btn.compact{height:var(--action-h-compact);font-size:12px;padding:0 14px}
+.btn.focus-demo{box-shadow:inset 0 0 0 3px var(--focus)}
+.dark-demo{background:var(--ink);padding:24px;border-radius:6px}
+
+/* Status and product extension */
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:100px;
+  font-size:10px;font-weight:800;
+}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.critical{color:var(--critical);background:#fff1f0}
+.ack{color:var(--ack);background:#f5f0fc}
+.resolved{color:var(--resolved);background:#edf8f2}
+.warning{color:var(--warning);background:#fff7e7}
+.info{color:var(--focus);background:#edf6fd}
+
+/* inputs */
+.field{display:grid;gap:7px}
+.field label{font-size:11px;font-weight:800}
+.input{
+  height:46px;border:1px solid var(--border);border-radius:6px;background:#fff;
+  padding:0 12px;display:flex;align-items:center;font-size:12px;color:var(--muted);
+}
+.input.focus{box-shadow:inset 0 0 0 3px var(--focus);border-color:transparent;color:var(--ink)}
+.control-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.check,.radio,.switch{display:inline-flex;gap:7px;align-items:center;font-size:11px;font-weight:700}
+.box{width:16px;height:16px;border:1px solid #979b95;border-radius:3px;background:#fff}
+.box.on{background:var(--accent);border-color:var(--accent);position:relative}
+.box.on:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-size:10px;font-weight:900}
+.radio .box{border-radius:50%}.radio .box.on{box-shadow:inset 0 0 0 4px #fff;background:var(--ink)}
+.switch-track{width:32px;height:18px;border-radius:100px;background:#cfd2cc;padding:2px}
+.switch-track i{display:block;width:14px;height:14px;background:#fff;border-radius:50%}
+.switch-track.on{background:var(--ink)}.switch-track.on i{margin-left:14px}
+
+/* radius */
+.radius-demo{height:74px;background:var(--surface);border:1px solid #cbd8d5;display:grid;place-items:center;font-size:10px;font-weight:800}
+
+/* section treatment marketing demos */
+.demo-frame{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.browserbar{height:38px;background:#f0f1ee;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:6px}
+.browserbar i{width:8px;height:8px;border-radius:50%;background:#c6c9c3}
+.marketing-banner{background:var(--accent);padding:8px 16px;text-align:center;font-size:11px;font-weight:800}
+.marketing-nav{height:64px;background:var(--surface);display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(24,30,21,.08)}
+.marketing-nav .links{display:flex;gap:18px;font-size:10px;font-weight:800}
+.marketing-hero{
+  background:linear-gradient(180deg,var(--surface) 0%,var(--lavender) 75%,#fff 100%);
+  display:grid;grid-template-columns:1.02fr .98fr;gap:26px;padding:52px 24px 66px;align-items:center;
+}
+.marketing-hero h3{font-size:42px;line-height:1.01}
+.marketing-hero p{font-size:12px;color:#565c54;max-width:500px}
+.product-window{background:#fff;border:1px solid var(--border);padding:14px;border-radius:5px}
+.product-window .bar{height:20px;background:#f1f2ef;margin:-14px -14px 12px;border-bottom:1px solid var(--border)}
+.mini-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.mini-metric{background:#f7f8f5;padding:10px;border:1px solid #e0e2dd;border-radius:5px}
+.mini-metric span{font-size:8px;color:var(--muted)}.mini-metric b{display:block;font-size:18px;margin-top:5px}
+.logo-strip{height:118px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;gap:12px;padding:0 24px}
+.fake-logo{height:36px;display:grid;place-items:center;border:1px solid #e1e2df;border-radius:5px;font-weight:900;font-size:11px}
+.feature-split{display:grid;grid-template-columns:63fr 37fr;gap:12px;padding:54px 24px;background:#fff}
+.feature-copy{padding:16px 12px}.feature-copy h3{font-size:30px}.feature-copy p{font-size:12px;color:var(--muted)}
+.feature-ui{background:var(--surface);min-height:260px;padding:16px;border-radius:5px}
+.panel-list{display:grid;gap:7px}.panel-line{height:36px;background:#fff;border:1px solid #ced8d5;border-radius:5px}
+.enterprise-cta{background:var(--ink);color:#fff;padding:60px 24px;text-align:center}
+.enterprise-cta h3{font-size:34px;max-width:700px;margin:0 auto 18px}
+.solution-section{padding:52px 24px;background:#fff;overflow:hidden}
+.solution-row{display:flex;gap:12px;width:max-content}
+.solution-card{width:300px;height:270px;background:var(--surface);border-radius:5px;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+.solution-card h4{font-size:18px}.solution-icon{width:42px;height:42px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:900}
+.stats-section{padding:42px 24px;background:#fff}
+.stat-row{display:grid;grid-template-columns:60px 1fr auto;align-items:center;border-top:1px solid var(--border);padding:14px 0;color:#b3b6b0}
+.stat-row.active{background:var(--ink);color:#fff;padding:18px 14px;border-radius:5px;border:none;margin:8px 0}
+.ai-index{background:var(--ink);color:#fff;padding:58px 24px;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+.ai-index h3{font-size:34px}.chart{height:220px;border:1px solid #373b32;border-radius:5px;padding:14px;display:flex;align-items:end;gap:8px;background:#1f231d}
+.chart i{
+  display:block;flex:1;
+  background:linear-gradient(180deg,var(--accent-soft) 0%, var(--accent) 58%, var(--accent-hover) 100%);
+  border-radius:3px 3px 0 0;
+}
+
+.chart i:nth-child(1){background:linear-gradient(180deg,#d8b6ff 0%, #c190ff 65%, #b072ff 100%)}
+.chart i:nth-child(2){background:linear-gradient(180deg,#dcbcff 0%, #c89cff 62%, #ad6fff 100%)}
+.chart i:nth-child(3){background:linear-gradient(180deg,#d4b0ff 0%, #bd8cff 64%, #a866f2 100%)}
+.chart i:nth-child(4){background:linear-gradient(180deg,#e1c6ff 0%, #ca9cff 60%, #b072ff 100%)}
+.chart i:nth-child(5){background:linear-gradient(180deg,#d9b4ff 0%, #c493ff 62%, #a864ef 100%)}
+.chart i:nth-child(6){background:linear-gradient(180deg,#d5adff 0%, #bc84ff 60%, #9f59ea 100%)}
+
+.resource-section{padding:52px 24px;background:#fff}
+.resources{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.resource{border:1px solid var(--border);border-radius:5px;overflow:hidden}
+.resource .thumb{height:110px;background:var(--lavender)}.resource:nth-child(2) .thumb{background:var(--surface)}.resource:nth-child(3) .thumb{background:#f1efe8}
+.resource .body{padding:13px}.resource h4{font-size:14px}.resource p{font-size:10px;color:var(--muted);margin-bottom:0}
+.footer{background:var(--dark);color:#fff;padding:38px 24px}
+.footer-cta{background:var(--surface);color:var(--ink);padding:24px;display:flex;justify-content:space-between;align-items:center;border-radius:5px}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:24px;margin-top:34px}
+.footer-grid h4{font-size:11px}.footer-grid a{display:block;font-size:10px;color:#b9bcb6;margin-top:7px}
+
+/* Control plane */
+.app{display:grid;grid-template-columns:185px 1fr;min-height:520px}
+.app-side{background:#fbfbfa;border-right:1px solid var(--border);padding:18px}
+.app-lock{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:900;margin-bottom:22px}
+.app-lock i{width:24px;height:24px;background:var(--accent);border-radius:50%}
+.app-side a{display:block;padding:8px 9px;border-radius:5px;margin:2px 0;font-size:10px;color:var(--muted)}
+.app-side a.sel{background:var(--surface);color:var(--ink);font-weight:900}
+.app-main{padding:24px}
+.app-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.app-title h3{font-size:28px}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.metric{border:1px solid var(--border);padding:14px;border-radius:5px;background:#fff}
+.metric span{font-size:9px;color:var(--muted)}.metric b{display:block;font-size:24px;margin-top:5px}
+.incident-table{border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-top:14px}
+.inc-row{display:grid;grid-template-columns:1.8fr 1fr 1fr 60px;gap:8px;align-items:center;padding:11px 12px;border-bottom:1px solid var(--border);font-size:10px}
+.inc-row:last-child{border-bottom:none}.inc-row.head{background:#f3f4f1;color:var(--muted);font-weight:800}
+
+/* auth */
+.auth-screen{min-height:470px;background:#fff;display:grid;grid-template-columns:1fr 1fr}
+.auth-brand{background:linear-gradient(180deg,var(--surface),var(--lavender));padding:34px;display:flex;flex-direction:column;justify-content:space-between}
+.auth-brand h3{font-size:35px}
+.auth-panel{display:grid;place-items:center;padding:30px}
+.auth-box{width:min(360px,100%)}.auth-box h3{font-size:26px}.auth-box p{font-size:11px;color:var(--muted)}
+.auth-options{display:grid;gap:8px;margin-top:18px}
+.auth-option{height:var(--action-h-default);border:1px solid var(--border);border-radius:100px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+
+/* onboarding */
+.onboard{display:grid;grid-template-columns:240px 1fr;min-height:500px}
+.onboard-side{background:var(--surface);padding:24px}
+.onboard-side h3{font-size:22px}
+.steps{
+  position:relative;
+  display:grid;
+  gap:0;
+  margin-top:24px;
+  padding-left:0;
+}
+.steps::before{
+  content:"";
+  position:absolute;
+  left:11px;
+  top:14px;
+  bottom:14px;
+  width:1px;
+  background:rgba(24,30,21,.16);
+}
+.step{
+  position:relative;
+  display:grid;
+  grid-template-columns:40px 1fr;
+  gap:14px;
+  align-items:center;
+  min-height:56px;
+  font-size:10px;
+  padding:6px 0;
+}
+.step i{
+  position:relative;
+  z-index:1;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:1px solid rgba(24,30,21,.28);
+  background:var(--surface);
+  display:grid;
+  place-items:center;
+  font-style:normal;
+  font-size:11px;
+}
+.step.done i{background:var(--ink);color:#fff;border-color:var(--ink)}
+.step.current{font-weight:900}
+.step.current i{background:var(--accent);border-color:var(--accent)}
+.step span{
+  font-size:11px;
+  color:var(--ink);
+}
+.step small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:400;
+}
+.onboard-main{padding:30px}
+.onboard-main h3{font-size:28px}
+.onboard-main p{font-size:11px;color:var(--muted)}
+.person-list{display:grid;gap:8px;margin-top:18px}
+.person{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;border:1px solid var(--border);border-radius:5px;padding:10px}
+.avatar{width:34px;height:34px;border-radius:50%;background:#f1f2ef;display:grid;place-items:center;font-size:10px;font-weight:900}.person b{font-size:11px}.person small{display:block;color:var(--muted);font-size:9px}
+
+/* Mobile */
+.mobile-stage{background:#eef0ec;padding:36px;display:flex;gap:30px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.phone{width:350px;background:#fff;border:7px solid var(--ink);border-radius:30px;overflow:hidden}
+.notch{width:86px;height:18px;background:var(--ink);border-radius:0 0 12px 12px;margin:0 auto}
+.phone-body{padding:15px}.phone-top{display:flex;justify-content:space-between;align-items:center;margin:8px 0 14px}.phone-top h3{font-size:24px}
+.oncall{background:var(--surface);border-radius:10px;padding:14px}.oncall small{font-size:9px;color:var(--muted)}.oncall b{display:block;font-size:20px;margin:6px 0}
+.mobile-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:900;margin:15px 0 7px}
+.mobile-inc{border:1px solid var(--border);border-radius:8px;padding:11px;margin-top:8px}.mobile-inc h4{font-size:13px;margin:7px 0 3px}.mobile-inc p{font-size:9px;color:var(--muted);margin:0}
+.mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.mobile-actions button{height:var(--action-h-compact);border:1px solid var(--border);background:#fff;border-radius:var(--r-action);font-size:10px;font-weight:900}.mobile-actions .primary-action{background:var(--accent);border-color:var(--accent)}
+
+/* Media */
+.media-demo{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+.media-shot{height:250px;background:#f4f5f2;border:1px solid var(--border);padding:18px;display:grid;place-items:center}
+.fake-ui{width:88%;height:78%;background:#fff;border:1px solid var(--border);padding:12px}
+.fake-ui-row{height:20px;background:var(--surface);margin-bottom:7px}.fake-ui-row:nth-child(2){width:72%}.fake-ui-row:nth-child(3){width:88%}
+.logo-media{height:250px;border:1px solid var(--border);display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px;align-content:center}
+.logo-media div{height:50px;border:1px solid #e0e1de;display:grid;place-items:center;font-size:10px;font-weight:900}
+
+/* Do dont */
+.do-card,.dont-card{padding:20px}
+.do-card{background:#edf8f2;border:1px solid #cce6d8}.dont-card{background:#fff1f0;border:1px solid #f0cac7}
+.guideline-list{display:grid;gap:9px;margin-top:14px}
+.guide{font-size:11px;display:grid;grid-template-columns:18px 1fr;gap:7px}.guide i{font-style:normal;font-weight:900}
+
+/* responsive table */
+.breakpoint{display:grid;grid-template-columns:120px 120px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);font-size:11px}
+.breakpoint:last-child{border-bottom:none}.breakpoint b{font-size:11px}
+
+/* dark extension */
+.theme-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.theme-card{padding:18px;border-radius:6px;border:1px solid var(--border)}
+.theme-card.dark{background:#11140f;color:#fff;border-color:#252a22}.theme-card .mini-card{margin-top:12px;padding:12px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--ink)}
+.theme-card.dark .mini-card{background:#1b2018;color:#fff;border-color:#343a30}
+.footer-note{padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:11px}
+
+@media(max-width:1000px){
+  :root{--sidebar:0px}
+  .sidebar{display:none}.shell{display:block}.main{grid-column:auto}
+  .page{padding:40px 20px 90px}.topbar{padding:0 18px}
+  .grid-5{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:760px){
+  h1{font-size:43px}h2{font-size:30px}
+  .grid-2,.grid-3,.grid-4,.grid-5,.theme-preview,.media-demo{grid-template-columns:1fr}
+  .type-row{grid-template-columns:1fr;gap:5px}
+  .marketing-hero,.feature-split,.ai-index,.auth-screen,.onboard{grid-template-columns:1fr}
+  .logo-strip{grid-template-columns:repeat(2,1fr);height:auto;padding:22px}
+  .resources{grid-template-columns:1fr}
+  .app{display:block}.app-side{display:none}.metric-grid{grid-template-columns:1fr}
+  .inc-row{grid-template-columns:1.8fr 1fr 55px}.inc-row span:nth-child(3){display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .columns{grid-template-columns:1fr}
+  .breakpoint{grid-template-columns:1fr;gap:3px}
+}
+
+/* artifact tabs */
+.artifact-tabs{
+  position:sticky;top:0;z-index:60;height:52px;background:#fff;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:4px;padding:0 18px;
+}
+.artifact-tab{
+  border:0;background:transparent;color:#72766f;border-radius:6px;padding:8px 12px;
+  font-size:11px;font-weight:700;
+}
+.artifact-tab:hover{background:#f3f4f1;color:var(--ink)}
+.artifact-tab.active{background:var(--ink);color:#fff}
+.artifact-pane{display:none}
+.artifact-pane.active{display:block}
+.code-pane{
+  min-height:calc(100vh - 52px);background:#f6f6f4;padding:24px;
+}
+.code-card{
+  max-width:1440px;margin:0 auto;background:#121412;color:#f1f3ef;border-radius:14px;
+  padding:22px 24px;overflow:auto;border:1px solid #292d27;
+  box-shadow:none;
+}
+.code-card pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:12px;line-height:1.55;
+}
+.pane-toolbar{
+  max-width:1440px;margin:0 auto 10px;display:flex;justify-content:flex-end;gap:8px;
+}
+.pane-toolbar button{
+  height:32px;padding:0 10px;border:1px solid var(--border);border-radius:6px;background:#fff;
+  font-size:10px;font-weight:800;color:var(--ink);
+}
+#preview-pane .topbar{top:52px}
+#preview-pane .sidebar{top:52px}
+
+/* Cohesion polish: one rhythm and interaction language across every artifact pane. */
+:root{
+  --space-2xs:4px;
+  --space-xs:8px;
+  --space-sm:12px;
+  --space-md:16px;
+  --space-lg:24px;
+  --space-xl:32px;
+  --space-2xl:48px;
+  --space-3xl:64px;
+  --space-section:96px;
+  --font-body:"Inter",sans-serif;
+  --font-display:"Lazzer","Inter Tight","Inter",sans-serif;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --transition-fast:160ms var(--ease-out);
+}
+html{scroll-padding-top:88px}
+body{
+  min-width:0;
+  overflow-x:hidden;
+  font-family:var(--font-body);
+  font-synthesis:none;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4,.display,.ui,.btn,.top-btn,.artifact-tab{
+  font-family:var(--font-display);
+}
+h1,h2,h3,h4,.lede,.small,p{overflow-wrap:anywhere}
+.skip-link{
+  position:fixed;top:var(--space-xs);left:var(--space-xs);z-index:100;
+  padding:10px 14px;border-radius:var(--r-sm);background:var(--ink);color:var(--white);
+  font-size:12px;font-weight:800;transform:translateY(calc(-100% - 16px));
+  transition:transform var(--transition-fast);
+}
+.skip-link:focus{transform:translateY(0)}
+:where(button,a,[tabindex],input,select):focus-visible{
+  outline:0;
+  box-shadow:inset 0 0 0 3px var(--focus);
+}
+button:disabled{cursor:not-allowed;opacity:.48}
+.artifact-tabs{
+  min-height:52px;height:auto;overflow-x:auto;overflow-y:hidden;
+  overscroll-behavior-inline:contain;scrollbar-width:thin;
+  padding-inline:var(--space-md);
+}
+.artifact-tab{
+  flex:0 0 auto;min-height:44px;padding-inline:var(--space-sm);
+  transition:color var(--transition-fast),background-color var(--transition-fast),transform var(--transition-fast);
+}
+.artifact-tab:active{transform:translateY(1px)}
+.sidebar{padding:var(--space-lg) var(--space-md) var(--space-2xl)}
+.brand-lockup{padding:5px 10px var(--space-md)}
+.nav-group{margin-top:var(--space-md)}
+.nav a{
+  min-height:36px;margin:0;padding:8px 10px;
+  transition:background-color var(--transition-fast),color var(--transition-fast);
+}
+.topbar{padding-inline:var(--space-xl)}
+.crumb{min-width:0}
+.crumb-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top-btn,.btn,.auth-option,.mobile-actions button{
+  transition:background-color var(--transition-fast),border-color var(--transition-fast),color var(--transition-fast),transform var(--transition-fast);
+}
+:where(.btn,.top-btn,.auth-option,.mobile-actions button,.pane-toolbar button){border-radius:var(--r-action)}
+.top-btn{min-height:var(--action-h-compact);height:var(--action-h-compact);padding-inline:16px}
+.top-btn:hover{background:var(--soft)}
+.top-btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.top-btn:active,.btn:active,.auth-option:active,.mobile-actions button:active{transform:translateY(1px)}
+.page{padding-top:var(--space-2xl)}
+.section{margin-bottom:var(--space-section)}
+.section-head{display:grid;gap:var(--space-sm);margin-bottom:var(--space-lg)}
+.section-head .kicker,.section-head .lede,.section-head .source-row{margin:0}
+.lede{max-width:70ch}
+.intro{padding:clamp(32px,4vw,56px);min-height:470px}
+.intro-copy{width:100%;min-width:0;max-width:820px}
+.intro h1{max-width:14ch}
+.intro-meta{gap:var(--space-xs);margin-top:var(--space-lg)}
+.card{padding:var(--space-md)}
+.grid{gap:var(--space-sm)}
+.table-row{min-height:44px}
+.btn{min-height:48px}
+.btn.compact{min-height:44px;height:44px}
+.input{min-height:46px}
+.input:focus-within{box-shadow:inset 0 0 0 3px var(--focus);border-color:transparent}
+.pane-toolbar button{height:var(--action-h-compact);min-height:var(--action-h-compact);padding-inline:16px;border-radius:var(--r-action);transition:background-color var(--transition-fast),border-color var(--transition-fast)}
+.pane-toolbar button:hover{background:var(--soft);border-color:color-mix(in oklch,var(--border),var(--ink) 18%)}
+.code-pane{padding:var(--space-lg)}
+.code-card{border-radius:10px}
+.phone{width:min(350px,100%)}
+
+@media(max-width:1000px){
+  #preview-pane .topbar{top:52px}
+  .page{padding:var(--space-xl) 20px 90px}
+  .section{margin-bottom:80px}
+  .space-token-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  html{scroll-padding-top:126px}
+  .artifact-tabs{padding-inline:var(--space-xs);gap:2px}
+  .artifact-tab{padding-inline:10px}
+  .topbar{min-height:64px;height:auto;padding:8px 20px;gap:var(--space-sm)}
+  .crumb{font-size:11px;flex:1}
+  .top-actions{flex:0 0 auto}
+  .page{padding:40px 20px 80px}
+  .section{margin-bottom:72px}
+  .intro{min-height:auto;padding:52px 32px}
+  .intro h1{font-size:clamp(38px,11vw,46px);line-height:1.02}
+  .intro .lede{font-size:16px;line-height:1.55}
+  .intro-meta span{min-height:32px;display:inline-flex;align-items:center}
+  .color-family-grid{grid-template-columns:1fr}
+  .color-base{height:140px;padding:20px}
+  .color-base .color-hex{opacity:1;transform:none}
+  .color-strip{height:88px;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(2,44px)}
+  .color-shade:first-child{border-radius:0}.color-shade:nth-child(6){border-radius:0 0 0 4px}
+  .c4,.c5{min-width:620px}
+  .table-wrap{overflow-x:auto;overscroll-behavior-inline:contain}
+  .mobile-stage{padding:var(--space-lg) var(--space-sm)}
+  .spacing-board-head{align-items:center}
+  .spacing-stage{min-height:470px;padding:32px 20px 40px}
+  .spacing-stage::after{display:none}
+  .spacing-specimen{width:calc(100% - 54px);margin-left:54px}
+  .spacing-title{font-size:clamp(36px,11vw,48px);max-width:10ch}
+  .spacing-copy{font-size:17px}
+  .space-context-grid{grid-template-columns:1fr}
+  .code-pane{padding:var(--space-md)}
+  .code-card{padding:var(--space-md);border-radius:var(--r-sm)}
+}
+@media(max-width:480px){
+  .top-actions .primary{display:none}
+  .top-btn{padding-inline:10px}
+  .intro{padding:44px 24px}
+  .spacing-board-head{padding:10px 12px}
+  .spacing-board-title{font-size:12px}
+  .spacing-board-title svg{display:none}
+  .space-token-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+@media(hover:none){
+  .color-base .color-hex{opacity:1;transform:none}
+  .color-shade:hover{transform:none;filter:none}
+}
+
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#preview-content">Skip to content</a>
+
+<div class="artifact-tabs" role="tablist" aria-label="Design system artifacts">
+  <button type="button" role="tab" aria-selected="true" aria-controls="preview-pane" class="artifact-tab active" data-pane="preview-pane">Preview</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="design-pane" class="artifact-tab" data-pane="design-pane">DESIGN.md</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="skill-pane" class="artifact-tab" data-pane="skill-pane">SKILL.md</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="build-pane" class="artifact-tab" data-pane="build-pane">Build Kit</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="integrations-pane" class="artifact-tab" data-pane="integrations-pane">Integrations</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="evidence-pane" class="artifact-tab" data-pane="evidence-pane">Evidence</button>
+</div>
+
+<noscript><style>.artifact-pane{display:block!important}.artifact-tabs{display:none!important}</style></noscript>
+<div id="preview-pane" class="artifact-pane active">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand-lockup">
+      <strong>OpsTracer DS-01</strong>
+      <span>Full interactive design preview</span>
+    </div>
+
+    <nav class="nav" aria-label="Design system sections">
+      <div class="nav-group">
+        <div class="nav-label">Overview</div>
+        <a href="#overview" class="active">System overview</a>
+        <a href="#voice">Design voice</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Foundations</div>
+        <a href="#colors">Colors</a>
+        <a href="#color-roles">Token roles</a>
+        <a href="#typography">Typography</a>
+        <a href="#type-scale">Type hierarchy</a>
+        <a href="#layout">Layout</a>
+        <a href="#rhythm">Spacing & rhythm</a>
+        <a href="#radius">Border radius</a>
+        <a href="#borders">Borders</a>
+        <a href="#elevation">Elevation</a>
+        <a href="#motion">Motion</a>
+        <a href="#focus">Focus & accessibility</a>
+        <a href="#dark-theme">Dark theme <span class="ext">DS-01 ext</span></a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Components</div>
+        <a href="#buttons">Button recipes</a>
+        <a href="#form-controls">Form controls <span class="ext">DS-01 ext</span></a>
+        <a href="#statuses">Status states <span class="ext">DS-01 ext</span></a>
+        <a href="#solution-card">Solution card</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Marketing sections</div>
+        <a href="#top-banner">Top banner</a>
+        <a href="#hero">Hero</a>
+        <a href="#logo-strip">Logo strip</a>
+        <a href="#feature-split">Feature split</a>
+        <a href="#enterprise-cta">Enterprise CTA</a>
+        <a href="#solutions">Solutions carousel</a>
+        <a href="#stats">Stats accordion</a>
+        <a href="#ai-index">AI index / dark section</a>
+        <a href="#resources">Resources</a>
+        <a href="#footer">Footer</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Product surfaces</div>
+        <a href="#landing-preview">Landing composition</a>
+        <a href="#signin">Sign-in</a>
+        <a href="#control-plane">Control Plane</a>
+        <a href="#onboarding">Onboarding</a>
+        <a href="#mobile">Responder mobile</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Guidelines</div>
+        <a href="#media">Media direction</a>
+        <a href="#do-dont">Do / Don't</a>
+        <a href="#responsive">Responsive</a>
+        <a href="#iteration">Iteration guide</a>
+        <a href="#gaps">Known gaps</a>
+        <a href="#quick-start">Quick start</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main" id="preview-content" tabindex="-1">
+    <header class="topbar">
+      <div class="crumb"><span class="dot"></span><span class="crumb-label">DS-01 / Design reference preview</span></div>
+      <div class="top-actions">
+        <button type="button" class="top-btn" onclick="document.querySelector('#control-plane').scrollIntoView()">Jump to UI</button>
+        <button type="button" class="top-btn primary" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</button>
+      </div>
+    </header>
+
+    <div class="page">
+
+      <section id="overview" class="section">
+        <div class="intro">
+          <div class="intro-copy">
+            <div class="kicker">Data-driven preview</div>
+            <h1>OpsTracer design system</h1>
+            <p class="lede">Expanded from the supplied DESIGN.md reference into a full DS-01 preview: foundations, component recipes, marketing section treatments, and the actual OpsTracer product surfaces.</p>
+            <div class="intro-meta">
+              <span>Lavender accent</span>
+              <span>Near-black ink</span>
+              <span>Mint surfaces</span>
+              <span>Flat depth model</span>
+              <span>Product UI as proof</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="voice" class="section">
+        <div class="section-head">
+          <div class="kicker">Overview / Voice</div>
+          <h2>Direct, declarative, functional</h2>
+          <p class="lede">The reference uses assertive headlines, data-grounded body copy, functional microcopy, and verb-led CTAs. The product UI should do the visual explaining instead of decorative copy.</p>
+          <div class="source-row"><span class="badge source">From DESIGN.md</span></div>
+        </div>
+        <div class="grid grid-4">
+          <div class="card"><div class="label">Headlines</div><div class="value">Declarative</div><div class="small">Short. Category-owning. No hedge words.</div></div>
+          <div class="card"><div class="label">Body</div><div class="value">Grounded</div><div class="small">Lead with capability, then substantiate.</div></div>
+          <div class="card"><div class="label">Microcopy</div><div class="value">Functional</div><div class="small">No decorative filler.</div></div>
+          <div class="card"><div class="label">CTA</div><div class="value">Verb-led</div><div class="small">Name the action clearly.</div></div>
+        </div>
+      </section>
+
+      <section id="colors" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Colors</div>
+          <h2>Core palette</h2>
+          <p class="lede">Surface colors define section atmosphere first. Accent, text, border, and focus colors remain role-specific.</p>
+          <div class="source-row"><span class="badge source">Exact reference tokens</span></div>
+        </div>
+        <div class="color-family-grid">
+          <div class="color-family">
+            <button type="button" class="color-base" style="--color:#C190FF;--on-color:#181E15" data-hex="#C190FF" aria-label="Copy Lavender core color #C190FF" onclick="copyColorToken(this)">
+              <span class="color-base-copy"><b>Lavender</b><small>Brand accent · Primary CTA</small></span><span class="color-hex">#C190FF</span>
+            </button>
+            <div class="color-strip" aria-label="Lavender color scale">
+              <button type="button" class="color-shade" style="--shade:#FAF7FF" data-hex="#FAF7FF" aria-label="Copy Lavender 50 #FAF7FF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#F3EAFF" data-hex="#F3EAFF" aria-label="Copy Lavender 100 #F3EAFF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#E8D5FF" data-hex="#E8D5FF" aria-label="Copy Lavender 200 #E8D5FF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#D8B6FF" data-hex="#D8B6FF" aria-label="Copy Lavender 300 #D8B6FF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#C190FF" data-hex="#C190FF" aria-label="Copy Lavender 400 #C190FF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#B072FF" data-hex="#B072FF" aria-label="Copy Lavender 500 #B072FF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#9456DD" data-hex="#9456DD" aria-label="Copy Lavender 600 #9456DD" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#7843B4" data-hex="#7843B4" aria-label="Copy Lavender 700 #7843B4" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#5C348A" data-hex="#5C348A" aria-label="Copy Lavender 800 #5C348A" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#422662" data-hex="#422662" aria-label="Copy Lavender 900 #422662" onclick="copyColorToken(this)"></button>
+            </div>
+          </div>
+
+          <div class="color-family">
+            <button type="button" class="color-base" style="--color:#DCEEEB;--on-color:#181E15" data-hex="#DCEEEB" aria-label="Copy Mint core color #DCEEEB" onclick="copyColorToken(this)">
+              <span class="color-base-copy"><b>Mint</b><small>Section and product surface</small></span><span class="color-hex">#DCEEEB</span>
+            </button>
+            <div class="color-strip" aria-label="Mint color scale">
+              <button type="button" class="color-shade" style="--shade:#F5FAF9" data-hex="#F5FAF9" aria-label="Copy Mint 50 #F5FAF9" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#EAF5F2" data-hex="#EAF5F2" aria-label="Copy Mint 100 #EAF5F2" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#DCEEEB" data-hex="#DCEEEB" aria-label="Copy Mint 200 #DCEEEB" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#C3DFDA" data-hex="#C3DFDA" aria-label="Copy Mint 300 #C3DFDA" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#97C9C0" data-hex="#97C9C0" aria-label="Copy Mint 400 #97C9C0" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#68AA9E" data-hex="#68AA9E" aria-label="Copy Mint 500 #68AA9E" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#498A7F" data-hex="#498A7F" aria-label="Copy Mint 600 #498A7F" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#356C63" data-hex="#356C63" aria-label="Copy Mint 700 #356C63" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#28544D" data-hex="#28544D" aria-label="Copy Mint 800 #28544D" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#1D3E39" data-hex="#1D3E39" aria-label="Copy Mint 900 #1D3E39" onclick="copyColorToken(this)"></button>
+            </div>
+          </div>
+
+          <div class="color-family">
+            <button type="button" class="color-base" style="--color:#181E15;--on-color:#F7F7F5" data-hex="#181E15" aria-label="Copy Ink core color #181E15" onclick="copyColorToken(this)">
+              <span class="color-base-copy"><b>Ink</b><small>Foreground and dark surfaces</small></span><span class="color-hex">#181E15</span>
+            </button>
+            <div class="color-strip" aria-label="Ink neutral color scale">
+              <button type="button" class="color-shade" style="--shade:#F7F7F5" data-hex="#F7F7F5" aria-label="Copy Ink 50 #F7F7F5" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#F1F2EF" data-hex="#F1F2EF" aria-label="Copy Ink 100 #F1F2EF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#E4E6E1" data-hex="#E4E6E1" aria-label="Copy Ink 200 #E4E6E1" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#D1D2D5" data-hex="#D1D2D5" aria-label="Copy Ink 300 #D1D2D5" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#A7ABA4" data-hex="#A7ABA4" aria-label="Copy Ink 400 #A7ABA4" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#7E837B" data-hex="#7E837B" aria-label="Copy Ink 500 #7E837B" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#5B6058" data-hex="#5B6058" aria-label="Copy Ink 600 #5B6058" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#3D433A" data-hex="#3D433A" aria-label="Copy Ink 700 #3D433A" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#292E26" data-hex="#292E26" aria-label="Copy Ink 800 #292E26" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#181E15" data-hex="#181E15" aria-label="Copy Ink 900 #181E15" onclick="copyColorToken(this)"></button>
+            </div>
+          </div>
+
+          <div class="color-family">
+            <button type="button" class="color-base" style="--color:#006DCA;--on-color:#F7FBFE" data-hex="#006DCA" aria-label="Copy Focus core color #006DCA" onclick="copyColorToken(this)">
+              <span class="color-base-copy"><b>Focus</b><small>Accessibility indicator only</small></span><span class="color-hex">#006DCA</span>
+            </button>
+            <div class="color-strip" aria-label="Focus blue color scale">
+              <button type="button" class="color-shade" style="--shade:#F2F8FD" data-hex="#F2F8FD" aria-label="Copy Focus 50 #F2F8FD" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#E0F0FB" data-hex="#E0F0FB" aria-label="Copy Focus 100 #E0F0FB" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#B8DDF5" data-hex="#B8DDF5" aria-label="Copy Focus 200 #B8DDF5" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#83C3ED" data-hex="#83C3ED" aria-label="Copy Focus 300 #83C3ED" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#43A2DF" data-hex="#43A2DF" aria-label="Copy Focus 400 #43A2DF" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#167FC5" data-hex="#167FC5" aria-label="Copy Focus 500 #167FC5" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#006DCA" data-hex="#006DCA" aria-label="Copy Focus 600 #006DCA" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#0058A4" data-hex="#0058A4" aria-label="Copy Focus 700 #0058A4" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#084983" data-hex="#084983" aria-label="Copy Focus 800 #084983" onclick="copyColorToken(this)"></button>
+              <button type="button" class="color-shade" style="--shade:#103B68" data-hex="#103B68" aria-label="Copy Focus 900 #103B68" onclick="copyColorToken(this)"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="color-roles" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Token roles</div>
+          <h2>Color is semantic, not decorative</h2>
+          <p class="lede">Each token has a defined job and explicit places where it should not be used.</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card role-card"><div class="role-swatch" style="background:#c190ff"></div><div class="role-body"><h4>Brand accent</h4><p>CTA, banner, footer action, selected state. Avoid large page background fills and body text.</p></div></div>
+          <div class="card role-card"><div class="role-swatch" style="background:#181e15"></div><div class="role-body"><h4>Ink</h4><p>Headings, body, icons, banner text. Avoid generic surface fills outside planned dark sections.</p></div></div>
+          <div class="card role-card"><div class="role-swatch" style="background:#6c6e79"></div><div class="role-body"><h4>Muted text</h4><p>Supporting copy, captions, metadata. Avoid headings and CTA labels.</p></div></div>
+          <div class="card role-card"><div class="role-swatch" style="background:#d1d2d5"></div><div class="role-body"><h4>Border</h4><p>Dividers, input edges, dropdowns. Avoid text and button fills.</p></div></div>
+          <div class="card role-card"><div class="role-swatch" style="background:#006dca"></div><div class="role-body"><h4>Focus indicator</h4><p>Keyboard focus rings only. It is not a brand CTA or marketing accent.</p></div></div>
+          <div class="card role-card"><div class="role-swatch" style="background:#dceeeb"></div><div class="role-body"><h4>Surface</h4><p>Hero header, card/panel backgrounds, footer reveal. Avoid body text and CTA fills.</p></div></div>
+        </div>
+      </section>
+
+      <section id="typography" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Typography</div>
+          <h2>Two families, separate responsibilities</h2>
+          <p class="lede">Lazzer carries display, navigation, and CTA authority. Inter carries long-form reading and supporting copy.</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card font-panel">
+            <div class="label">Lazzer / display & UI</div>
+            <div class="font-big">Know who is on call. Handle incidents fast.</div>
+            <div class="small" style="margin-top:14px">Weight 500–600. Used for display, navigation, UI labels, CTA.</div>
+          </div>
+          <div class="card font-panel">
+            <div class="label">Inter / reading</div>
+            <p class="font-body">Use Inter for explanations, body content, captions, timestamps, metadata, and longer operational text. The two families should not compete for the same role on one surface.</p>
+            <div class="small">Weight 400 for body reading.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="type-scale" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Type hierarchy</div>
+          <h2>Documented type roles</h2>
+        </div>
+        <div class="card">
+          <div class="type-row"><div><div class="type-name">Footer CTA title</div><div class="type-spec">Lazzer · 48px · 600</div></div><div class="type-sample" style="font-size:48px">Stay ready.</div><div class="type-spec">Large display</div></div>
+          <div class="type-row"><div><div class="type-name">Section title</div><div class="type-spec">Lazzer · 32px · 600</div></div><div class="type-sample" style="font-size:32px">Active incidents</div><div class="type-spec">Section heading</div></div>
+          <div class="type-row"><div><div class="type-name">CTA primary</div><div class="type-spec">Lazzer · 16px · 600</div></div><div class="type-sample" style="font-size:16px">Acknowledge</div><div class="type-spec">Action</div></div>
+          <div class="type-row"><div><div class="type-name">Label small</div><div class="type-spec">Lazzer · 14px · 500</div></div><div class="type-sample" style="font-size:14px;font-weight:500">Primary responder</div><div class="type-spec">Supporting UI</div></div>
+          <div class="type-row"><div><div class="type-name">Body</div><div class="type-spec">Inter · 16px · 400</div></div><div style="font-size:16px">Escalation moves to the next responder after 10 minutes.</div><div class="type-spec">Reading</div></div>
+          <div class="type-row"><div><div class="type-name">Caption</div><div class="type-spec">Inter · 14px · 400</div></div><div style="font-size:14px">Updated 4 minutes ago</div><div class="type-spec">Metadata</div></div>
+          <div class="type-row"><div><div class="type-name">Micro</div><div class="type-spec">Inter · 12px · 400</div></div><div style="font-size:12px">US · PST</div><div class="type-spec">Tiny metadata</div></div>
+        </div>
+      </section>
+
+      <section id="layout" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Layout</div>
+          <h2>Section is the unit of composition</h2>
+          <p class="lede">The reference uses full-bleed 1440px sections with a 1376px inner rail, 32px side insets, and documented 63/37 product splits.</p>
+        </div>
+        <div class="layout-diagram">
+          <div class="canvas">
+            <div class="small" style="margin-bottom:8px">1440px full-bleed canvas</div>
+            <div class="rail">
+              <div class="small" style="margin-bottom:10px">1376px content rail · 32px inset each side</div>
+              <div class="columns">
+                <div class="col">63% content / product</div>
+                <div class="col">37% media</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="rhythm" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Rhythm</div>
+          <h2>Large section rhythm, compact component rhythm</h2>
+          <p class="lede">A 4pt base scale keeps component spacing precise, while larger contextual tokens give marketing sections room to breathe.</p>
+        </div>
+        <div class="spacing-demo">
+          <div class="spacing-board">
+            <div class="spacing-board-head">
+              <div class="spacing-board-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 16 16 4l4 4L8 20l-4-4Z"/><path d="m13 7 4 4M10 10l2 2M7 13l2 2"/></svg>
+                Spacing anatomy
+              </div>
+              <button type="button" class="btn outline-dark compact" onclick="copySpacingTokens(this)">Copy CSS</button>
+            </div>
+            <div class="spacing-stage">
+              <div class="spacing-specimen">
+                <div class="space-gap" style="--gap:32px"><span class="gap-label">32px</span></div>
+                <div class="spacing-eyebrow">Operational clarity</div>
+                <div class="space-gap" style="--gap:8px"><span class="gap-label">8px</span></div>
+                <h3 class="spacing-title">Space carries the hierarchy.</h3>
+                <div class="space-gap" style="--gap:12px"><span class="gap-label">12px</span></div>
+                <p class="spacing-copy">Measured gaps keep dense incident workflows calm, readable, and easy to scan.</p>
+                <div class="space-gap" style="--gap:24px"><span class="gap-label">24px</span></div>
+                <button type="button" class="btn primary spacing-cta"><span>Inspect the system</span><span aria-hidden="true">→</span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="spacing-groups">
+            <div class="spacing-group">
+              <div class="spacing-group-head"><h3>Core scale</h3><span>4pt base · semantic tokens</span></div>
+              <div class="space-token-grid">
+                <div class="space-token"><b>4px</b><small>2XS</small><div class="space-ruler" style="--ruler:4px"><i></i></div></div>
+                <div class="space-token"><b>8px</b><small>XS</small><div class="space-ruler" style="--ruler:8px"><i></i></div></div>
+                <div class="space-token"><b>12px</b><small>SM</small><div class="space-ruler" style="--ruler:12px"><i></i></div></div>
+                <div class="space-token"><b>16px</b><small>MD</small><div class="space-ruler" style="--ruler:16px"><i></i></div></div>
+                <div class="space-token"><b>24px</b><small>LG</small><div class="space-ruler" style="--ruler:24px"><i></i></div></div>
+                <div class="space-token"><b>32px</b><small>XL</small><div class="space-ruler" style="--ruler:32px"><i></i></div></div>
+                <div class="space-token"><b>48px</b><small>2XL</small><div class="space-ruler" style="--ruler:48px"><i></i></div></div>
+                <div class="space-token"><b>64px</b><small>3XL</small><div class="space-ruler" style="--ruler:64px"><i></i></div></div>
+                <div class="space-token"><b>96px</b><small>SECTION</small><div class="space-ruler" style="--ruler:96px"><i></i></div></div>
+              </div>
+            </div>
+
+            <div class="spacing-group">
+              <div class="spacing-group-head"><h3>Applied rhythm</h3><span>Use relationships, not arbitrary values</span></div>
+              <div class="space-context-grid">
+                <div class="space-context"><div><strong>12px · Component gap</strong><p>Cards, carousel items, compact content groups.</p></div><div class="space-ruler" style="--ruler:12px"><i></i></div></div>
+                <div class="space-context"><div><strong>24px · Surface padding</strong><p>Default card interiors and grouped controls.</p></div><div class="space-ruler" style="--ruler:24px"><i></i></div></div>
+                <div class="space-context"><div><strong>32px · Content inset</strong><p>Desktop rail and prominent specimen padding.</p></div><div class="space-ruler" style="--ruler:32px"><i></i></div></div>
+                <div class="space-context"><div><strong>48px · Feature spacing</strong><p>Large internal separation within a section.</p></div><div class="space-ruler" style="--ruler:48px"><i></i></div></div>
+                <div class="space-context"><div><strong>96px · Preview section</strong><p>Design-system documentation rhythm.</p></div><div class="space-ruler" style="--ruler:96px"><i></i></div></div>
+                <div class="space-context"><div><strong>120px · Marketing section</strong><p>Confirmed top and bottom product-page rhythm.</p></div><div class="space-ruler" style="--ruler:120px"><i></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="radius" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Shapes</div>
+          <h2>Border radius scale</h2>
+          <p class="lede">Do not introduce arbitrary radius values. The reference uses a small, explicit scale.</p>
+        </div>
+        <div class="grid grid-5">
+          <div class="card"><div class="radius-demo" style="border-radius:4px">4px</div><div class="small" style="margin-top:9px">Swatches, compact utilities</div></div>
+          <div class="card"><div class="radius-demo" style="border-radius:5px">5px</div><div class="small" style="margin-top:9px">Cards, thumbnails</div></div>
+          <div class="card"><div class="radius-demo" style="border-radius:6px">6px</div><div class="small" style="margin-top:9px">Inputs, tabs, structural controls</div></div>
+          <div class="card"><div class="radius-demo" style="border-radius:100px">100px</div><div class="small" style="margin-top:9px">All action buttons</div></div>
+          <div class="card"><div class="radius-demo" style="border-radius:50%">50%</div><div class="small" style="margin-top:9px">Avatar / icon circle</div></div>
+        </div>
+      </section>
+
+      <section id="borders" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Borders</div>
+          <h2>Hairlines instead of decorative depth</h2>
+        </div>
+        <div class="grid grid-2">
+          <div class="card"><div class="label">Divider</div><div class="value mono">1px solid #D1D2D5</div><div class="small">Dropdown panels, footer section dividers, inputs.</div></div>
+          <div class="card"><div class="label">Outlined button</div><div class="value mono">1px solid #181E15</div><div class="small">Secondary light-surface action.</div></div>
+        </div>
+      </section>
+
+      <section id="elevation" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Elevation</div>
+          <h2>Flat by default</h2>
+          <p class="lede">Cards do not use decorative drop shadows. Depth comes from section surface changes, pattern, and contrast. Shadows are reserved for floating overlays at low opacity.</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card" style="background:var(--surface)">
+            <h3>Correct card depth</h3>
+            <p class="small">Mint surface + 5px radius + no shadow.</p>
+          </div>
+          <div class="card" style="box-shadow:0 18px 44px rgba(0,0,0,.18)">
+            <h3>Not part of the reference</h3>
+            <p class="small">Heavy shadow makes the system feel like a generic dashboard kit.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="motion" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Motion</div>
+          <h2>Micro-interaction only</h2>
+          <p class="lede">No scroll-driven entrance animation or parallax is evidenced. Keep UI transitions between 0.1s and 0.3s.</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card"><div class="label">Transform</div><div class="value">0.1s</div><div class="small">Small icon / hover movement.</div></div>
+          <div class="card"><div class="label">Opacity / color</div><div class="value">0.2s</div><div class="small">Canonical interaction speed.</div></div>
+          <div class="card"><div class="label">Layout-affecting</div><div class="value">0.3s</div><div class="small">Panel reveal / padding change.</div></div>
+        </div>
+      </section>
+
+      <section id="focus" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Accessibility</div>
+          <h2>Focus is a first-class token</h2>
+          <p class="lede">Keyboard focus uses an inset ring. The blue token is reserved for focus and should not drift into brand CTA usage.</p>
+        </div>
+        <div class="card">
+          <div class="btn-row">
+            <button class="btn primary">Normal CTA</button>
+            <button class="btn primary focus-demo">Focus visible</button>
+          </div>
+          <div class="mono" style="margin-top:14px">box-shadow: inset 0 0 0 3px #006DCA;</div>
+        </div>
+      </section>
+
+      <section id="dark-theme" class="section">
+        <div class="section-head">
+          <div class="kicker">Foundations / Dark theme</div>
+          <h2>DS-01 extension, not present in the source reference</h2>
+          <p class="lede">The source explicitly documents a light theme and lists dark-mode tokens as a known gap. DS-01, however, requires light and dark, so the preview keeps dark mode clearly marked as an extension rather than pretending it came from the reference.</p>
+          <div class="source-row"><span class="badge ext">DS-01 extension</span></div>
+        </div>
+        <div class="theme-preview">
+          <div class="theme-card"><div class="label">Light</div><div class="mini-card"><b>Incident details</b><div class="small">Light system surface</div></div></div>
+          <div class="theme-card dark"><div class="label" style="color:#aeb3aa">Dark</div><div class="mini-card"><b>Incident details</b><div class="small" style="color:#aeb3aa">Proposed dark system surface</div></div></div>
+        </div>
+      </section>
+
+      <section id="buttons" class="section">
+        <div class="section-head">
+          <div class="kicker">Components / Button recipes</div>
+          <h2>One action shape, clear hierarchy</h2>
+          <p class="lede">Primary, secondary, compact, mobile, and utility actions all use the same pill silhouette. Hierarchy comes from fill, border, and label—not competing radii.</p>
+        </div>
+        <div class="card">
+          <div class="label" style="margin-bottom:10px">Light surface</div>
+          <div class="btn-row">
+            <button class="btn primary">Primary CTA</button>
+            <button class="btn outline-dark">Secondary outline</button>
+          </div>
+          <div class="dark-demo" style="margin-top:18px">
+            <div class="label" style="color:#c6cac2;margin-bottom:10px">Dark surface</div>
+            <div class="btn-row">
+              <button class="btn white">Secondary white</button>
+              <button class="btn ghost-white">Ghost outline</button>
+              <button class="btn primary">Footer accent</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="form-controls" class="section">
+        <div class="section-head">
+          <div class="kicker">Components / Form controls</div>
+          <h2>Operational form extension</h2>
+          <p class="lede">DS-01 needs sign-in, setup, and configuration flows. These controls extend the reference using its border, radius, focus, typography, and surface rules.</p>
+          <div class="source-row"><span class="badge ext">DS-01 extension</span></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card"><div class="field"><label>Organisation name</label><div class="input">Acme Operations</div></div></div>
+          <div class="card"><div class="field"><label>Keyboard focus</label><div class="input focus">ops@acme.com</div></div></div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <div class="control-row">
+            <span class="check"><span class="box on"></span> Email</span>
+            <span class="check"><span class="box"></span> SMS</span>
+            <span class="radio"><span class="box on"></span> Primary</span>
+            <span class="radio"><span class="box"></span> Secondary</span>
+            <span class="switch"><span class="switch-track on"><i></i></span> Enabled</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="statuses" class="section">
+        <div class="section-head">
+          <div class="kicker">Components / Status</div>
+          <h2>Shared operational semantics</h2>
+          <p class="lede">DS-01 requires status colors to mean the same thing everywhere, so web and mobile use one status vocabulary.</p>
+          <div class="source-row"><span class="badge ext">DS-01 extension</span></div>
+        </div>
+        <div class="card">
+          <div class="btn-row">
+            <span class="chip critical">Critical</span>
+            <span class="chip warning">Warning</span>
+            <span class="chip ack">Acknowledged</span>
+            <span class="chip resolved">Resolved</span>
+            <span class="chip info">On call</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="solution-card" class="section">
+        <div class="section-head">
+          <div class="kicker">Components / Card</div>
+          <h2>Solution card</h2>
+          <p class="lede">Mint background, near-black text, no shadow, 5px radius.</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="solution-card"><div class="solution-icon">01</div><div><h4>Schedules</h4><div class="small">See who is on call, when, and for which service.</div></div></div>
+          <div class="solution-card"><div class="solution-icon">02</div><div><h4>Escalations</h4><div class="small">Route incidents to the next responder automatically.</div></div></div>
+          <div class="solution-card"><div class="solution-icon">03</div><div><h4>Incidents</h4><div class="small">Acknowledge, resolve, and keep ownership explicit.</div></div></div>
+        </div>
+      </section>
+
+      <section id="top-banner" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Top banner</div><h2>Top banner</h2></div>
+        <div class="demo-frame"><div class="marketing-banner">OpsTracer is in private beta — Join the early access program →</div></div>
+      </section>
+
+      <section id="hero" class="section">
+        <div class="section-head">
+          <div class="kicker">Marketing / Hero</div>
+          <h2>Gradient hero + product proof</h2>
+          <p class="lede">The hero uses a CSS gradient rather than an image and pairs left-aligned copy with a product UI screenshot.</p>
+        </div>
+        <div class="demo-frame">
+          <div class="browserbar"><i></i><i></i><i></i></div>
+          <div class="marketing-nav"><strong>OpsTracer</strong><div class="links"><span>Product</span><span>Solutions</span><span>Company</span><span>Sign in</span></div><button class="btn primary compact">Get started</button></div>
+          <div class="marketing-hero">
+            <div>
+              <div class="kicker" style="color:#5b6058">Incident response, simplified</div>
+              <h3>Know who is on call. Handle incidents fast.</h3>
+              <p>Schedules, escalation, responder ownership, and incident actions in one operational workflow.</p>
+              <div class="btn-row"><button class="btn primary compact">Start setup</button><button class="btn outline-dark compact">View product</button></div>
+            </div>
+            <div class="product-window">
+              <div class="bar"></div>
+              <div class="mini-metrics"><div class="mini-metric"><span>ACTIVE INCIDENTS</span><b>3</b></div><div class="mini-metric"><span>ON CALL</span><b>8</b></div><div class="mini-metric"><span>SETUP</span><b>83%</b></div></div>
+              <div style="margin-top:10px;border:1px solid var(--border);padding:10px;border-radius:5px">
+                <span class="chip critical">Critical</span>
+                <h4 style="margin-top:8px">Database connections exhausted</h4>
+                <div class="small">Core API · 4 min ago · escalating</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="logo-strip" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Logo strip</div><h2>Social proof row</h2></div>
+        <div class="demo-frame">
+          <div class="logo-strip">
+            <div class="fake-logo">Northstar</div><div class="fake-logo">Orbit</div><div class="fake-logo">Relay</div><div class="fake-logo">Silo</div><div class="fake-logo">Beacon</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="feature-split" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Feature split</div><h2>63 / 37 product storytelling</h2></div>
+        <div class="demo-frame">
+          <div class="feature-split">
+            <div class="feature-copy"><div class="kicker">On-call schedules</div><h3>Everyone knows who owns the next alert.</h3><p>Keep schedule visibility close to incident ownership. The product UI is the proof, not lifestyle imagery.</p><button class="btn outline-dark compact">Explore schedules</button></div>
+            <div class="feature-ui"><div class="panel-list"><div class="panel-line"></div><div class="panel-line"></div><div class="panel-line"></div><div class="panel-line"></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="enterprise-cta" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Enterprise CTA</div><h2>Dark section contrast</h2></div>
+        <div class="demo-frame"><div class="enterprise-cta"><h3>Give your response process one source of truth.</h3><div class="btn-row" style="justify-content:center"><button class="btn white compact">Book a demo</button><button class="btn ghost-white compact">Talk to us</button></div></div></div>
+      </section>
+
+      <section id="solutions" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Solutions carousel</div><h2>430px-style horizontal cards</h2></div>
+        <div class="demo-frame"><div class="solution-section"><div class="solution-row"><div class="solution-card"><div class="solution-icon">01</div><div><h4>On-call</h4><div class="small">One schedule everyone can trust.</div></div></div><div class="solution-card"><div class="solution-icon">02</div><div><h4>Escalations</h4><div class="small">Move ownership without manual chasing.</div></div></div><div class="solution-card"><div class="solution-icon">03</div><div><h4>Incidents</h4><div class="small">Ack and resolve with clear responsibility.</div></div></div><div class="solution-card"><div class="solution-icon">04</div><div><h4>Services</h4><div class="small">Tie responders to the systems they own.</div></div></div></div></div></div>
+      </section>
+
+      <section id="stats" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Stats accordion</div><h2>Open, sparse rows</h2></div>
+        <div class="demo-frame"><div class="stats-section"><div class="stat-row"><b>01</b><span>Mean time to acknowledge</span><strong>—</strong></div><div class="stat-row active"><b>02</b><span>Escalations completed without manual handoff</span><strong>96%</strong></div><div class="stat-row"><b>03</b><span>Schedule coverage</span><strong>—</strong></div></div></div>
+      </section>
+
+      <section id="ai-index" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Dark data section</div><h2>Near-black data canvas</h2></div>
+        <div class="demo-frame"><div class="ai-index"><div><div class="kicker" style="color:#a7aba4">Operational visibility</div><h3>See what response actually looks like.</h3><p class="small" style="color:#b8bbb5">Use dark surfaces for high-contrast data moments instead of turning the entire site dark. Data bars should use a lavender gradient rather than one flat purple fill.</p><button class="btn primary compact">Explore metrics</button></div><div class="chart"><i style="height:35%"></i><i style="height:58%"></i><i style="height:47%"></i><i style="height:73%"></i><i style="height:91%"></i><i style="height:76%"></i></div></div></div>
+      </section>
+
+      <section id="resources" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Resources</div><h2>Editorial cards</h2></div>
+        <div class="demo-frame"><div class="resource-section"><div class="resources"><article class="resource"><div class="thumb"></div><div class="body"><h4>Designing escalation that people trust</h4><p>Operations guide · 6 min</p></div></article><article class="resource"><div class="thumb"></div><div class="body"><h4>What responders need on mobile</h4><p>Product note · 4 min</p></div></article><article class="resource"><div class="thumb"></div><div class="body"><h4>From setup to first incident</h4><p>Guide · 8 min</p></div></article></div></div></div>
+      </section>
+
+      <section id="footer" class="section">
+        <div class="section-head"><div class="kicker">Marketing / Footer</div><h2>Dark footer + mint CTA strip</h2></div>
+        <div class="demo-frame"><div class="footer"><div class="footer-cta"><div><div class="label">Ready to set up?</div><h3>Get incident response under control.</h3></div><button class="btn primary compact">Get started</button></div><div class="footer-grid"><div><strong>OpsTracer</strong><div class="small" style="color:#9fa39c;margin-top:8px">Operational incident response for teams.</div></div><div><h4>Product</h4><a>Incidents</a><a>Schedules</a><a>Escalations</a></div><div><h4>Company</h4><a>About</a><a>Contact</a><a>Security</a></div><div><h4>Legal</h4><a>Privacy</a><a>Terms</a></div></div></div></div>
+      </section>
+
+      <section id="landing-preview" class="section">
+        <div class="section-head">
+          <div class="kicker">Product surface / Landing</div>
+          <h2>Full landing composition</h2>
+          <p class="lede">A combined view of the reference section map adapted to OpsTracer.</p>
+        </div>
+        <div class="demo-frame">
+          <div class="marketing-banner">Private beta · Join early access →</div>
+          <div class="marketing-nav"><strong>OpsTracer</strong><div class="links"><span>Product</span><span>Solutions</span><span>Company</span><span>Sign in</span></div><button class="btn primary compact">Get started</button></div>
+          <div class="marketing-hero">
+            <div><div class="kicker">Incident response, simplified</div><h3>Know who is on call. Handle incidents fast.</h3><p>One workflow for responders, schedules, escalation, and incident ownership.</p><button class="btn primary compact">Start setup</button></div>
+            <div class="product-window"><div class="bar"></div><div class="mini-metrics"><div class="mini-metric"><span>ACTIVE</span><b>3</b></div><div class="mini-metric"><span>ON CALL</span><b>8</b></div><div class="mini-metric"><span>COVERAGE</span><b>100%</b></div></div></div>
+          </div>
+          <div class="logo-strip"><div class="fake-logo">Northstar</div><div class="fake-logo">Orbit</div><div class="fake-logo">Relay</div><div class="fake-logo">Silo</div><div class="fake-logo">Beacon</div></div>
+          <div class="feature-split"><div class="feature-copy"><div class="kicker">Schedules</div><h3>Clear ownership before the alert arrives.</h3><p>Every responder can see who is primary, who is next, and when ownership changes.</p></div><div class="feature-ui"><div class="panel-list"><div class="panel-line"></div><div class="panel-line"></div><div class="panel-line"></div></div></div></div>
+          <div class="enterprise-cta"><h3>One system for the whole response loop.</h3><button class="btn white compact">Book a demo</button></div>
+          <div class="footer"><div class="footer-cta"><div><div class="label">Start now</div><h3>Set up your first on-call flow.</h3></div><button class="btn primary compact">Get started</button></div></div>
+        </div>
+      </section>
+
+      <section id="signin" class="section">
+        <div class="section-head">
+          <div class="kicker">Product surface / Sign-in</div>
+          <h2>SSO + sign-in link</h2>
+          <p class="lede">DS-01 explicitly requires both sign-in modes.</p>
+          <div class="source-row"><span class="badge ext">DS-01 requirement</span></div>
+        </div>
+        <div class="demo-frame">
+          <div class="auth-screen">
+            <div class="auth-brand"><strong>OpsTracer</strong><div><div class="kicker">Incident response</div><h3>Stay reachable when it matters.</h3></div><div class="small">One theme across landing, web, onboarding, and mobile.</div></div>
+            <div class="auth-panel"><div class="auth-box"><h3>Sign in</h3><p>Use your organisation SSO or request a secure sign-in link.</p><div class="auth-options"><button class="auth-option">Continue with SSO</button><div class="field"><label>Work email</label><div class="input">you@company.com</div></div><button class="btn primary compact" style="width:100%">Send sign-in link</button></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="control-plane" class="section">
+        <div class="section-head">
+          <div class="kicker">Product surface / Control Plane</div>
+          <h2>Web app preview</h2>
+          <p class="lede">The operational UI keeps the reference's flat surfaces, compact radius, restrained border model, and semantic focus treatment.</p>
+        </div>
+        <div class="demo-frame">
+          <div class="browserbar"><i></i><i></i><i></i></div>
+          <div class="app">
+            <aside class="app-side"><div class="app-lock"><i></i> OpsTracer</div><a class="sel">Overview</a><a>Incidents</a><a>People</a><a>Schedules</a><a>Escalations</a><a>Services</a><a>Settings</a></aside>
+            <div class="app-main">
+              <div class="app-title"><div><div class="small">Control Plane</div><h3>Overview</h3></div><button class="btn primary compact">Create service</button></div>
+              <div class="metric-grid"><div class="metric"><span>ACTIVE INCIDENTS</span><b>3</b></div><div class="metric"><span>RESPONDERS ON CALL</span><b>8</b></div><div class="metric"><span>SETUP PROGRESS</span><b>83%</b></div></div>
+              <div class="incident-table"><div class="inc-row head"><span>Incident</span><span>Status</span><span>Owner</span><span>Age</span></div><div class="inc-row"><span><b>Checkout API latency</b></span><span><span class="chip ack">Acknowledged</span></span><span>Alex Chen</span><span>12m</span></div><div class="inc-row"><span><b>Database connections</b></span><span><span class="chip critical">Critical</span></span><span>Escalating</span><span>4m</span></div><div class="inc-row"><span><b>Notification delay</b></span><span><span class="chip resolved">Resolved</span></span><span>Mina Patel</span><span>34m</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="onboarding" class="section">
+        <div class="section-head">
+          <div class="kicker">Product surface / Onboarding</div>
+          <h2>Six-step setup timeline</h2>
+          <p class="lede">Organisation → people → contact methods → schedule → escalation → service.</p>
+        </div>
+        <div class="demo-frame">
+          <div class="onboard">
+            <div class="onboard-side"><h3>Set up OpsTracer</h3><div class="steps"><div class="step done"><i>✓</i><span>Organisation<small>Company details</small></span></div><div class="step current"><i>2</i><span>People<small>Invite responders</small></span></div><div class="step"><i>3</i><span>Contact methods<small>Email, SMS, phone</small></span></div><div class="step"><i>4</i><span>Schedule<small>Define on-call rotation</small></span></div><div class="step"><i>5</i><span>Escalation<small>Fallback routing</small></span></div><div class="step"><i>6</i><span>Service<small>Connect ownership</small></span></div></div></div>
+            <div class="onboard-main"><div class="small">Step 2 of 6</div><h3>Add your responders</h3><p>Invite the people who will receive alerts and appear in your on-call schedule.</p><div class="person-list"><div class="person"><div class="avatar">AC</div><div><b>Alex Chen</b><small>alex@acme.com</small></div><span class="chip resolved">Invited</span></div><div class="person"><div class="avatar">MP</div><div><b>Mina Patel</b><small>mina@acme.com</small></div><span class="chip resolved">Invited</span></div><div class="person"><div class="avatar">+</div><div><b>Add responder</b><small>Name + work email</small></div><button class="top-btn">Add</button></div></div><div class="btn-row" style="justify-content:flex-end;margin-top:18px"><button class="btn outline-dark compact">Back</button><button class="btn primary compact">Save & continue</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mobile" class="section">
+        <div class="section-head">
+          <div class="kicker">Product surface / Mobile v1</div>
+          <h2>Responder-first mobile</h2>
+          <p class="lede">Mobile v1 focuses on login, push notification, on-call schedule, incident detail, Acknowledge, and Resolve — not configuration.</p>
+        </div>
+        <div class="demo-frame">
+          <div class="mobile-stage">
+            <div class="phone"><div class="notch"></div><div class="phone-body"><div class="phone-top"><div><div class="small">Monday, Aug 31</div><h3>On call</h3></div><div class="avatar">AC</div></div><div class="oncall"><small>PRIMARY · PAYMENTS</small><b>You are on call</b><div class="small">Until 6:00 PM · next Mina Patel</div></div><div class="mobile-head"><span>Active incidents</span><span class="small">2</span></div><div class="mobile-inc"><span class="chip critical">Critical</span><h4>Database connections exhausted</h4><p>Core API · triggered 4 min ago</p><div class="mobile-actions"><button class="primary-action">Acknowledge</button><button>Details</button></div></div><div class="mobile-inc"><span class="chip ack">Acknowledged</span><h4>Checkout latency above SLO</h4><p>Payments · acknowledged by you</p><div class="mobile-actions"><button>Timeline</button><button style="color:var(--resolved)">Resolve</button></div></div></div></div>
+            <div class="phone"><div class="notch"></div><div class="phone-body"><div class="phone-top"><div><div class="small">Incident</div><h3>Checkout latency</h3></div></div><span class="chip ack">Acknowledged</span><div class="rule" style="margin:14px 0"></div><div class="small">SERVICE</div><h4 style="margin-top:3px">Payments API</h4><div class="small" style="margin-top:14px">PRIMARY RESPONDER</div><h4 style="margin-top:3px">Alex Chen</h4><div class="small" style="margin-top:14px">TIMELINE</div><div class="card" style="margin-top:6px;padding:11px"><b style="font-size:10px">12:04</b><div class="small">Alert triggered</div></div><div class="card" style="margin-top:6px;padding:11px"><b style="font-size:10px">12:06</b><div class="small">Acknowledged by Alex</div></div><button class="btn compact" style="width:100%;background:var(--resolved);color:#fff;margin-top:18px">Resolve incident</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="media" class="section">
+        <div class="section-head">
+          <div class="kicker">Guidelines / Media</div>
+          <h2>Product UI is the primary trust signal</h2>
+          <p class="lede">The reference explicitly avoids lifestyle and stock photography in product storytelling. Use tight, relevant UI crops and simple logo strips.</p>
+        </div>
+        <div class="media-demo">
+          <div class="media-shot"><div class="fake-ui"><div class="fake-ui-row"></div><div class="fake-ui-row"></div><div class="fake-ui-row"></div></div></div>
+          <div class="logo-media"><div>Northstar</div><div>Orbit</div><div>Relay</div><div>Beacon</div></div>
+        </div>
+      </section>
+
+      <section id="do-dont" class="section">
+        <div class="section-head"><div class="kicker">Guidelines / Do & Don't</div><h2>System guardrails</h2></div>
+        <div class="grid grid-2">
+          <div class="do-card"><h3>Do</h3><div class="guideline-list"><div class="guide"><i>✓</i><span>Use 100px pill radius for primary and secondary CTA buttons.</span></div><div class="guide"><i>✓</i><span>Use 120px vertical padding on major marketing sections.</span></div><div class="guide"><i>✓</i><span>Keep the 32px desktop content inset.</span></div><div class="guide"><i>✓</i><span>Use Lazzer 600 for navigation, CTA, and display roles.</span></div><div class="guide"><i>✓</i><span>Keep micro-interactions between 0.1s and 0.3s.</span></div></div></div>
+          <div class="dont-card"><h3>Don't</h3><div class="guideline-list"><div class="guide"><i>×</i><span>Don't add decorative drop shadows to buttons and surface cards.</span></div><div class="guide"><i>×</i><span>Don't use 100px radius on cards.</span></div><div class="guide"><i>×</i><span>Don't turn focus-blue into a brand accent.</span></div><div class="guide"><i>×</i><span>Don't introduce arbitrary background colors.</span></div><div class="guide"><i>×</i><span>Don't add stock photography, parallax, or entrance animation.</span></div></div></div>
+        </div>
+      </section>
+
+      <section id="responsive" class="section">
+        <div class="section-head">
+          <div class="kicker">Guidelines / Responsive</div>
+          <h2>Documented breakpoints</h2>
+        </div>
+        <div class="card">
+          <div class="breakpoint"><b>Desktop</b><span>≥1280px</span><span>1440px canvas, 32px side insets, 913px + 451px product split, 430px carousel cards.</span></div>
+          <div class="breakpoint"><b>Tablet</b><span>768–1279px</span><span>Header switches to mobile menu behavior; footer and dropdown spacing adapt.</span></div>
+          <div class="breakpoint"><b>Mobile</b><span>&lt;768px</span><span>Hero becomes image-dominant, CTA becomes full-width at 48px height, side insets reduce.</span></div>
+        </div>
+      </section>
+
+      <section id="iteration" class="section">
+        <div class="section-head"><div class="kicker">Guidelines / Iteration</div><h2>How to extend the system</h2></div>
+        <div class="grid grid-3">
+          <div class="card"><div class="value">01</div><h3 style="margin-top:12px">Start with evidence</h3><div class="small" style="margin-top:7px">Use existing tokens and component names before inventing variants.</div></div>
+          <div class="card"><div class="value">02</div><h3 style="margin-top:12px">Add explicit variants</h3><div class="small" style="margin-top:7px">Create separate component entries when product requirements justify them.</div></div>
+          <div class="card"><div class="value">03</div><h3 style="margin-top:12px">Mark extensions</h3><div class="small" style="margin-top:7px">Keep inferred or DS-01-specific guidance visibly separated from observed reference facts.</div></div>
+        </div>
+      </section>
+
+      <section id="gaps" class="section">
+        <div class="section-head"><div class="kicker">Guidelines / Known gaps</div><h2>What the reference does not fully define</h2></div>
+        <div class="table-wrap">
+          <div class="table-row c4 table-head"><span>Gap</span><span>Status</span><span>Impact</span><span>DS-01 handling</span></div>
+          <div class="table-row c4"><span>Dark mode tokens</span><span>Not evidenced</span><span>High</span><span>Marked as DS-01 extension.</span></div>
+          <div class="table-row c4"><span>Hero display size ≥56px</span><span>Incomplete</span><span>Medium</span><span>Use reference hierarchy, don't claim exact source size.</span></div>
+          <div class="table-row c4"><span>Full mobile page behavior</span><span>Partially inferred</span><span>Medium</span><span>Use DS-01 mobile requirements as the product source.</span></div>
+          <div class="table-row c4"><span>Factor A usage</span><span>Unconfirmed</span><span>Low</span><span>Do not use without explicit approval.</span></div>
+        </div>
+      </section>
+
+      <section id="quick-start" class="section">
+        <div class="section-head">
+          <div class="kicker">Guidelines / Quick start</div>
+          <h2>Core CSS tokens</h2>
+          <p class="lede">A compact reference for implementation handoff.</p>
+        </div>
+        <pre class="mono-block">:root {
+  --color-focus-blue: #006dca;
+  --color-border: #d1d2d5;
+  --color-ink: #181e15;
+  --color-accent: #c190ff;
+  --color-accent-2: #b072ff;
+  --color-surface: #dceeeb;
+  --color-text-muted: #6c6e79;
+
+  --radius-action: 100px;
+  --radius-control: 6px;
+  --radius-card: 5px;
+  --radius-circle: 50%;
+
+  --layout-section-padding-y: 120px;
+  --layout-content-rail-inset: 32px;
+  --layout-card-width: 430px;
+  --layout-card-gap: 12px;
+
+  --font-body: Inter, sans-serif;
+  --font-heading-lg: Lazzer, sans-serif;
+  --font-ui: Lazzer, sans-serif;
+}
+
+/* Preview adaptation:
+   buttons are rendered smaller here for OpsTracer density:
+   48px default / 44px compact; both retain the 100px pill radius.
+*/</pre>
+      </section>
+
+      <div class="footer-note">DS-01 full preview · Source-derived sections are marked separately from OpsTracer / DS-01 extensions.</div>
+    </div>
+  </main>
+</div>
+
+
+</div>
+
+<div id="design-pane" class="artifact-pane">
+  <div class="code-pane">
+    <div class="pane-toolbar"><button type="button" onclick="copyPane('design-code',this)">Copy</button></div>
+    <div class="code-card"><pre id="design-code">---
+version: alpha
+name: &quot;Semrush: Your Unfair Advantage for Growing Brand Visibility&quot;
+description: Semrush is the leading platform to grow and measure brand visibility across AI search, SEO, PPC, social, and more.
+colors:
+  primary: &quot;#c190ff&quot;
+  color.focus-blue: &quot;#006dca&quot;
+  color.border: &quot;#d1d2d5&quot;
+  color.ink: &quot;#181e15&quot;
+  color.accent: &quot;#c190ff&quot;
+  color.accent-2: &quot;#b072ff&quot;
+  color.surface: &quot;#dceeeb&quot;
+  color.text.muted: &quot;#6c6e79&quot;
+typography:
+  font.body:
+    fontFamily: Lazzer, sans-serif
+    fontSize: 16px
+    fontWeight: 600
+  font.caption:
+    fontFamily: Inter, sans-serif
+    fontSize: 12px
+    fontWeight: 400
+  font.heading.lg:
+    fontFamily: Lazzer, sans-serif
+    fontSize: 32px
+    fontWeight: 600
+  font.ui:
+    fontFamily: Lazzer, Inter, sans-serif
+    fontSize: 16px
+    fontWeight: 600
+rounded:
+  radius.action: 100px
+  radius.control: 6px
+  radius.circle: 50%
+  radius.pill: 100px
+  radius.sm: 6px
+  radius.xs: 5px
+components:
+  primary-cta-lavender:
+    backgroundColor: &quot;#c190ff&quot;
+    textColor: &quot;#181e15&quot;
+    rounded: 100px
+  secondary-cta-outlined:
+    backgroundColor: transparent
+    textColor: &quot;#181e15&quot;
+    rounded: 100px
+  secondary-cta-white-on-dark:
+    backgroundColor: &quot;#ffffff&quot;
+    textColor: &quot;#181e15&quot;
+    rounded: 100px
+  ghost-cta-white-outline:
+    backgroundColor: transparent
+    textColor: &quot;#ffffff&quot;
+    rounded: 100px
+  solution-card:
+    backgroundColor: &quot;#dceeeb&quot;
+    textColor: &quot;#181e15&quot;
+    rounded: 5px
+  footer-accent-button:
+    backgroundColor: &quot;#c190ff&quot;
+    textColor: &quot;#181e15&quot;
+    rounded: 100px
+  secondary-cta-outline-dark:
+    backgroundColor: transparent
+    textColor: &quot;#181e15&quot;
+    rounded: 100px
+  secondary-cta-outline-light:
+    backgroundColor: transparent
+    textColor: &quot;#ffffff&quot;
+    rounded: 100px
+  carousel-nav-button:
+    backgroundColor: transparent
+    textColor: &quot;#181e15&quot;
+    rounded: 100px
+sectionMap:
+  hero:
+    background: &quot;linear-gradient(#dceeeb 0%, #e8e1ff 75%, #ffffff 100%)&quot;
+    text: &quot;#181e15&quot;
+    border: none
+    media: product screenshot right-side; gradient wash
+    layout: full-bleed 1440px; inner content left-aligned at 32px inset
+  feature-split:
+    background: &quot;#ffffff&quot;
+    text: &quot;#181e15&quot;
+    border: none
+    media: product UI screenshot in column
+    layout: two-column (63% / 37%)
+  enterprise-cta:
+    background: &quot;#181e15&quot;
+    text: &quot;#ffffff&quot;
+    border: none
+    media: none
+    layout: full-bleed, centered headline + dual CTAs
+  solutions-carousel:
+    background: &quot;#ffffff (section) / #dceeeb (cards)&quot;
+    text: &quot;#181e15&quot;
+    border: none
+    media: product icon/screenshot per card
+    layout: horizontal carousel, 430px cards
+  stats-accordion:
+    background: &quot;#ffffff&quot;
+    text: &quot;#d1d2d5 (inactive) / #ffffff (active)&quot;
+    border: none
+    media: none
+    layout: full-width expandable list rows
+  ai-index:
+    background: &quot;#181e15 + SVG pattern&quot;
+    text: &quot;#ffffff&quot;
+    border: none
+    media: data visualization widget
+    layout: full-bleed, 120px vertical padding
+  footer:
+    background: &quot;#191b23&quot;
+    text: &quot;#ffffff&quot;
+    border: none
+    media: none
+    layout: &quot;multi-column link grid + mint CTA strip (#dceeeb)&quot;
+  top-banner:
+    background: &quot;#c190ff (purple variant) or green/neutral&quot;
+    text: &quot;#181e15&quot;
+    border: none
+    media: none
+    layout: full-bleed, 8px top/bottom padding, 16px side padding
+  logo-strip:
+    background: transparent (inherits hero gradient end)
+    text: &quot;#181e15&quot;
+    border: none
+    media: partner/customer logos, 100px height items
+    layout: horizontal flex row, 12px gap, full-bleed 1440px, 180px section height
+  product-panels:
+    background: &quot;#ffffff&quot;
+    text: &quot;#181e15&quot;
+    border: none
+    media: product UI screenshots
+    layout: &quot;Two columns: 913px + 451px within 1440px canvas, 120px vertical padding&quot;
+  solutions-accordion:
+    background: &quot;#ffffff&quot;
+    text: &quot;#181e15&quot;
+    border: none
+    media: tool icons/screenshots in carousel cards
+    layout: Full-bleed, 120px top/bottom padding; cards 430px × 500px, 12px gap, horizontal scroll carousel
+buildTokens:
+  layout.section-padding-y: 120px
+  layout.cta-button-height: 60px desktop / 48px mobile
+  layout.cta-button-radius: 100px
+  layout.card-radius: 5px
+  layout.content-rail-inset: 32px
+  layout.card-width: 430px
+  layout.card-gap: 12px
+  layout.cta-height-desktop: 60px
+  layout.cta-height-mobile: 48px
+---
+
+# Semrush: Your Unfair Advantage for Growing Brand Visibility — Style Reference
+&gt; assertive-data, lavender-accented-dark, high-contrast-section-alternation, custom-type-driven, pattern-textured-surfaces
+
+**Theme:** light
+
+## Overview
+
+Semrush positions itself as the unfair competitive advantage for brand visibility — a data-authority platform that helps marketers dominate search, AI-generated answers, and every digital channel in between. The brand projects confident intelligence: you win because you have better data and broader reach, not because you outworked the competition.
+
+The central design tension is data authority versus approachability. The platform is deeply technical, yet the brand deploys expressive Lazzer type at weight 600, a #c190ff lavender accent against near-black #181e15 surfaces, and direct declarative copy to prevent the product from reading as cold infrastructure. The visual system makes expertise feel energizing rather than impenetrable.
+
+**Voice:** headlines=Declarative and category-owning — &quot;Be found everywhere search happens,&quot; &quot;Your Unfair Advantage.&quot; Short, punchy, no hedge words, no qualifiers. The brand asserts, it doesn&#x27;t suggest.; body=Direct and data-grounded — leads with capability, then substantiates with proof. &quot;Powered by trusted SEO and competitive data, Semrush One helps your brand show up where customers search, ask, and decide.&quot;; microcopy=Functional with zero decoration — form placeholder &quot;Enter your website,&quot; geo label &quot;US.&quot; The product UI does the talking; microcopy steps aside.; ctas=Verb-led, benefit-implied — &quot;Get insights,&quot; &quot;Try for free,&quot; &quot;Book a demo,&quot; &quot;Explore the index.&quot; Every call to action earns its place by naming the action clearly.
+
+## Colors
+
+### Color Philosophy
+- Treat surface colors as the atmosphere of a section before applying them as decorative fills. #dceeeb mint anchors the hero gradient and solution cards; #181e15 near-black anchors dark sections. Neither should appear arbitrarily outside their section role.
+- Keep foreground tokens role-specific: primary text, secondary text, placeholder text, and inverse text occupy distinct slots. Collapsing them into a single gray scale loses the hierarchy that makes data-dense layouts readable.
+### Token Roles
+#### Brand &amp; Accent
+- **{colors.color.accent-2}** (`#b072ff`): accent-hover. use for hover state of lavender-accent buttons; active state of footer buttons; avoid default/rest state fills; large backgrounds; body text.
+- **{colors.color.accent}** (`#c190ff`): brand accent primary. use for CTA buttons; top banner backgrounds; footer buttons; active/selected states; avoid large page background fills; body text on light surfaces; dividers.
+#### Text
+- **{colors.color.text.muted}** (`#6c6e79`): body-text-secondary. use for secondary/supporting body copy; captions; footer decorative dots; meta text; avoid background fills; headings; CTA labels.
+- **{colors.color.ink}** (`#181e15`): foreground. use for headings; body text; icons; top banner text; avoid background fills; button fills; large surface areas.
+#### Hairlines &amp; Borders
+- **{colors.color.border}** (`#d1d2d5`): border. use for dividers; input borders; profile menu border; dropdown borders; avoid text; icon fills; button backgrounds.
+#### Semantic
+- **{colors.color.focus-blue}** (`#006dca`): focus-indicator. use for focus ring box-shadow (inset); keyboard focus outlines; skip-to-content link text; avoid decorative fills; button backgrounds; marketing surfaces.
+#### Surface
+- **{colors.color.surface}** (`#dceeeb`): surface. use for header background (mint variant); footer reveal section background; card/panel backgrounds; avoid body text; CTA button fills; icon fills.
+
+## Typography
+
+### Typography Principles
+
+- Treat typography as a hierarchy of roles, not a global font swap: Inter carries body reading at weight 400; Lazzer carries display, navigation, and CTA authority at weights 500–600. The two families should never compete for the same role on the same surface.
+
+- Match type hierarchy to the content voice: Lazzer at 32px weight 600 commands a section title; Inter at 16px weight 400 delivers the explanation beneath it. CTA labels in Lazzer weight 600 signal action. Blurring these distinctions flattens the hierarchy the brand relies on to guide the eye.
+
+### Font Family
+
+- **Inter, sans-serif**; fallbacks: sans-serif.
+
+- **Inter, sans-serif**; fallbacks: sans-serif.
+
+- **Lazzer, sans-serif**; fallbacks: sans-serif.
+
+- **Lazzer, sans-serif**; fallbacks: sans-serif.
+
+- **Lazzer, sans-serif**; fallbacks: sans-serif.
+
+- **Inter, sans-serif**; fallbacks: sans-serif.
+
+- **Lazzer, Inter, sans-serif**; fallbacks: Inter; sans-serif.
+
+- **Lazzer, sans-serif**; fallbacks: sans-serif.
+
+### Hierarchy
+
+| Token | Size | Weight | Line Height | Letter Spacing | Use |
+| --- | --- | --- | --- | --- | --- |
+| {typography.font.body} | 16px | 400 |  |  |  |
+| {typography.font.caption} | 14px | 400 |  |  |  |
+| {typography.font.body} | 16px | 600 |  |  |  |
+| {typography.font.heading.lg} | 48px | 600 |  |  |  |
+| {typography.font.ui} | 14px | 500 |  |  |  |
+| {typography.font.caption} | 12px | 400 |  |  |  |
+| {typography.font.ui} | 16px | 600 |  |  |  |
+| {typography.font.heading.lg} | 32px | 600 |  |  |  |
+
+### Principles
+
+- **body-md**: use `Inter, sans-serif`; size `16px`; weight `400`.
+
+- **caption**: use `Inter, sans-serif`; size `14px`; weight `400`.
+
+- **cta-primary**: use `Lazzer, sans-serif`; size `16px`; weight `600`.
+
+- **footer-cta-title**: use `Lazzer, sans-serif`; size `48px`; weight `600`.
+
+- **label-sm**: use `Lazzer, sans-serif`; size `14px`; weight `500`.
+
+- **micro**: use `Inter, sans-serif`; size `12px`; weight `400`.
+
+- **nav-label**: use `Lazzer, Inter, sans-serif`; size `16px`; weight `600`.
+
+- **section-title**: use `Lazzer, sans-serif`; size `32px`; weight `600`.
+
+## Layout
+
+### Composition Principles
+- The page is built as a deliberate sequence of named sections — hero → logo strip → two-column product panels → solutions accordion → stats list → AI index dark section → testimonials → resources → footer — where alternating light and dark backgrounds do the work of visual separation. No additional dividers are needed between sections because the surface contrast handles it.
+- 120px padding-top / 120px padding-bottom governs every major content section. The logo bar compresses to ~180px total height. The hero is full-bleed with a CSS gradient background, not an image.
+- Text and CTAs sit left-aligned within a 32px inset rail. Full-bleed section backgrounds span 1440px; all content stays within the 1376px inner rail. Card carousels begin at x:32 with 12px between cards.
+- The 120px section rhythm and the 37% desktop media column are not arbitrary — they signal that this is a platform with depth, not a marketing brochure. Resist the impulse to tighten padding or expand media beyond the evidenced ratio.
+- Compose pages as explicitly named sections. Each section carries its own surface color, text color, media treatment, and component set. There is no generic page container — the section is the unit of composition.
+### Rhythm
+- 120px padding-top / 120px padding-bottom on major content sections; logo bar uses ~180px height; hero is full-bleed with gradient background.
+- Hero → logo strip → two-column product panels → solutions accordion → stats list → AI index dark section → testimonials → resources → footer; alternating light/dark backgrounds create visual breathing room without relying on decorative dividers.
+- 120px inter-section whitespace; 24px card interior padding; the stats list is deliberately open and sparse. The ~37% desktop media column ensures product UI is present but doesn&#x27;t crowd the copy.
+### Implementation Notes
+- Container widths: 1440px full-bleed sections; ~1376px inner content rail (32px side insets); 430px card/article column.
+- Estimated 3-column content grid at desktop, ~2.2% outer gutters (32px on 1440px canvas); interior columns inferred from section splits (60/40 and 100% full-bleed observed).
+- Left-aligned text and CTAs within 32px inset rail; full-bleed sections span 1440px; card carousels start at x:32 with 12px inter-card gap.
+
+### Section Treatment Map
+
+| Section | Background | Text | Border | Media | Layout | Treatment |
+| --- | --- | --- | --- | --- | --- | --- |
+| hero | linear-gradient(#dceeeb 0%, #e8e1ff 75%, #fff 100%) | #181e15 | none | product UI screenshot | full-bleed, content centered, form inline |  |
+| feature_split | #ffffff | #181e15 | none | product UI screenshot in column | two-column (63% / 37%) |  |
+| enterprise_cta | #181e15 | #ffffff | none | none | full-bleed, centered headline + dual CTAs |  |
+| solutions_carousel | #ffffff (section) / #dceeeb (cards) | #181e15 | none | product icon/screenshot per card | horizontal carousel, 430px cards |  |
+| stats_accordion | #ffffff | #d1d2d5 (inactive) / #ffffff (active) | none | none | full-width expandable list rows |  |
+| ai_index | #181e15 + SVG pattern | #ffffff | none | data visualization widget | full-bleed, 120px vertical padding |  |
+| footer | #191b23 | #ffffff | none | none | multi-column link grid + mint CTA strip (#dceeeb) |  |
+| top_banner | #c190ff (purple variant) or green/neutral | #181e15 | none | none | full-bleed, 8px top/bottom padding, 16px side padding |  |
+| hero | linear-gradient(#dceeeb 0%, #e8e1ff 75%, #ffffff 100%) | #181e15 | none | product screenshot right-side; gradient wash | full-bleed 1440px; inner content left-aligned at 32px inset |  |
+| logo_strip | transparent (inherits hero gradient end) | #181e15 | none | partner/customer logos, 100px height items | horizontal flex row, 12px gap, full-bleed 1440px, 180px section height |  |
+| product_panels | #ffffff | #181e15 | none | product UI screenshots | Two columns: 913px + 451px within 1440px canvas, 120px vertical padding |  |
+| solutions_accordion | #ffffff | #181e15 | none | tool icons/screenshots in carousel cards | Full-bleed, 120px top/bottom padding; cards 430px × 500px, 12px gap, horizontal scroll carousel |  |
+
+### Build Notes
+- Lazzer is a custom self-hosted variable font (woff2 variable file available); load via @font-face with weight range 100–900. Factor A is a secondary display font also self-hosted — usage context not yet confirmed in homepage evidence.
+- The hero section background is a CSS linear-gradient, not an image — implement with a gradient token to allow easy theming without swapping asset files.
+- Button letter-spacing is −0.32px (Lazzer, 16px, weight 600) — this tight tracking is intentional and characteristic of the Lazzer CTA treatment. Do not reset it to 0.
+- Focus states use inset box-shadow rings: `inset 0 0 0 2px #181e15` on light surfaces; `inset 0 0 0 3px #006dca` for keyboard navigation focus. Do not replace with native CSS `outline` — the system explicitly overrides it.
+- Section-level vertical padding is 120px top/bottom on desktop; scale down proportionally on mobile but do not compress below the minimum that preserves the generous whitespace posture.
+- The stats accordion renders inactive row text in #d1d2d5 and expanded row text in white — implement as a toggled state class on the row, not as two separate components.
+- All sections span 1440px full-bleed; inner content rail is 1376px (32px insets each side).
+- Section background alternation: light gradient hero → white panels → white solutions → white stats → dark AI section → white testimonials → white resources → dark footer.
+
+## Elevation &amp; Depth
+
+- card hover elevation/shadow: Cards use 5px radius and #dceeeb mint backgrounds, but carry no box-shadow. Depth is communicated through surface color and background pattern, not shadow lift. Do not add box-shadow to cards — it contradicts the flat, data-forward visual language.
+- CSS custom properties for shadow tokens: Shadows are hardcoded per-component rather than tokenized. Do not expect a shadow scale variable like `--shadow-md` — it does not exist in this system.
+
+### Borders
+
+- **{borders.border.divider}** (`1px solid #d1d2d5`): Dropdown panels and footer section dividers; a restrained #d1d2d5 rule that separates content without introducing elevation.
+
+- **{borders.border.outlined-button}** (`1px solid var(--color-monotones-black)`): The outlined variant of the header link-button; uses the semantic black token rather than a hardcoded value.
+
+- Scroll-triggered or entrance animations: The brand does not use scroll-driven animations or keyframe entrance effects in global, header, or footer CSS. Do not introduce them.
+
+## Shapes
+
+### Border Radius Scale
+
+| Token | Value | Use |
+| --- | --- | --- |
+| {rounded.radius.utility} | 4px | Swatches and compact non-action utilities |
+| {rounded.radius.xs} | 5px | Promo image thumbnails, language list popover, tooltip-style elements |
+| {rounded.radius.sm} | 6px | Small interactive containers: profile menu, language dropdown, skip-link |
+| {rounded.radius.pill} | 100px | All action buttons across marketing, product, mobile, and utility surfaces |
+| {rounded.radius.circle} | 50% | Circular avatars and icon containers |
+
+## Components
+
+### Buildable Component Recipes
+#### primary_cta_lavender
+- **Component:** button/pill
+- **Background:** #c190ff
+- **Text:** #181e15
+- **Border:** transparent 1px solid
+- **Radius:** 100px
+
+#### secondary_cta_outlined
+- **Component:** button/pill
+- **Background:** transparent
+- **Text:** #181e15
+- **Border:** #181e15 1px solid
+- **Radius:** 100px
+
+#### secondary_cta_white_on_dark
+- **Component:** button/pill
+- **Background:** #ffffff
+- **Text:** #181e15
+- **Border:** #ffffff 1px solid
+- **Radius:** 100px
+
+#### ghost_cta_white_outline
+- **Component:** button/pill
+- **Background:** transparent
+- **Text:** #ffffff
+- **Border:** #ffffff 1px solid
+- **Radius:** 100px
+
+#### solution_card
+- **Component:** card
+- **Background:** #dceeeb
+- **Text:** #181e15
+- **Border:** none
+- **Radius:** 5px
+
+#### footer_accent_button
+- **Component:** button/pill
+- **Background:** #c190ff
+- **Text:** #181e15
+- **Border:** none
+- **Radius:** 100px
+
+#### primary-cta-lavender
+- **Component:** button
+- **Background:** #c190ff
+- **Text:** #181e15
+- **Border:** transparent 1px solid
+- **Radius:** 100px
+
+#### secondary-cta-outline-dark
+- **Component:** button/link
+- **Background:** transparent
+- **Text:** #181e15
+- **Border:** #181e15 1px solid
+- **Radius:** 100px
+
+#### secondary-cta-outline-light
+- **Component:** button/link
+- **Background:** transparent
+- **Text:** #ffffff
+- **Border:** #ffffff 1px solid
+- **Radius:** 100px
+
+#### solution-card
+- **Component:** card
+- **Background:** #dceeeb
+- **Text:** #181e15
+- **Border:** none
+- **Radius:** 5px
+
+### Photography &amp; Media
+- **client_logos:** role=Social proof strip anchored below the hero gradient — the logo row converts brand recognition into enterprise credibility before the visitor scrolls to product detail; aspect=Variable width, 100px height constrained row; crop=Logo only, no background; sized proportionally within the row; masking=None; frame=No frame; transparent background renders directly on the hero gradient&#x27;s white endpoint
+- **product_ui_screenshot:** role=The primary trust signal — product screenshots communicate platform depth and data richness in a way lifestyle photography cannot. They are the brand&#x27;s visual proof of capability.; aspect=Variable; constrained to section column widths (451px or 913px at desktop); crop=Crop to a specific tool view that highlights a data metric or workflow step — avoid generic full-screen dumps; masking=No masking; displayed as flat UI captures within section columns; frame=No decorative frame; the section background (mint gradient or white) provides containment without wrapping the image
+- **resource_article_card:** role=Thought leadership entry point; draws visitors into Semrush&#x27;s content authority beyond the product pitch; aspect=430×521px (0.825 ratio) — portrait card layout; crop=Image fills top portion of card; editorial crop; masking=5px border-radius on card container; frame=White card on white section background — hierarchy is established through typography, not surface contrast
+- **product_ui:** role=Product screenshots carry the brand&#x27;s visual identity — not photography. Every feature section uses a UI capture as its primary media.; aspect=Variable; constrained to column container; crop=Tight crop to the relevant data view or tool workflow — avoid showing chrome unrelated to the feature being described; masking=None; frame=Contained within section column; no shadow frame
+- **product_ui_screenshot:** role=Demonstrate platform data and UI depth; builds credibility through specificity; aspect=Variable, fits within panel; crop=Contained within section panel, no bleed; masking=none; frame=Borderless; no drop shadow observed
+- **customer_logo:** role=Social proof strip; aspect=~2:1 wide logos, 100px height; crop=Width varies per logo, 12px gap between; masking=none; frame=none
+
+## Do&#x27;s and Don&#x27;ts
+
+### Do
+- All primary and secondary CTA buttons must use border-radius: 100px (fully-pill). Do not apply card radius (5px) or utility radius (4px) to action buttons.
+- Always apply #006dca (focus-blue) as an inset box-shadow (3px) on :focus-visible interactive elements. Never suppress focus rings — this is the only accessible focus indicator color in the system.
+- Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, AI index, testimonials, and resources sections.
+- Apply font-weight 600 to all Lazzer navigation items, CTAs, and display headings. Apply font-weight 500 to Lazzer supporting labels and banner descriptions. Reserve weight 400 for Inter body copy only.
+- Implement focus-visible states using inset box-shadow rings only — never native outline. Use `inset 0 0 0 3px #006dca` (blue) for general interactive elements and `inset 0 0 0 2px #181e15` (near-black) for footer and banner elements.
+- Keep micro-interactions at 0.1s–0.3s. Use 0.1s for transform (icon hover lift), 0.2s for opacity and color changes, and 0.3s for layout-affecting properties (padding, font-size, opacity of panels). The CSS custom property --mp-transition-duration: 200ms and --mp-transition-easing: ease-in-out define the canonical defaults.
+- Keep the 32px side inset on all inner content rails. Full-bleed backgrounds span 1440px, but text and components must stay within the 1376px inner rail.
+- Maintain 60px button height at desktop and 48px at mobile. These are confirmed computed values; do not reduce below 44px minimum on any viewport.
+### Don&#x27;t
+- Do not add decorative drop shadows to buttons or surface cards. The brand explicitly resets box-shadow to none on .srf-btn. Shadows appear only on floating overlays (dropdowns/popovers) at very low opacity (max #0003). Applying shadow to flat surfaces contradicts the restrained, data-forward depth model.
+- Do not apply 100px border-radius to cards or containers. Reserve pill radius (100px) exclusively for CTA buttons. Cards use 5px radius.
+- Do not apply weight 700 to Lazzer headings or nav items as a general style — weight 700 is reserved for inline emphasis within specific contexts (e.g., `&lt;b&gt;` inside browser-warning banners). Heading hierarchy is expressed through size, not by escalating weight beyond 600.
+- Do not introduce &#x27;Factor A&#x27; or &#x27;Factor A Variable&#x27; into UI surfaces without explicit design authorization. These @font-face declarations exist in the stylesheet but have no observed component-level usage — they are likely reserved for a specific product sub-brand or campaign context.
+- Do not introduce additional background colors beyond the observed palette (white, #181e15 dark, #dceeeb mint, #e8e1ff lavender gradient, #c190ff accent). Introducing new section backgrounds breaks the deliberate light/dark alternation that structures page rhythm.
+- Do not introduce lifestyle or stock photography. Every feature section uses product UI screenshots and data visualizations as primary media. Photography would undermine the data-authority visual positioning the brand has built.
+- Do not introduce motion beyond the observed transition set. No keyframe animations were observed outside the global loading spinner (0.75s linear). Do not add entrance animations, scroll-triggered transforms, or parallax effects not present in the evidence.
+- Do not mix arbitrary radius values. The system uses a defined set: 0, 2px, 3px, 4px, 5px, 6px, 10px, 100px (pill), and 50% (circle). Do not introduce values like 8px, 16px, or 24px that are not evidenced in the system.
+- Do not reduce section vertical padding below 120px for content sections. Compressing to 60px or 80px collapses the generous whitespace posture that distinguishes this layout from a typical marketing template.
+- Do not use #006dca (blue) or #2b94e1 (blue) as a brand accent or CTA color. These tokens exist exclusively as accessibility focus-ring indicators. Using them as primary interactive colors misrepresents the brand palette and undermines the lavender accent system.
+
+## Responsive Behavior
+
+### Breakpoints
+
+| Name | Width | Key Changes |
+| --- | --- | --- |
+| desktop | ≥1280px | Full 1440px canvas with 32px side insets; Two-column product panels (913px + 451px split); Horizontal stats list with space-between justification; Carousel cards 430px wide, 3 visible at a time |
+| mobile | &lt;768px | Hero section fills 390px width; headline scales to ~56px max; CTA buttons become full-width (344px) at 48px height; Media area ratio rises to 66% — image-dominant layout; Side insets reduced; content rail approaches full width |
+| tablet | 768px–1279px | Header switches to mobile menu popover (margin-block-start: 68px on menu container); Dropdown border-radius changes to 0 0 12px 12px at ≤1440px; Footer toggle gains 20px left padding |
+
+## Iteration Guide
+
+1. Start from the evidenced tokens and component names before inventing variants.
+2. Add new variants as separate component entries when evidence or product requirements justify them.
+3. Keep inferred guidance marked as an extension, not an observed fact.
+
+## Known Gaps
+
+- card hover elevation/shadow: Cards use 5px radius and pattern backgrounds but no box-shadow — elevation is not part of the card language; use background color and pattern for differentiation instead
+- CSS custom properties for shadow tokens: Shadows are hardcoded per-component rather than tokenized. Implementations should not expect a shadow scale variable like --shadow-md.
+- dark-mode color scheme: No @media (prefers-color-scheme: dark) or dark-mode token variants were found. The palette operates in light mode only.
+- Hero / display-xl headline size (≥56px): The hero headline for &#x27;The unified SEO and AI search solution&#x27; is visible in page text snippets but its font-size is not captured in extracted CSS or browser_size_samples, likely due to bot-blocked JS-rendered stylesheets.
+- max-width container constraint: Sections render at true 1440px full-bleed with no max-width cap — the 1440px viewport IS the design width. Wider viewports may not be handled.
+- Scroll-triggered or entrance animations: The brand does not use scroll-driven animations or keyframe entrance effects in global/header/footer CSS. Do not add them.
+- extraction_artifact: Factor A custom font is defined via @font-face but has no confirmed usage selectors in the captured CSS — may be used in inner app pages not captured. Treat as secondary display font with unknown homepage usage.
+- extraction_artifact: Several OKLCH color values appeared in button computed styles (oklch(0.23 0.01 140), oklch(0.999 0.001 180)) but cannot be mapped to named hex tokens without additional cross-reference. They were not assigned semantic roles.
+- extraction_artifact: Shadow value &#x27;inset inset 0 0 0 3px #006dca&#x27; on .srf-btn:is(:focus,:focus-visible) contains a duplicate &#x27;inset&#x27; keyword — this is likely a CSS authoring error in the source stylesheet, not a valid token.
+- generic_language: Mobile layout evidence is limited to hero/viewport screenshots only; full-page mobile scroll behavior for sections below hero is inferred from CSS breakpoints, not computed styles
+- extraction_artifact: Google Fonts import URL references Ubuntu (ital,wght@0,300;0,400;0,500;0,700) but no CSS rule assigns font-family: Ubuntu to any component. This may be a leftover import from a prior design version.
+- extraction_artifact: Page-level and section-level heading sizes (likely 32px–72px range for hero/H1/H2) are not captured because main content CSS bundles were bot-blocked. Typography hierarchy above 48px is incomplete.
+
+## Agent Prompt Guide
+
+Quick Color Reference:
+- border: `#d1d2d5`
+- text: `#181e15`
+- primary action: `#c190ff`
+- accent: `#b072ff`
+- background: `#dceeeb`
+- muted text: `#6c6e79`
+
+Quick Typography Reference:
+- body: Inter, sans-serif, 16px, 400
+- headings: Lazzer, sans-serif, 48px, 600
+- ui: Lazzer, sans-serif, 14px, 500
+
+Implementation Rules:
+- All primary and secondary CTA buttons must use border-radius: 100px (fully-pill). Do not apply card radius (5px) or utility radius (4px) to action buttons.
+- Always apply #006dca (focus-blue) as an inset box-shadow (3px) on :focus-visible interactive elements. Never suppress focus rings — this is the only accessible focus indicator color in the system.
+- Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, AI index, testimonials, and resources sections.
+- Apply font-weight 600 to all Lazzer navigation items, CTAs, and display headings. Apply font-weight 500 to Lazzer supporting labels and banner descriptions. Reserve weight 400 for Inter body copy only.
+- Implement focus-visible states using inset box-shadow rings only — never native outline. Use `inset 0 0 0 3px #006dca` (blue) for general interactive elements and `inset 0 0 0 2px #181e15` (near-black) for footer and banner elements.
+- Keep micro-interactions at 0.1s–0.3s. Use 0.1s for transform (icon hover lift), 0.2s for opacity and color changes, and 0.3s for layout-affecting properties (padding, font-size, opacity of panels). The CSS custom property --mp-transition-duration: 200ms and --mp-transition-easing: ease-in-out define the canonical defaults.
+
+Example Component Prompts:
+1. Create a hero section for Semrush: Your Unfair Advantage for Growing Brand Visibility using the documented background, text color, layout, and media treatment. Keep copy hierarchy faithful to the Overview and avoid unsupported decorative styles.
+2. Create a primary_cta_lavender component using its exact background, text, radius, padding, typography, state, and motion guidance. Include focus-visible behavior.
+3. Create a media block that uses client_logos as Social proof strip; establishes enterprise credibility; preserve crop, framing, aspect ratio, and forbidden substitutions.
+
+## Similar Brands
+
+- Linear - reference for precise product UI, restrained contrast, and disciplined surfaces.
+- Stripe - reference for clear product storytelling and polished implementation detail.
+- Vercel - reference for developer-facing hierarchy and monochrome system discipline.
+
+## Quick Start
+
+### CSS Custom Properties
+
+```css
+:root {
+  --color-focus-blue: #006dca;
+  --color-border: #d1d2d5;
+  --color-ink: #181e15;
+  --color-accent: #c190ff;
+  --color-accent-2: #b072ff;
+  --color-surface: #dceeeb;
+  --color-text-muted: #6c6e79;
+  --radius-action: 100px;
+  --radius-control: 6px;
+  --radius-circle: 50%;
+  --radius-pill: 100px;
+  --radius-sm: 6px;
+  --radius-xs: 5px;
+  --layout-section-padding-y: 120px;
+  --layout-cta-button-height: 60px desktop / 48px mobile;
+  --layout-cta-button-radius: 100px;
+  --layout-card-radius: 5px;
+  --layout-content-rail-inset: 32px;
+  --layout-card-width: 430px;
+  --layout-card-gap: 12px;
+  --layout-cta-height-desktop: 60px;
+  --layout-cta-height-mobile: 48px;
+  --font-body: Inter, sans-serif;
+  --font-caption: Inter, sans-serif;
+  --font-heading-lg: Lazzer, sans-serif;
+  --font-ui: Lazzer, sans-serif;
+}
+```
+
+### Tailwind v4
+
+```css
+@theme {
+  --color-focus-blue: #006dca;
+  --color-border: #d1d2d5;
+  --color-ink: #181e15;
+  --color-accent: #c190ff;
+  --color-accent-2: #b072ff;
+  --color-surface: #dceeeb;
+  --color-text-muted: #6c6e79;
+  --radius-action: 100px;
+  --radius-control: 6px;
+  --radius-circle: 50%;
+  --radius-pill: 100px;
+  --radius-sm: 6px;
+  --radius-xs: 5px;
+  --layout-section-padding-y: 120px;
+  --layout-cta-button-height: 60px desktop / 48px mobile;
+  --layout-cta-button-radius: 100px;
+  --layout-card-radius: 5px;
+  --layout-content-rail-inset: 32px;
+  --layout-card-width: 430px;
+  --layout-card-gap: 12px;
+  --layout-cta-height-desktop: 60px;
+  --layout-cta-height-mobile: 48px;
+  --font-body: Inter, sans-serif;
+  --font-caption: Inter, sans-serif;
+  --font-heading-lg: Lazzer, sans-serif;
+  --font-ui: Lazzer, sans-serif;
+}
+```</pre></div>
+  </div>
+</div>
+
+<div id="skill-pane" class="artifact-pane">
+  <div class="code-pane">
+    <div class="pane-toolbar"><button type="button" onclick="copyPane('skill-code',this)">Copy</button></div>
+    <div class="code-card"><pre id="skill-code">---
+name: opstracer-ds01
+description: Standing instructions for UI work using the OpsTracer DS-01 visual system derived from the supplied DESIGN.md reference.
+---
+
+# OpsTracer DS-01 — Design Skill
+
+Use this skill for any screen, component, landing section, onboarding flow, or mobile surface that must match the DS-01 design system.
+
+## Source of truth
+- DESIGN.md defines the visual reference and observed brand rules.
+- DS-01 defines required product surfaces and product-specific extensions.
+- When a product requirement extends beyond the reference, mark it as a DS-01 extension rather than presenting it as an observed brand rule.
+
+## Must use
+- Accent: #C190FF
+- Accent hover: #B072FF
+- Ink: #181E15
+- Surface: #DCEEEB
+- Border: #D1D2D5
+- Muted text: #6C6E79
+- Focus indicator: #006DCA
+- Lazzer for display / UI authority
+- Inter for reading / metadata
+- 5px card radius
+- 100px marketing CTA radius
+- Flat surfaces; no decorative card shadows
+- Product UI screenshots as the primary media language
+
+## DS-01 product extensions
+- Shared operational status colors across web + mobile
+- Light + dark themes
+- SSO + sign-in link
+- Setup order: organisation → people → contact methods → schedule → escalation → service
+- Mobile v1: responder-only, with on-call, incident detail, acknowledge, and resolve
+
+## Interaction rules
+- Keep motion between 0.1s and 0.3s
+- No scroll-triggered entrance animation or parallax
+- Use inset focus ring: inset 0 0 0 3px #006DCA
+- Keep touch targets at least 44px on mobile
+
+## Decision rule
+If a visual choice affects color, spacing, type, radius, depth, motion, or section treatment, DESIGN.md is the visual source of truth.
+If a choice affects product behavior, product scope, or mobile/web workflow, DS-01 is the source of truth.
+</pre></div>
+  </div>
+</div>
+
+<div id="build-pane" class="artifact-pane">
+  <div class="code-pane">
+    <div class="pane-toolbar"><button type="button" onclick="copyPane('build-code',this)">Copy</button></div>
+    <div class="code-card"><pre id="build-code"># Build Kit
+
+## Core tokens
+--color-accent: #C190FF
+--color-accent-hover: #B072FF
+--color-ink: #181E15
+--color-surface: #DCEEEB
+--color-border: #D1D2D5
+--color-text-muted: #6C6E79
+--color-focus: #006DCA
+
+## Radius
+--radius-card: 5px
+--radius-control: 6px
+--radius-action: 100px
+--radius-circle: 50%
+
+## Layout
+--section-padding-y: 120px
+--content-inset: 32px
+--card-gap: 12px
+--card-width: 430px
+
+## Preview adaptation
+OpsTracer application buttons are rendered smaller than the marketing reference:
+48px default / 44px compact. Both retain the 100px pill radius.
+</pre></div>
+  </div>
+</div>
+
+<div id="integrations-pane" class="artifact-pane">
+  <div class="code-pane">
+    <div class="pane-toolbar"><button type="button" onclick="copyPane('integrations-code',this)">Copy</button></div>
+    <div class="code-card"><pre id="integrations-code"># Integrations
+
+This preview does not invent external product integrations.
+
+Suggested implementation hooks:
+- Figma variables / styles for core tokens
+- Tailwind theme mapping
+- CSS custom properties
+- Storybook documentation
+- Design QA checklist
+- Engineering handoff specs
+
+Keep any third-party component library visually normalized to DS-01 tokens before use.
+</pre></div>
+  </div>
+</div>
+
+<div id="evidence-pane" class="artifact-pane">
+  <div class="code-pane">
+    <div class="pane-toolbar"><button type="button" onclick="copyPane('evidence-code',this)">Copy</button></div>
+    <div class="code-card"><pre id="evidence-code"># Evidence
+
+## From DESIGN.md
+- Exact brand palette and token roles
+- Lazzer / Inter typography split
+- 1440px section canvas and 32px inner inset
+- 120px major section rhythm
+- 5px card radius
+- 100px CTA pill radius
+- Flat depth model; no decorative shadows
+- Product UI as primary marketing media
+- Light-theme reference
+- Focus blue reserved for accessibility
+
+## From DS-01
+- Four surfaces must share one theme
+- Landing page, Control Plane, onboarding, mobile v1
+- Shared status semantics
+- SSO + sign-in link
+- Setup order
+- Responder-only mobile scope
+- Light + dark requirement
+
+## Marked extensions
+- Dark-theme token proposal
+- Operational status palette
+- Product form controls
+- Application-density button sizing
+</pre></div>
+  </div>
+</div>
+
+<script>
+const artifactTabs=[...document.querySelectorAll('.artifact-tab')];
+const artifactPanes=[...document.querySelectorAll('.artifact-pane')];
+document.querySelectorAll('button:not([type])').forEach(button=>button.type='button');
+artifactPanes.forEach(pane=>pane.setAttribute('aria-hidden',String(!pane.classList.contains('active'))));
+artifactTabs.forEach(tab=>tab.addEventListener('click',()=>{
+  artifactTabs.forEach(t=>{
+    const selected=t===tab;
+    t.classList.toggle('active',selected);
+    t.setAttribute('aria-selected',String(selected));
+  });
+  artifactPanes.forEach(p=>{
+    const active=p.id===tab.dataset.pane;
+    p.classList.toggle('active',active);
+    p.setAttribute('aria-hidden',String(!active));
+  });
+  window.scrollTo(0,0);
+}));
+artifactTabs.forEach((tab,index)=>tab.addEventListener('keydown',event=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+  event.preventDefault();
+  const nextIndex=event.key==='Home' ? 0 : event.key==='End' ? artifactTabs.length-1 :
+    (index+(event.key==='ArrowRight' ? 1 : -1)+artifactTabs.length)%artifactTabs.length;
+  artifactTabs[nextIndex].focus();
+  artifactTabs[nextIndex].click();
+}));
+async function copyTextValue(text){
+  let copied=false;
+  if(navigator.clipboard){
+    try{await navigator.clipboard.writeText(text);copied=true}catch{}
+  }
+  if(!copied){
+    const field=document.createElement('textarea');
+    field.value=text;field.setAttribute('readonly','');field.style.position='fixed';field.style.opacity='0';
+    document.body.appendChild(field);field.select();copied=document.execCommand('copy');field.remove();
+  }
+  return copied;
+}
+async function writeToClipboard(text,button){
+  const label=button.textContent;
+  try{
+    const copied=await copyTextValue(text);
+    if(!copied) throw new Error('Clipboard unavailable');
+    button.textContent='Copied';
+    window.setTimeout(()=>button.textContent=label,1400);
+  }catch{
+    button.textContent='Copy failed';
+    window.setTimeout(()=>button.textContent=label,1400);
+  }
+}
+function copyPane(id,button){
+  return writeToClipboard(document.getElementById(id).innerText,button);
+}
+function copySpacingTokens(button){
+  const tokens=`:root {
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-section: 96px;
+  --section-padding-y: 120px;
+}`;
+  return writeToClipboard(tokens,button);
+}
+async function copyColorToken(button){
+  const copied=await copyTextValue(button.dataset.hex);
+  if(!copied) return;
+  button.dataset.copied='true';
+  const value=button.querySelector('.color-hex');
+  const label=value?.textContent;
+  if(value) value.textContent='Copied';
+  window.setTimeout(()=>{
+    delete button.dataset.copied;
+    if(value) value.textContent=label;
+  },1200);
+}
+
+// Preview section nav behavior
+const navLinks = [...document.querySelectorAll('.nav a')];
+const targets = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(!visible) return;
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+visible.target.id));
+  }, {rootMargin:'-18% 0px -70% 0px', threshold:[0,.2,.5,1]});
+  targets.forEach(t => observer.observe(t));
+}
+</script>
+</body>
+</html>
