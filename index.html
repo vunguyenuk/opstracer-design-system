@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpsTracer DS-01 — Full Design System Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 :root{
   --accent:#c190ff;
@@ -36,6 +39,18 @@
   --action-h-default:48px;
   --action-h-compact:44px;
 
+  --leading-display:1.04;
+  --leading-heading:1.12;
+  --leading-subheading:1.22;
+  --leading-body:1.55;
+  --leading-ui:1.4;
+  --leading-meta:1.45;
+  --tracking-display:-.008em;
+  --tracking-heading:-.004em;
+  --tracking-body:.006em;
+  --tracking-ui:.008em;
+  --tracking-meta:.012em;
+
   --sidebar:272px;
 }
 *{box-sizing:border-box}
@@ -44,11 +59,15 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  line-height:1.5;
+  font-family:"Host Grotesk","Segoe UI",sans-serif;
+  font-size:1rem;
+  line-height:var(--leading-body);
+  letter-spacing:var(--tracking-body);
+  font-kerning:normal;
+  text-rendering:optimizeLegibility;
 }
 h1,h2,h3,h4,.display,.ui{
-  font-family:Lazzer,Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-family:"Host Grotesk","Segoe UI",sans-serif;
 }
 a{color:inherit;text-decoration:none}
 button,input,select{font:inherit}
@@ -60,18 +79,18 @@ button{cursor:pointer}
   overflow:auto;padding:24px 16px 40px;z-index:30;
 }
 .brand-lockup{padding:5px 10px 18px;border-bottom:1px solid #ecece9}
-.brand-lockup strong{display:block;font-size:18px;letter-spacing:-.03em}
-.brand-lockup span{font-size:11px;color:var(--muted)}
+.brand-lockup strong{display:block;font-size:1.125rem;letter-spacing:var(--tracking-heading)}
+.brand-lockup span{font-size:.8125rem;line-height:var(--leading-meta);color:var(--muted)}
 .nav-group{margin-top:18px}
-.nav-label{padding:0 10px 6px;font-size:10px;line-height:1;text-transform:uppercase;letter-spacing:.12em;color:#9b9f98;font-weight:800}
+.nav-label{padding:0 10px 6px;font-size:.75rem;line-height:1.35;text-transform:uppercase;letter-spacing:.11em;color:#777b74;font-weight:700}
 .nav a{
   display:flex;align-items:center;justify-content:space-between;
   gap:8px;padding:7px 10px;margin:2px 0;border-radius:6px;
-  font-size:12px;color:#646960;
+  font-size:.875rem;line-height:var(--leading-ui);letter-spacing:var(--tracking-ui);color:#646960;
 }
 .nav a:hover{background:#f4f5f2;color:var(--ink)}
 .nav a.active{background:var(--surface);color:var(--ink);font-weight:800}
-.nav .ext{font-size:9px;color:#9a9d97;border:1px solid #d9dbd6;border-radius:100px;padding:1px 5px}
+.nav .ext{font-size:.6875rem;color:#777b74;border:1px solid #d9dbd6;border-radius:100px;padding:1px 5px}
 .main{grid-column:2;min-width:0}
 .topbar{
   height:66px;position:sticky;top:0;z-index:20;
@@ -79,28 +98,30 @@ button{cursor:pointer}
   padding:0 34px;background:rgba(255,255,255,.94);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
 }
-.crumb{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800}
+.crumb{display:flex;align-items:center;gap:10px;font-size:.875rem;font-weight:600}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
 .top-actions{display:flex;gap:8px}
 .top-btn{
   height:var(--action-h-compact);border:1px solid var(--border);background:#fff;border-radius:100px;
-  padding:0 12px;font-size:11px;font-weight:800;color:var(--ink);
+  padding:0 12px;font-size:.8125rem;font-weight:600;color:var(--ink);
 }
 .top-btn.primary{background:var(--accent);border-color:var(--accent)}
 .page{max-width:1210px;margin:0 auto;padding:54px 44px 120px}
 .section{scroll-margin-top:92px;margin:0 0 92px}
 .section-head{margin-bottom:24px}
-.kicker{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#92968f;font-weight:800;margin-bottom:10px}
-h1,h2,h3,h4{margin:0;letter-spacing:-.035em}
-h1{font-size:58px;line-height:.98;font-weight:600}
-h2{font-size:36px;line-height:1.08;font-weight:600}
-h3{font-size:20px;line-height:1.15;font-weight:600}
-h4{font-size:14px;line-height:1.25;font-weight:600}
-.lede{font-size:16px;color:var(--muted);max-width:780px;margin:13px 0 0}
+.kicker{font-size:.75rem;line-height:1.35;text-transform:uppercase;letter-spacing:.11em;color:#777b74;font-weight:700;margin-bottom:10px}
+h1,h2,h3,h4{margin:0}
+h1{font-size:clamp(2.75rem,5vw,3.75rem);line-height:var(--leading-display);font-weight:600}
+h2{font-size:2.25rem;line-height:var(--leading-heading);font-weight:600}
+h3{font-size:1.5rem;line-height:var(--leading-subheading);font-weight:600}
+h4{font-size:1.125rem;line-height:1.28;font-weight:600}
+h1{letter-spacing:var(--tracking-display)}
+h2,h3,h4{letter-spacing:var(--tracking-heading)}
+.lede{font-size:1rem;line-height:1.6;color:var(--muted);max-width:68ch;margin:13px 0 0}
 .source-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
 .badge{
-  display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:100px;
-  font-size:10px;font-weight:800;border:1px solid var(--border);background:#fff;
+  display:inline-flex;align-items:center;min-height:28px;padding:3px 9px;border-radius:100px;
+  font-size:.75rem;line-height:var(--leading-meta);font-weight:600;border:1px solid var(--border);background:#fff;
 }
 .badge.source{background:#f6f1ff;border-color:#ded0ff;color:#5e3e87}
 .badge.ext{background:#eef6f4;border-color:#cde1dc;color:#295d52}
@@ -114,9 +135,9 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:18px;
 }
 .card.flat{border:none}
-.label{font-size:11px;font-weight:800;color:var(--muted)}
-.value{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-top:5px}
-.small{font-size:11px;color:var(--muted)}
+.label{font-size:.8125rem;line-height:var(--leading-meta);letter-spacing:var(--tracking-ui);font-weight:600;color:var(--muted)}
+.value{font-size:1.5rem;font-weight:600;letter-spacing:var(--tracking-heading);margin-top:5px}
+.small{font-size:.8125rem;line-height:var(--leading-meta);letter-spacing:var(--tracking-meta);color:var(--muted)}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:11px}
 .mono-block{
   background:#151812;color:#e9eee7;border-radius:6px;padding:16px;overflow:auto;
@@ -124,12 +145,12 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 }
 .callout{
   border:1px solid #ded0ff;background:#f8f4ff;padding:13px 15px;border-radius:5px;
-  font-size:12px;color:#51445f;
+  font-size:.875rem;line-height:var(--leading-body);color:#51445f;
 }
 .table-wrap{border:1px solid var(--border);background:#fff;border-radius:6px;overflow:hidden}
 .table-row{
   display:grid;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border);
-  align-items:center;font-size:11px;
+  align-items:center;font-size:.875rem;line-height:var(--leading-ui);
 }
 .table-row:last-child{border-bottom:none}
 .table-head{background:#f4f5f2;color:var(--muted);font-weight:800}
@@ -147,7 +168,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .intro-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
 .intro-meta span{
   padding:7px 10px;border-radius:100px;border:1px solid rgba(24,30,21,.2);
-  font-size:11px;font-weight:800;background:rgba(255,255,255,.42);
+  font-size:.75rem;line-height:var(--leading-meta);font-weight:600;background:rgba(255,255,255,.42);
 }
 
 /* Color */
@@ -159,7 +180,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   background:var(--color);color:var(--on-color);text-align:left;
 }
 .color-base-copy{display:grid;gap:4px}
-.color-base b{font-size:20px;line-height:1;letter-spacing:-.025em}
+.color-base b{font-size:20px;line-height:1;letter-spacing:var(--tracking-heading)}
 .color-base small{font-size:11px;line-height:1;color:currentColor;opacity:.72}
 .color-hex{
   flex:0 0 auto;font-size:13px;font-weight:800;opacity:0;transform:translateY(4px);
@@ -184,25 +205,25 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .role-card{padding:0;overflow:hidden}
 .role-swatch{height:60px}
 .role-body{padding:14px}
-.role-body p{font-size:11px;color:var(--muted);margin:6px 0 0}
+.role-body p{font-size:.875rem;line-height:1.5;color:var(--muted);margin:6px 0 0}
 
 /* Typography */
 .type-row{display:grid;grid-template-columns:170px 1fr 170px;gap:18px;align-items:start;padding:18px 0;border-bottom:1px solid var(--border)}
 .type-row:last-child{border-bottom:none}
-.type-name{font-size:12px;font-weight:800}
-.type-sample{font-family:Lazzer,Inter,sans-serif;font-weight:600}
-.type-spec{font-size:10px;color:var(--muted)}
+.type-name{font-size:.875rem;letter-spacing:var(--tracking-ui);font-weight:600}
+.type-sample{font-family:"Host Grotesk","Segoe UI",sans-serif;font-weight:600}
+.type-spec{font-size:.75rem;line-height:var(--leading-meta);letter-spacing:var(--tracking-meta);color:var(--muted)}
 .font-panel{padding:24px}
-.font-big{font-family:Lazzer,Inter,sans-serif;font-size:42px;font-weight:600;line-height:1.04;letter-spacing:-.035em}
-.font-body{font-size:16px;line-height:1.55;color:var(--muted)}
+.font-big{font-family:"Host Grotesk","Segoe UI",sans-serif;font-size:2.625rem;font-weight:600;line-height:var(--leading-display);letter-spacing:var(--tracking-display)}
+.font-body{font-size:16px;line-height:var(--leading-body);color:var(--muted)}
 
 /* Layout */
-.measure{height:58px;background:var(--surface);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.measure{height:58px;background:var(--surface);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.8125rem;font-weight:600}
 .layout-diagram{background:#fff;border:1px solid var(--border);padding:16px;border-radius:6px}
 .canvas{background:#f3f4f1;border:1px dashed #c4c7c0;padding:14px}
 .rail{background:#fff;border:1px solid var(--border);padding:18px}
 .columns{display:grid;grid-template-columns:63fr 37fr;gap:12px}
-.col{min-height:130px;background:var(--surface);display:grid;place-items:center;font-size:11px;font-weight:800;border-radius:5px}
+.col{min-height:130px;background:var(--surface);display:grid;place-items:center;font-size:.8125rem;font-weight:600;border-radius:5px}
 .col:nth-child(2){background:var(--lavender)}
 
 /* Spacing specimen */
@@ -239,7 +260,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   font-size:11px;line-height:1;font-weight:800;text-align:center;white-space:nowrap;
 }
 .spacing-eyebrow{font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:.13em;color:#6b746a;font-weight:800}
-.spacing-title{font-size:clamp(40px,5vw,62px);line-height:.98;letter-spacing:-.045em;font-weight:600;max-width:9ch}
+.spacing-title{font-size:clamp(40px,5vw,62px);line-height:.98;letter-spacing:-.015em;font-weight:600;max-width:9ch}
 .spacing-copy{margin:0;max-width:30ch;font-size:clamp(17px,2vw,24px);line-height:1.42;color:#596159}
 .spacing-cta{width:min(360px,100%);display:inline-flex;align-items:center;justify-content:space-between}
 .spacing-groups{display:grid;gap:24px}
@@ -259,13 +280,13 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .space-ruler i::before{left:0}.space-ruler i::after{right:0}
 .space-context-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .space-context{display:grid;gap:12px;padding:16px 0;border-top:1px solid var(--border)}
-.space-context strong{font-size:13px}.space-context p{margin:0;font-size:11px;color:var(--muted)}
+.space-context strong{font-size:.875rem}.space-context p{margin:0;font-size:.8125rem;line-height:1.55;color:var(--muted)}
 .space-context .space-ruler{margin-top:0}
 
 /* buttons */
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn{
-  height:var(--action-h-default);border-radius:100px;padding:0 18px;font-weight:600;font-size:14px;letter-spacing:-.2px;
+  height:var(--action-h-default);border-radius:100px;padding:0 18px;font-weight:600;font-size:.9375rem;letter-spacing:var(--tracking-ui);
   border:1px solid transparent;background:#fff;color:var(--ink);
 }
 .btn.primary{background:var(--accent)}
@@ -273,14 +294,14 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .btn.outline-dark{border-color:var(--ink);background:transparent}
 .btn.white{background:#fff;border-color:#fff}
 .btn.ghost-white{background:transparent;color:#fff;border-color:#fff}
-.btn.compact{height:var(--action-h-compact);font-size:12px;padding:0 14px}
+.btn.compact{height:var(--action-h-compact);font-size:.875rem;padding:0 14px}
 .btn.focus-demo{box-shadow:inset 0 0 0 3px var(--focus)}
 .dark-demo{background:var(--ink);padding:24px;border-radius:6px}
 
 /* Status and product extension */
 .chip{
   display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:100px;
-  font-size:10px;font-weight:800;
+  font-size:.75rem;line-height:1.5;font-weight:600;
 }
 .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .critical{color:var(--critical);background:#fff1f0}
@@ -291,14 +312,14 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 
 /* inputs */
 .field{display:grid;gap:7px}
-.field label{font-size:11px;font-weight:800}
+.field label{font-size:.875rem;line-height:1.5;font-weight:600}
 .input{
   height:46px;border:1px solid var(--border);border-radius:6px;background:#fff;
-  padding:0 12px;display:flex;align-items:center;font-size:12px;color:var(--muted);
+  padding:0 12px;display:flex;align-items:center;font-size:.875rem;line-height:1.5;color:var(--muted);
 }
 .input.focus{box-shadow:inset 0 0 0 3px var(--focus);border-color:transparent;color:var(--ink)}
 .control-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.check,.radio,.switch{display:inline-flex;gap:7px;align-items:center;font-size:11px;font-weight:700}
+.check,.radio,.switch{display:inline-flex;gap:7px;align-items:center;font-size:.875rem;font-weight:600}
 .box{width:16px;height:16px;border:1px solid #979b95;border-radius:3px;background:#fff}
 .box.on{background:var(--accent);border-color:var(--accent);position:relative}
 .box.on:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-size:10px;font-weight:900}
@@ -308,30 +329,30 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .switch-track.on{background:var(--ink)}.switch-track.on i{margin-left:14px}
 
 /* radius */
-.radius-demo{height:74px;background:var(--surface);border:1px solid #cbd8d5;display:grid;place-items:center;font-size:10px;font-weight:800}
+.radius-demo{height:74px;background:var(--surface);border:1px solid #cbd8d5;display:grid;place-items:center;font-size:.75rem;font-weight:600}
 
 /* section treatment marketing demos */
 .demo-frame{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .browserbar{height:38px;background:#f0f1ee;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:6px}
 .browserbar i{width:8px;height:8px;border-radius:50%;background:#c6c9c3}
-.marketing-banner{background:var(--accent);padding:8px 16px;text-align:center;font-size:11px;font-weight:800}
+.marketing-banner{background:var(--accent);padding:9px 16px;text-align:center;font-size:.8125rem;line-height:1.5;font-weight:600}
 .marketing-nav{height:64px;background:var(--surface);display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(24,30,21,.08)}
-.marketing-nav .links{display:flex;gap:18px;font-size:10px;font-weight:800}
+.marketing-nav .links{display:flex;gap:20px;font-size:.8125rem;font-weight:600}
 .marketing-hero{
   background:linear-gradient(180deg,var(--surface) 0%,var(--lavender) 75%,#fff 100%);
   display:grid;grid-template-columns:1.02fr .98fr;gap:26px;padding:52px 24px 66px;align-items:center;
 }
 .marketing-hero h3{font-size:42px;line-height:1.01}
-.marketing-hero p{font-size:12px;color:#565c54;max-width:500px}
+.marketing-hero p{font-size:1rem;line-height:1.6;color:#565c54;max-width:60ch}
 .product-window{background:#fff;border:1px solid var(--border);padding:14px;border-radius:5px}
 .product-window .bar{height:20px;background:#f1f2ef;margin:-14px -14px 12px;border-bottom:1px solid var(--border)}
 .mini-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
 .mini-metric{background:#f7f8f5;padding:10px;border:1px solid #e0e2dd;border-radius:5px}
-.mini-metric span{font-size:8px;color:var(--muted)}.mini-metric b{display:block;font-size:18px;margin-top:5px}
+.mini-metric span{font-size:.75rem;line-height:1.5;color:var(--muted)}.mini-metric b{display:block;font-size:1.5rem;line-height:1.2;margin-top:5px}
 .logo-strip{height:118px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;gap:12px;padding:0 24px}
-.fake-logo{height:36px;display:grid;place-items:center;border:1px solid #e1e2df;border-radius:5px;font-weight:900;font-size:11px}
+.fake-logo{height:40px;display:grid;place-items:center;border:1px solid #e1e2df;border-radius:5px;font-weight:600;font-size:.8125rem}
 .feature-split{display:grid;grid-template-columns:63fr 37fr;gap:12px;padding:54px 24px;background:#fff}
-.feature-copy{padding:16px 12px}.feature-copy h3{font-size:30px}.feature-copy p{font-size:12px;color:var(--muted)}
+.feature-copy{padding:16px 12px}.feature-copy h3{font-size:1.875rem}.feature-copy p{font-size:.9375rem;line-height:1.6;color:var(--muted)}
 .feature-ui{background:var(--surface);min-height:260px;padding:16px;border-radius:5px}
 .panel-list{display:grid;gap:7px}.panel-line{height:36px;background:#fff;border:1px solid #ced8d5;border-radius:5px}
 .enterprise-cta{background:var(--ink);color:#fff;padding:60px 24px;text-align:center}
@@ -362,37 +383,65 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .resources{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .resource{border:1px solid var(--border);border-radius:5px;overflow:hidden}
 .resource .thumb{height:110px;background:var(--lavender)}.resource:nth-child(2) .thumb{background:var(--surface)}.resource:nth-child(3) .thumb{background:#f1efe8}
-.resource .body{padding:13px}.resource h4{font-size:14px}.resource p{font-size:10px;color:var(--muted);margin-bottom:0}
+.resource .body{padding:16px}.resource h4{font-size:1rem}.resource p{font-size:.8125rem;line-height:1.5;color:var(--muted);margin-bottom:0}
 .footer{background:var(--dark);color:#fff;padding:38px 24px}
 .footer-cta{background:var(--surface);color:var(--ink);padding:24px;display:flex;justify-content:space-between;align-items:center;border-radius:5px}
 .footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:24px;margin-top:34px}
-.footer-grid h4{font-size:11px}.footer-grid a{display:block;font-size:10px;color:#b9bcb6;margin-top:7px}
+.footer-grid h4{font-size:.875rem}.footer-grid a{display:block;font-size:.8125rem;line-height:1.5;color:#b9bcb6;margin-top:7px}
 
 /* Control plane */
-.app{display:grid;grid-template-columns:185px 1fr;min-height:520px}
-.app-side{background:#fbfbfa;border-right:1px solid var(--border);padding:18px}
-.app-lock{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:900;margin-bottom:22px}
-.app-lock i{width:24px;height:24px;background:var(--accent);border-radius:50%}
-.app-side a{display:block;padding:8px 9px;border-radius:5px;margin:2px 0;font-size:10px;color:var(--muted)}
-.app-side a.sel{background:var(--surface);color:var(--ink);font-weight:900}
-.app-main{padding:24px}
+.app{display:grid;grid-template-columns:224px minmax(0,1fr);min-height:620px}
+.app-side{background:#fbfbfa;border-right:1px solid var(--border);padding:24px 12px}
+.app-lock{display:flex;gap:8px;align-items:center;padding:8px 12px 20px;font-size:1rem;font-weight:700}
+.app-lock i{width:28px;height:28px;background:var(--accent);border-radius:50%}
+.app-side a{display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 12px;border:1px solid transparent;border-radius:5px;font-size:.875rem;line-height:1.5;color:var(--muted)}
+.app-side a img{width:20px;height:20px;object-fit:contain}
+.app-side a.sel{background:#f6f1ff;border-color:#ded0ff;color:#5e3e87;font-weight:600}
+.app-main{min-width:0;padding:32px}
 .app-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.app-title h3{font-size:28px}
-.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.metric{border:1px solid var(--border);padding:14px;border-radius:5px;background:#fff}
-.metric span{font-size:9px;color:var(--muted)}.metric b{display:block;font-size:24px;margin-top:5px}
-.incident-table{border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-top:14px}
-.inc-row{display:grid;grid-template-columns:1.8fr 1fr 1fr 60px;gap:8px;align-items:center;padding:11px 12px;border-bottom:1px solid var(--border);font-size:10px}
-.inc-row:last-child{border-bottom:none}.inc-row.head{background:#f3f4f1;color:var(--muted);font-weight:800}
+.app-title h3{font-size:2rem}
+.ui-icon{display:block;width:20px;height:20px;object-fit:contain;flex:0 0 auto}
+.component-source{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;padding:12px 16px;border:1px solid #ded0ff;border-radius:6px;background:#f8f4ff;color:#51445f;font-size:.875rem;line-height:1.5}
+.component-source code{font-size:.75rem;color:#5e3e87}
+.figma-patterns{display:grid;gap:24px}
+.pattern-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.pattern-head p{max-width:64ch;margin:4px 0 0;color:var(--muted);font-size:.875rem;line-height:1.6}
+.pattern-meta{white-space:nowrap;color:var(--muted);font-size:.75rem}
+.metric-grid,.ds-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.ds-metric{min-width:0;border:1px solid var(--border);border-radius:8px;background:#fff;overflow:hidden}
+.ds-metric__head{min-height:41px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.ds-metric__label{display:flex;align-items:center;gap:8px;font-size:.8125rem;line-height:1.5;font-weight:500}
+.ds-icon-button{width:28px;height:28px;display:grid;place-items:center;padding:5px;border:1px solid var(--border);border-radius:4px;background:#fff}
+.ds-icon-button img{width:16px;height:16px}
+.ds-metric__body{min-height:64px;display:flex;align-items:flex-start;gap:12px;padding:12px}
+.ds-metric__value{flex:1;font-size:1.75rem;line-height:1.2;font-weight:600;font-variant-numeric:tabular-nums}
+.ds-trend{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid #ded0ff;border-radius:4px;background:#f6f1ff;color:#5e3e87;font-size:.75rem;line-height:1.5;white-space:nowrap}
+.ds-trend.negative{border-color:#f0cac7;background:#fff1f0;color:var(--critical)}
+.ds-trend img{width:16px;height:16px}
+.ds-metric__foot{min-height:45px;display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--border);background:var(--soft);color:var(--muted);font-size:.8125rem;line-height:1.5}
+.ds-table-panel{display:grid;gap:20px;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.ds-table-panel__head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.ds-table-panel__head h4{font-size:1rem;line-height:1.5}
+.ds-table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:8px}
+.ds-table{width:100%;min-width:680px;border-collapse:collapse;font-size:.875rem;line-height:1.5;font-variant-numeric:tabular-nums}
+.ds-table th,.ds-table td{padding:12px;text-align:left;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.ds-table th:last-child,.ds-table td:last-child{border-right:0}.ds-table tr:last-child td{border-bottom:0}
+.ds-table th{height:45px;background:#f6f1ff;font-weight:600;color:#5e3e87}
+.ds-table td{height:72px;vertical-align:middle}
+.ds-table strong{display:block;font-weight:600}.ds-table small{display:block;margin-top:3px;color:var(--muted);font-size:.75rem;line-height:1.5}
+.ds-owner{display:flex;align-items:center;gap:8px}.ds-owner .avatar{width:28px;height:28px;font-size:.6875rem}
+.anatomy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.anatomy-item{padding:16px 0;border-top:1px solid var(--border)}
+.anatomy-item code{display:block;margin-bottom:5px;color:#5e3e87;font-size:.75rem}.anatomy-item p{margin:0;color:var(--muted);font-size:.8125rem;line-height:1.55}
 
 /* auth */
 .auth-screen{min-height:470px;background:#fff;display:grid;grid-template-columns:1fr 1fr}
 .auth-brand{background:linear-gradient(180deg,var(--surface),var(--lavender));padding:34px;display:flex;flex-direction:column;justify-content:space-between}
-.auth-brand h3{font-size:35px}
+.auth-brand h3{font-size:2.25rem}
 .auth-panel{display:grid;place-items:center;padding:30px}
-.auth-box{width:min(360px,100%)}.auth-box h3{font-size:26px}.auth-box p{font-size:11px;color:var(--muted)}
+.auth-box{width:min(360px,100%)}.auth-box h3{font-size:1.75rem}.auth-box p{font-size:.9375rem;line-height:1.6;color:var(--muted)}
 .auth-options{display:grid;gap:8px;margin-top:18px}
-.auth-option{height:var(--action-h-default);border:1px solid var(--border);border-radius:100px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.auth-option{height:var(--action-h-default);border:1px solid var(--border);border-radius:100px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:.875rem;font-weight:600}
 
 /* onboarding */
 .onboard{display:grid;grid-template-columns:240px 1fr;min-height:500px}
@@ -421,7 +470,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   gap:14px;
   align-items:center;
   min-height:56px;
-  font-size:10px;
+  font-size:.875rem;
   padding:6px 0;
 }
 .step i{
@@ -435,38 +484,38 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   display:grid;
   place-items:center;
   font-style:normal;
-  font-size:11px;
+  font-size:.75rem;
 }
 .step.done i{background:var(--ink);color:#fff;border-color:var(--ink)}
-.step.current{font-weight:900}
+.step.current{font-weight:600}
 .step.current i{background:var(--accent);border-color:var(--accent)}
 .step span{
-  font-size:11px;
+  font-size:.9375rem;
   color:var(--ink);
 }
 .step small{
   display:block;
   margin-top:2px;
   color:var(--muted);
-  font-size:9px;
+  font-size:.8125rem;
   font-weight:400;
 }
 .onboard-main{padding:30px}
 .onboard-main h3{font-size:28px}
-.onboard-main p{font-size:11px;color:var(--muted)}
+.onboard-main p{max-width:65ch;font-size:.9375rem;line-height:1.6;color:var(--muted)}
 .person-list{display:grid;gap:8px;margin-top:18px}
 .person{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;border:1px solid var(--border);border-radius:5px;padding:10px}
-.avatar{width:34px;height:34px;border-radius:50%;background:#f1f2ef;display:grid;place-items:center;font-size:10px;font-weight:900}.person b{font-size:11px}.person small{display:block;color:var(--muted);font-size:9px}
+.avatar{width:34px;height:34px;border-radius:50%;background:#f1f2ef;display:grid;place-items:center;font-size:.75rem;font-weight:700}.person b{font-size:.9375rem}.person small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.5}
 
 /* Mobile */
 .mobile-stage{background:#eef0ec;padding:36px;display:flex;gap:30px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
 .phone{width:350px;background:#fff;border:7px solid var(--ink);border-radius:30px;overflow:hidden}
 .notch{width:86px;height:18px;background:var(--ink);border-radius:0 0 12px 12px;margin:0 auto}
-.phone-body{padding:15px}.phone-top{display:flex;justify-content:space-between;align-items:center;margin:8px 0 14px}.phone-top h3{font-size:24px}
-.oncall{background:var(--surface);border-radius:10px;padding:14px}.oncall small{font-size:9px;color:var(--muted)}.oncall b{display:block;font-size:20px;margin:6px 0}
-.mobile-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:900;margin:15px 0 7px}
-.mobile-inc{border:1px solid var(--border);border-radius:8px;padding:11px;margin-top:8px}.mobile-inc h4{font-size:13px;margin:7px 0 3px}.mobile-inc p{font-size:9px;color:var(--muted);margin:0}
-.mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.mobile-actions button{height:var(--action-h-compact);border:1px solid var(--border);background:#fff;border-radius:var(--r-action);font-size:10px;font-weight:900}.mobile-actions .primary-action{background:var(--accent);border-color:var(--accent)}
+.phone-body{padding:18px}.phone-top{display:flex;justify-content:space-between;align-items:center;margin:10px 0 18px}.phone-top h3{font-size:1.75rem;line-height:1.2}
+.oncall{background:var(--surface);border-radius:10px;padding:16px}.oncall small{font-size:.75rem;line-height:1.5;color:var(--muted)}.oncall b{display:block;font-size:1.25rem;line-height:1.3;margin:8px 0}
+.mobile-head{display:flex;justify-content:space-between;align-items:center;font-size:.875rem;font-weight:600;margin:20px 0 8px}
+.mobile-inc{border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:10px}.mobile-inc h4{font-size:1rem;line-height:1.4;margin:8px 0 4px}.mobile-inc p{font-size:.8125rem;line-height:1.5;color:var(--muted);margin:0}
+.mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.mobile-actions button{height:var(--action-h-compact);border:1px solid var(--border);background:#fff;border-radius:var(--r-action);font-size:.875rem;font-weight:600}.mobile-actions .primary-action{background:var(--accent);border-color:var(--accent)}
 
 /* Media */
 .media-demo{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
@@ -474,24 +523,24 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 .fake-ui{width:88%;height:78%;background:#fff;border:1px solid var(--border);padding:12px}
 .fake-ui-row{height:20px;background:var(--surface);margin-bottom:7px}.fake-ui-row:nth-child(2){width:72%}.fake-ui-row:nth-child(3){width:88%}
 .logo-media{height:250px;border:1px solid var(--border);display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px;align-content:center}
-.logo-media div{height:50px;border:1px solid #e0e1de;display:grid;place-items:center;font-size:10px;font-weight:900}
+.logo-media div{height:50px;border:1px solid #e0e1de;display:grid;place-items:center;font-size:.8125rem;font-weight:600}
 
 /* Do dont */
 .do-card,.dont-card{padding:20px}
 .do-card{background:#edf8f2;border:1px solid #cce6d8}.dont-card{background:#fff1f0;border:1px solid #f0cac7}
 .guideline-list{display:grid;gap:9px;margin-top:14px}
-.guide{font-size:11px;display:grid;grid-template-columns:18px 1fr;gap:7px}.guide i{font-style:normal;font-weight:900}
+.guide{font-size:.875rem;line-height:1.55;display:grid;grid-template-columns:18px 1fr;gap:7px}.guide i{font-style:normal;font-weight:700}
 
 /* responsive table */
-.breakpoint{display:grid;grid-template-columns:120px 120px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);font-size:11px}
-.breakpoint:last-child{border-bottom:none}.breakpoint b{font-size:11px}
+.breakpoint{display:grid;grid-template-columns:120px 120px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);font-size:.875rem;line-height:1.55}
+.breakpoint:last-child{border-bottom:none}.breakpoint b{font-size:.875rem}
 
 /* dark extension */
 .theme-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .theme-card{padding:18px;border-radius:6px;border:1px solid var(--border)}
 .theme-card.dark{background:#11140f;color:#fff;border-color:#252a22}.theme-card .mini-card{margin-top:12px;padding:12px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--ink)}
 .theme-card.dark .mini-card{background:#1b2018;color:#fff;border-color:#343a30}
-.footer-note{padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:11px}
+.footer-note{padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:.8125rem;line-height:1.5}
 
 @media(max-width:1000px){
   :root{--sidebar:0px}
@@ -506,7 +555,8 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   .marketing-hero,.feature-split,.ops-data,.auth-screen,.onboard{grid-template-columns:1fr}
   .logo-strip{grid-template-columns:repeat(2,1fr);height:auto;padding:22px}
   .resources{grid-template-columns:1fr}
-  .app{display:block}.app-side{display:none}.metric-grid{grid-template-columns:1fr}
+  .app{display:block}.app-side{display:none}.metric-grid,.ds-metrics{grid-template-columns:1fr}
+  .app-main{padding:20px}.anatomy-grid{grid-template-columns:1fr}.pattern-head{align-items:flex-start;flex-direction:column;gap:8px}.component-source{align-items:flex-start;flex-direction:column}
   .inc-row{grid-template-columns:1.8fr 1fr 55px}.inc-row span:nth-child(3){display:none}
   .footer-grid{grid-template-columns:1fr 1fr}
   .columns{grid-template-columns:1fr}
@@ -520,7 +570,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 }
 .artifact-tab{
   border:0;background:transparent;color:#72766f;border-radius:6px;padding:8px 12px;
-  font-size:11px;font-weight:700;
+  font-size:.8125rem;line-height:1.5;font-weight:600;
 }
 .artifact-tab:hover{background:#f3f4f1;color:var(--ink)}
 .artifact-tab.active{background:var(--ink);color:#fff}
@@ -544,7 +594,7 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
 }
 .pane-toolbar button{
   height:32px;padding:0 10px;border:1px solid var(--border);border-radius:6px;background:#fff;
-  font-size:10px;font-weight:800;color:var(--ink);
+  font-size:.8125rem;font-weight:600;color:var(--ink);
 }
 #preview-pane .topbar{top:52px}
 #preview-pane .sidebar{top:52px}
@@ -560,8 +610,8 @@ h4{font-size:14px;line-height:1.25;font-weight:600}
   --space-2xl:48px;
   --space-3xl:64px;
   --space-section:96px;
-  --font-body:"Inter",sans-serif;
-  --font-display:"Lazzer","Inter Tight","Inter",sans-serif;
+  --font-body:"Host Grotesk","Segoe UI",sans-serif;
+  --font-display:"Host Grotesk","Segoe UI",sans-serif;
   --ease-out:cubic-bezier(.22,1,.36,1);
   --transition-fast:160ms var(--ease-out);
 }
@@ -581,7 +631,7 @@ h1,h2,h3,h4,.lede,.small,p{overflow-wrap:anywhere}
 .skip-link{
   position:fixed;top:var(--space-xs);left:var(--space-xs);z-index:100;
   padding:10px 14px;border-radius:var(--r-sm);background:var(--ink);color:var(--white);
-  font-size:12px;font-weight:800;transform:translateY(calc(-100% - 16px));
+  font-size:.8125rem;font-weight:600;transform:translateY(calc(-100% - 16px));
   transition:transform var(--transition-fast);
 }
 .skip-link:focus{transform:translateY(0)}
@@ -651,7 +701,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
   .artifact-tabs{padding-inline:var(--space-xs);gap:2px}
   .artifact-tab{padding-inline:10px}
   .topbar{min-height:64px;height:auto;padding:8px 20px;gap:var(--space-sm)}
-  .crumb{font-size:11px;flex:1}
+  .crumb{font-size:.8125rem;flex:1}
   .top-actions{flex:0 0 auto}
   .page{padding:40px 20px 80px}
   .section{margin-bottom:72px}
@@ -748,6 +798,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
         <a href="#buttons">Button recipes</a>
         <a href="#form-controls">Form controls <span class="ext">DS-01 ext</span></a>
         <a href="#statuses">Status states <span class="ext">DS-01 ext</span></a>
+        <a href="#figma-patterns">Figma product patterns</a>
         <a href="#solution-card">Solution card</a>
       </div>
 
@@ -930,19 +981,19 @@ button:disabled{cursor:not-allowed;opacity:.48}
       <section id="typography" class="section">
         <div class="section-head">
           <div class="kicker">Foundations / Typography</div>
-          <h2>Two families, separate responsibilities</h2>
-          <p class="lede">Lazzer carries display, navigation, and CTA authority. Inter carries long-form reading and supporting copy.</p>
+          <h2>One readable family, clearly separated roles</h2>
+          <p class="lede">Host Grotesk is used across product, documentation, and marketing. Its open forms and generous spacing stay legible in business workflows, data tables, terminals, and incident response screens.</p>
         </div>
         <div class="grid grid-2">
           <div class="card font-panel">
-            <div class="label">Lazzer / display & UI</div>
+            <div class="label">Host Grotesk / headings & UI</div>
             <div class="font-big">Know who is on call. Handle incidents fast.</div>
-            <div class="small" style="margin-top:14px">Weight 500–600. Used for display, navigation, UI labels, CTA.</div>
+            <div class="small" style="margin-top:14px">Weight 600–700. Used for headings, navigation, UI labels, and actions.</div>
           </div>
           <div class="card font-panel">
-            <div class="label">Inter / reading</div>
-            <p class="font-body">Use Inter for explanations, body content, captions, timestamps, metadata, and longer operational text. The two families should not compete for the same role on one surface.</p>
-            <div class="small">Weight 400 for body reading.</div>
+            <div class="label">Host Grotesk / reading & data</div>
+            <p class="font-body">Use regular weight with 1.55 line-height for explanations and 1.4 for compact UI. Tabular numbers align timestamps, durations, percentages, and incident metrics.</p>
+            <div class="small">Weight 400–500 for body, metadata, and tables.</div>
           </div>
         </div>
       </section>
@@ -953,13 +1004,13 @@ button:disabled{cursor:not-allowed;opacity:.48}
           <h2>Documented type roles</h2>
         </div>
         <div class="card">
-          <div class="type-row"><div><div class="type-name">Footer CTA title</div><div class="type-spec">Lazzer · 48px · 600</div></div><div class="type-sample" style="font-size:48px">Stay ready.</div><div class="type-spec">Large display</div></div>
-          <div class="type-row"><div><div class="type-name">Section title</div><div class="type-spec">Lazzer · 32px · 600</div></div><div class="type-sample" style="font-size:32px">Active incidents</div><div class="type-spec">Section heading</div></div>
-          <div class="type-row"><div><div class="type-name">CTA primary</div><div class="type-spec">Lazzer · 16px · 600</div></div><div class="type-sample" style="font-size:16px">Acknowledge</div><div class="type-spec">Action</div></div>
-          <div class="type-row"><div><div class="type-name">Label small</div><div class="type-spec">Lazzer · 14px · 500</div></div><div class="type-sample" style="font-size:14px;font-weight:500">Primary responder</div><div class="type-spec">Supporting UI</div></div>
-          <div class="type-row"><div><div class="type-name">Body</div><div class="type-spec">Inter · 16px · 400</div></div><div style="font-size:16px">Escalation moves to the next responder after 10 minutes.</div><div class="type-spec">Reading</div></div>
-          <div class="type-row"><div><div class="type-name">Caption</div><div class="type-spec">Inter · 14px · 400</div></div><div style="font-size:14px">Updated 4 minutes ago</div><div class="type-spec">Metadata</div></div>
-          <div class="type-row"><div><div class="type-name">Micro</div><div class="type-spec">Inter · 12px · 400</div></div><div style="font-size:12px">US · PST</div><div class="type-spec">Tiny metadata</div></div>
+          <div class="type-row"><div><div class="type-name">Display</div><div class="type-spec">Host Grotesk · 48px / 1.04 · 600</div></div><div class="type-sample" style="font-size:3rem;line-height:1.04">Stay ready.</div><div class="type-spec">Marketing display</div></div>
+          <div class="type-row"><div><div class="type-name">Section title</div><div class="type-spec">Host Grotesk · 36px / 1.12 · 600</div></div><div class="type-sample" style="font-size:2.25rem;line-height:1.12">Active incidents</div><div class="type-spec">Section heading</div></div>
+          <div class="type-row"><div><div class="type-name">Subheading</div><div class="type-spec">Host Grotesk · 24px / 1.22 · 600</div></div><div class="type-sample" style="font-size:1.5rem;line-height:1.22">Escalation policy</div><div class="type-spec">Product heading</div></div>
+          <div class="type-row"><div><div class="type-name">Body</div><div class="type-spec">Host Grotesk · 16px / 1.55 · 400</div></div><div style="font-size:1rem;line-height:1.55">Escalation moves to the next responder after 10 minutes.</div><div class="type-spec">Reading</div></div>
+          <div class="type-row"><div><div class="type-name">UI label</div><div class="type-spec">Host Grotesk · 14px / 1.4 · 600</div></div><div style="font-size:.875rem;line-height:1.4;font-weight:600">Primary responder</div><div class="type-spec">Actions and labels</div></div>
+          <div class="type-row"><div><div class="type-name">Metadata</div><div class="type-spec">Host Grotesk · 13px / 1.45 · 400</div></div><div style="font-size:.8125rem;line-height:1.45">Updated 4 minutes ago</div><div class="type-spec">Supporting text</div></div>
+          <div class="type-row"><div><div class="type-name">Caption</div><div class="type-spec">Host Grotesk · 12px / 1.4 · 400</div></div><div style="font-size:.75rem;line-height:1.4">US · PST</div><div class="type-spec">Short metadata only</div></div>
         </div>
       </section>
 
@@ -1191,6 +1242,63 @@ button:disabled{cursor:not-allowed;opacity:.48}
         </div>
       </section>
 
+      <section id="figma-patterns" class="section">
+        <div class="section-head">
+          <div class="kicker">Components / Figma-derived product patterns</div>
+          <h2>Buildable UI, not placeholder blocks</h2>
+          <p class="lede">These components preserve the actual Cloudy anatomy and spacing while mapping content and color roles to OpsTracer. Every region has a stable class name, semantic element, and source node for engineering handoff.</p>
+        </div>
+        <div class="component-source">
+          <span><strong>Source:</strong> Cloudy metrics, recent uploads table, and sidebar patterns adapted to on-call workflows.</span>
+          <code>16656:46666 · 16657:47844 · 16654:45146</code>
+        </div>
+        <div class="figma-patterns">
+          <article>
+            <div class="pattern-head">
+              <div><h3>Operational metric cards</h3><p>Figma structure: header with icon and overflow action, metric body with trend, then a separate contextual footer. Cards stack independently without relying on dashboard-specific positioning.</p></div>
+              <div class="pattern-meta">8px radius · 12px inset · 16px gap</div>
+            </div>
+            <div class="ds-metrics" style="margin-top:16px" data-figma-node="16656:46666">
+              <article class="ds-metric" data-component="metric-card">
+                <header class="ds-metric__head"><span class="ds-metric__label"><img class="ui-icon" src="assets/figma-components/bell.svg" alt="">Open incidents</span><button class="ds-icon-button" aria-label="Open incident metric options"><img src="assets/figma-components/dots.svg" alt=""></button></header>
+                <div class="ds-metric__body"><strong class="ds-metric__value">8</strong><span class="ds-trend negative"><img src="assets/figma-components/trend-up.svg" alt="">+2</span></div>
+                <footer class="ds-metric__foot"><img class="ui-icon" src="assets/figma-components/calendar.svg" alt="">Last 24 hours</footer>
+              </article>
+              <article class="ds-metric" data-component="metric-card">
+                <header class="ds-metric__head"><span class="ds-metric__label"><img class="ui-icon" src="assets/figma-components/users.svg" alt="">Responders on call</span><button class="ds-icon-button" aria-label="Open responder metric options"><img src="assets/figma-components/dots.svg" alt=""></button></header>
+                <div class="ds-metric__body"><strong class="ds-metric__value">12</strong><span class="ds-trend"><img src="assets/figma-components/trend-down.svg" alt="">100%</span></div>
+                <footer class="ds-metric__foot"><img class="ui-icon" src="assets/figma-components/calendar.svg" alt="">Across 6 schedules</footer>
+              </article>
+              <article class="ds-metric" data-component="metric-card">
+                <header class="ds-metric__head"><span class="ds-metric__label"><img class="ui-icon" src="assets/figma-components/chart-bar.svg" alt="">Setup readiness</span><button class="ds-icon-button" aria-label="Open readiness metric options"><img src="assets/figma-components/dots.svg" alt=""></button></header>
+                <div class="ds-metric__body"><strong class="ds-metric__value">83%</strong><span class="ds-trend negative"><img src="assets/figma-components/trend-up.svg" alt="">1 gap</span></div>
+                <footer class="ds-metric__foot"><img class="ui-icon" src="assets/figma-components/calendar.svg" alt="">5 of 6 stages complete</footer>
+              </article>
+            </div>
+          </article>
+
+          <article class="ds-table-panel" data-figma-node="16657:47844">
+            <header class="ds-table-panel__head"><div><h4>Recent incidents</h4><div class="small">Structured from the Figma table component, with product-specific columns.</div></div><button class="top-btn">Export report</button></header>
+            <div class="ds-table-scroll">
+              <table class="ds-table">
+                <thead><tr><th scope="col">Incident</th><th scope="col">Status</th><th scope="col">Owner</th><th scope="col">Age</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Checkout API latency</strong><small>INC-4821 · Payments API</small></td><td><span class="chip ack">Acknowledged</span></td><td><span class="ds-owner"><span class="avatar">AC</span>Alex Chen</span></td><td>12m</td></tr>
+                  <tr><td><strong>Database connections exhausted</strong><small>INC-4819 · Core API</small></td><td><span class="chip critical">Critical</span></td><td><span class="ds-owner"><span class="avatar">MP</span>Mina Patel</span></td><td>4m</td></tr>
+                  <tr><td><strong>Notification delivery delay</strong><small>INC-4816 · Messaging</small></td><td><span class="chip resolved">Resolved</span></td><td><span class="ds-owner"><span class="avatar">SR</span>Sam Rivera</span></td><td>34m</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <div class="anatomy-grid" aria-label="Component implementation notes">
+            <div class="anatomy-item"><code>.ds-metric__head / __body / __foot</code><p>Keep the three regions separate so loading, permissions, and trend states can change without reflowing the whole card.</p></div>
+            <div class="anatomy-item"><code>.ds-table-scroll + semantic table</code><p>Use real table markup on desktop. Preserve all columns through horizontal scrolling instead of hiding operational data.</p></div>
+            <div class="anatomy-item"><code>data-figma-node</code><p>Links the implementation specimen back to its source node for visual comparison and future design updates.</p></div>
+          </div>
+        </div>
+      </section>
+
       <section id="solution-card" class="section">
         <div class="section-head">
           <div class="kicker">Components / Card</div>
@@ -1331,11 +1439,26 @@ button:disabled{cursor:not-allowed;opacity:.48}
         <div class="demo-frame">
           <div class="browserbar"><i></i><i></i><i></i></div>
           <div class="app">
-            <aside class="app-side"><div class="app-lock"><i></i> OpsTracer</div><a class="sel">Overview</a><a>Incidents</a><a>People</a><a>Schedules</a><a>Escalations</a><a>Services</a><a>Settings</a></aside>
+            <aside class="app-side" data-figma-node="16654:45146">
+              <div class="app-lock"><i></i> OpsTracer</div>
+              <a class="sel"><img src="assets/figma-components/grid.svg" alt="">Overview</a>
+              <a><img src="assets/figma-components/bell.svg" alt="">Incidents</a>
+              <a><img src="assets/figma-components/users.svg" alt="">People</a>
+              <a><img src="assets/figma-components/calendar.svg" alt="">Schedules</a>
+              <a><img src="assets/figma-components/chart-bar.svg" alt="">Escalations</a>
+              <a>Services</a><a>Settings</a>
+            </aside>
             <div class="app-main">
               <div class="app-title"><div><div class="small">Control Plane</div><h3>Overview</h3></div><button class="btn primary compact">Create service</button></div>
-              <div class="metric-grid"><div class="metric"><span>ACTIVE INCIDENTS</span><b>3</b></div><div class="metric"><span>RESPONDERS ON CALL</span><b>8</b></div><div class="metric"><span>SETUP PROGRESS</span><b>83%</b></div></div>
-              <div class="incident-table"><div class="inc-row head"><span>Incident</span><span>Status</span><span>Owner</span><span>Age</span></div><div class="inc-row"><span><b>Checkout API latency</b></span><span><span class="chip ack">Acknowledged</span></span><span>Alex Chen</span><span>12m</span></div><div class="inc-row"><span><b>Database connections</b></span><span><span class="chip critical">Critical</span></span><span>Escalating</span><span>4m</span></div><div class="inc-row"><span><b>Notification delay</b></span><span><span class="chip resolved">Resolved</span></span><span>Mina Patel</span><span>34m</span></div></div>
+              <div class="metric-grid" data-figma-node="16656:46666">
+                <article class="ds-metric"><header class="ds-metric__head"><span class="ds-metric__label"><img class="ui-icon" src="assets/figma-components/bell.svg" alt="">Open incidents</span><button class="ds-icon-button" aria-label="Incident metric options"><img src="assets/figma-components/dots.svg" alt=""></button></header><div class="ds-metric__body"><strong class="ds-metric__value">3</strong><span class="ds-trend negative">+1</span></div><footer class="ds-metric__foot">Last 24 hours</footer></article>
+                <article class="ds-metric"><header class="ds-metric__head"><span class="ds-metric__label"><img class="ui-icon" src="assets/figma-components/users.svg" alt="">Responders on call</span><button class="ds-icon-button" aria-label="Responder metric options"><img src="assets/figma-components/dots.svg" alt=""></button></header><div class="ds-metric__body"><strong class="ds-metric__value">8</strong><span class="ds-trend">100%</span></div><footer class="ds-metric__foot">Across 4 schedules</footer></article>
+                <article class="ds-metric"><header class="ds-metric__head"><span class="ds-metric__label"><img class="ui-icon" src="assets/figma-components/chart-bar.svg" alt="">Setup progress</span><button class="ds-icon-button" aria-label="Setup metric options"><img src="assets/figma-components/dots.svg" alt=""></button></header><div class="ds-metric__body"><strong class="ds-metric__value">83%</strong><span class="ds-trend negative">1 gap</span></div><footer class="ds-metric__foot">5 of 6 stages live</footer></article>
+              </div>
+              <div class="ds-table-panel" style="margin-top:20px" data-figma-node="16657:47844">
+                <header class="ds-table-panel__head"><h4>Active and recent incidents</h4><button class="top-btn">Export report</button></header>
+                <div class="ds-table-scroll"><table class="ds-table"><thead><tr><th>Incident</th><th>Status</th><th>Owner</th><th>Age</th></tr></thead><tbody><tr><td><strong>Checkout API latency</strong><small>Payments API</small></td><td><span class="chip ack">Acknowledged</span></td><td>Alex Chen</td><td>12m</td></tr><tr><td><strong>Database connections</strong><small>Core API</small></td><td><span class="chip critical">Critical</span></td><td>Escalating</td><td>4m</td></tr><tr><td><strong>Notification delay</strong><small>Messaging</small></td><td><span class="chip resolved">Resolved</span></td><td>Mina Patel</td><td>34m</td></tr></tbody></table></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1384,7 +1507,7 @@ button:disabled{cursor:not-allowed;opacity:.48}
       <section id="do-dont" class="section">
         <div class="section-head"><div class="kicker">Guidelines / Do & Don't</div><h2>System guardrails</h2></div>
         <div class="grid grid-2">
-          <div class="do-card"><h3>Do</h3><div class="guideline-list"><div class="guide"><i>✓</i><span>Use 100px pill radius for primary and secondary CTA buttons.</span></div><div class="guide"><i>✓</i><span>Use 120px vertical padding on major marketing sections.</span></div><div class="guide"><i>✓</i><span>Keep the 32px desktop content inset.</span></div><div class="guide"><i>✓</i><span>Use Lazzer 600 for navigation, CTA, and display roles.</span></div><div class="guide"><i>✓</i><span>Keep micro-interactions between 0.1s and 0.3s.</span></div></div></div>
+          <div class="do-card"><h3>Do</h3><div class="guideline-list"><div class="guide"><i>✓</i><span>Use 100px pill radius for primary and secondary CTA buttons.</span></div><div class="guide"><i>✓</i><span>Use 120px vertical padding on major marketing sections.</span></div><div class="guide"><i>✓</i><span>Keep the 32px desktop content inset.</span></div><div class="guide"><i>✓</i><span>Use Host Grotesk with role-specific line-height: 1.04–1.22 for headings, 1.55 for body, and 1.4–1.45 for UI.</span></div><div class="guide"><i>✓</i><span>Keep micro-interactions between 0.1s and 0.3s.</span></div></div></div>
           <div class="dont-card"><h3>Don't</h3><div class="guideline-list"><div class="guide"><i>×</i><span>Don't add decorative drop shadows to buttons and surface cards.</span></div><div class="guide"><i>×</i><span>Don't use 100px radius on cards.</span></div><div class="guide"><i>×</i><span>Don't turn focus-blue into a brand accent.</span></div><div class="guide"><i>×</i><span>Don't introduce arbitrary background colors.</span></div><div class="guide"><i>×</i><span>Don't add stock photography, parallax, or entrance animation.</span></div></div></div>
         </div>
       </section>
@@ -1439,6 +1562,8 @@ button:disabled{cursor:not-allowed;opacity:.48}
   --radius-action: 100px;
   --radius-control: 6px;
   --radius-card: 5px;
+  --radius-product-card: 8px;
+  --radius-product-panel: 12px;
   --radius-circle: 50%;
 
   --layout-section-padding-y: 120px;
@@ -1446,9 +1571,19 @@ button:disabled{cursor:not-allowed;opacity:.48}
   --layout-card-width: 430px;
   --layout-card-gap: 12px;
 
-  --font-body: Inter, sans-serif;
-  --font-heading-lg: Lazzer, sans-serif;
-  --font-ui: Lazzer, sans-serif;
+  --font-body: "Host Grotesk", sans-serif;
+  --font-heading-lg: "Host Grotesk", sans-serif;
+  --font-ui: "Host Grotesk", sans-serif;
+  --leading-display: 1.04;
+  --leading-heading: 1.12;
+  --leading-body: 1.55;
+  --leading-ui: 1.4;
+  --leading-meta: 1.45;
+  --tracking-display: -0.008em;
+  --tracking-heading: -0.004em;
+  --tracking-body: 0.006em;
+  --tracking-ui: 0.008em;
+  --tracking-meta: 0.012em;
 }
 
 /* Preview adaptation:
@@ -1483,24 +1618,30 @@ colors:
   color.text.muted: &quot;#6c6e79&quot;
 typography:
   font.body:
-    fontFamily: Lazzer, sans-serif
+    fontFamily: Host Grotesk, sans-serif
     fontSize: 16px
-    fontWeight: 600
+    fontWeight: 400
+    lineHeight: 1.55
   font.caption:
-    fontFamily: Inter, sans-serif
+    fontFamily: Host Grotesk, sans-serif
     fontSize: 12px
     fontWeight: 400
+    lineHeight: 1.4
   font.heading.lg:
-    fontFamily: Lazzer, sans-serif
+    fontFamily: Host Grotesk, sans-serif
     fontSize: 32px
     fontWeight: 600
+    lineHeight: 1.12
   font.ui:
-    fontFamily: Lazzer, Inter, sans-serif
+    fontFamily: Host Grotesk, sans-serif
     fontSize: 16px
     fontWeight: 600
+    lineHeight: 1.4
 rounded:
   radius.action: 100px
   radius.control: 6px
+  radius.product-card: 8px
+  radius.product-panel: 12px
   radius.circle: 50%
   radius.pill: 100px
   radius.sm: 6px
@@ -1630,7 +1771,7 @@ buildTokens:
 
 OpsTracer is an on-call and incident-response platform for teams that need reliable ownership when systems fail. It connects responders, contact methods, schedules, escalation policies, services, and monitoring integrations so an alert reaches the person on call and remains actionable until it is acknowledged or resolved.
 
-The central design tension is urgency versus control. Responders may open the product while tired or under pressure, while Admins need to understand when configuration is saved, publishing, or live. Expressive Lazzer type at weight 600, the #c190ff lavender accent, near-black #181e15 data surfaces, and restrained status colors create a system that feels calm, explicit, and dependable.
+The central design tension is urgency versus control. Responders may open the product while tired or under pressure, while Admins need to understand when configuration is saved, publishing, or live. Host Grotesk uses open, readable forms across body, data, navigation, and display roles; paired with the #c190ff lavender accent, near-black #181e15 data surfaces, and restrained status colors, it creates a system that feels calm, explicit, and dependable.
 
 **Voice:** headlines=Direct and outcome-led — &quot;Know who is on call. Handle incidents fast.&quot; Short, confident, and specific.; body=Operational and consequence-aware — explain what a setting changes and whether it is saved, publishing, or live.; microcopy=Calm under pressure — use familiar terms such as &quot;Acknowledge incident,&quot; &quot;Resolve incident,&quot; and &quot;Coverage starts at 18:00.&quot; Empty states name the operational consequence, not only the absence.; ctas=Verb-led and explicit — &quot;Create schedule,&quot; &quot;Add responder,&quot; &quot;Publish changes,&quot; and &quot;Acknowledge incident.&quot;
 
@@ -1657,58 +1798,46 @@ The central design tension is urgency versus control. Responders may open the pr
 
 ### Typography Principles
 
-- Treat typography as a hierarchy of roles, not a global font swap: Inter carries body reading at weight 400; Lazzer carries display, navigation, and CTA authority at weights 500–600. The two families should never compete for the same role on the same surface.
+- Treat typography as a hierarchy of roles within one family: Host Grotesk uses weight 400 for sustained reading, 500 for metadata and compact UI, and 600–650 for navigation, actions, and headings.
 
-- Match type hierarchy to the content voice: Lazzer at 32px weight 600 commands a section title; Inter at 16px weight 400 delivers the explanation beneath it. CTA labels in Lazzer weight 600 signal action. Blurring these distinctions flattens the hierarchy the brand relies on to guide the eye.
+- Match type hierarchy to the content voice: Host Grotesk at 32px weight 600 commands a section title; Host Grotesk at 16px weight 400 delivers the explanation beneath it. CTA labels in Host Grotesk weight 600 signal action. Blurring these distinctions flattens the hierarchy the brand relies on to guide the eye.
 
 ### Font Family
 
-- **Inter, sans-serif**; fallbacks: sans-serif.
-
-- **Inter, sans-serif**; fallbacks: sans-serif.
-
-- **Lazzer, sans-serif**; fallbacks: sans-serif.
-
-- **Lazzer, sans-serif**; fallbacks: sans-serif.
-
-- **Lazzer, sans-serif**; fallbacks: sans-serif.
-
-- **Inter, sans-serif**; fallbacks: sans-serif.
-
-- **Lazzer, Inter, sans-serif**; fallbacks: Inter; sans-serif.
-
-- **Lazzer, sans-serif**; fallbacks: sans-serif.
+- **Host Grotesk, Segoe UI, sans-serif** for every product and content role. A single family reduces metric mismatch and keeps engineering handoff predictable.
+- Load only weights 400, 500, 600, and 700 with `font-display: swap`.
+- Use 16px / 1.55 for reading, 14px / 1.4 for product UI, and 12–13px / 1.4–1.45 only for short metadata.
 
 ### Hierarchy
 
 | Token | Size | Weight | Line Height | Letter Spacing | Use |
 | --- | --- | --- | --- | --- | --- |
-| {typography.font.body} | 16px | 400 |  |  |  |
-| {typography.font.caption} | 14px | 400 |  |  |  |
-| {typography.font.body} | 16px | 600 |  |  |  |
-| {typography.font.heading.lg} | 48px | 600 |  |  |  |
-| {typography.font.ui} | 14px | 500 |  |  |  |
-| {typography.font.caption} | 12px | 400 |  |  |  |
-| {typography.font.ui} | 16px | 600 |  |  |  |
-| {typography.font.heading.lg} | 32px | 600 |  |  |  |
+| {typography.font.body} | 16px | 400 | 1.55 | 0.006em | Reading |
+| {typography.font.caption} | 14px | 400 | 1.45 | 0.012em | Supporting text |
+| {typography.font.body} | 16px | 600 | 1.4 | 0.008em | CTA label |
+| {typography.font.heading.lg} | 48px | 600 | 1.04 | -0.008em | Display |
+| {typography.font.ui} | 14px | 500 | 1.4 | 0.008em | Compact UI |
+| {typography.font.caption} | 12px | 400 | 1.4 | 0.012em | Short metadata |
+| {typography.font.ui} | 16px | 600 | 1.4 | 0.008em | Navigation |
+| {typography.font.heading.lg} | 32px | 600 | 1.12 | -0.004em | Section title |
 
 ### Principles
 
-- **body-md**: use `Inter, sans-serif`; size `16px`; weight `400`.
+- **body-md**: use `Host Grotesk, sans-serif`; size `16px`; weight `400`; line-height `1.55`.
 
-- **caption**: use `Inter, sans-serif`; size `14px`; weight `400`.
+- **caption**: use `Host Grotesk, sans-serif`; size `14px`; weight `400`; line-height `1.45`.
 
-- **cta-primary**: use `Lazzer, sans-serif`; size `16px`; weight `600`.
+- **cta-primary**: use `Host Grotesk, sans-serif`; size `16px`; weight `600`; line-height `1.4`.
 
-- **footer-cta-title**: use `Lazzer, sans-serif`; size `48px`; weight `600`.
+- **footer-cta-title**: use `Host Grotesk, sans-serif`; size `48px`; weight `600`; line-height `1.04`.
 
-- **label-sm**: use `Lazzer, sans-serif`; size `14px`; weight `500`.
+- **label-sm**: use `Host Grotesk, sans-serif`; size `14px`; weight `500`; line-height `1.4`.
 
-- **micro**: use `Inter, sans-serif`; size `12px`; weight `400`.
+- **micro**: use `Host Grotesk, sans-serif`; size `12px`; weight `400`; line-height `1.4`.
 
-- **nav-label**: use `Lazzer, Inter, sans-serif`; size `16px`; weight `600`.
+- **nav-label**: use `Host Grotesk, sans-serif`; size `16px`; weight `600`; line-height `1.4`.
 
-- **section-title**: use `Lazzer, sans-serif`; size `32px`; weight `600`.
+- **section-title**: use `Host Grotesk, sans-serif`; size `32px`; weight `600`; line-height `1.12`.
 
 ## Layout
 
@@ -1745,9 +1874,9 @@ The central design tension is urgency versus control. Responders may open the pr
 | solutions_accordion | #ffffff | #181e15 | none | tool icons/screenshots in carousel cards | Full-bleed, 120px top/bottom padding; cards 430px × 500px, 12px gap, horizontal scroll carousel |  |
 
 ### Build Notes
-- Lazzer is a custom self-hosted variable font (woff2 variable file available); load via @font-face with weight range 100–900. Factor A is a secondary display font also self-hosted — usage context not yet confirmed in homepage evidence.
+- Host Grotesk is loaded from Google Fonts in weights 400, 500, 600, and 700 with `font-display: swap`; production may self-host the same files for deterministic delivery.
 - The hero section background is a CSS linear-gradient, not an image — implement with a gradient token to allow easy theming without swapping asset files.
-- Button letter-spacing is −0.32px (Lazzer, 16px, weight 600) — this tight tracking is intentional and characteristic of the Lazzer CTA treatment. Do not reset it to 0.
+- Host Grotesk uses slightly open tracking at text sizes: `0.006em` for body, `0.008em` for UI, and `0.012em` for metadata. Display and heading tracking stays gently negative at `-0.008em` and `-0.004em`.
 - Focus states use inset box-shadow rings: `inset 0 0 0 2px #181e15` on light surfaces; `inset 0 0 0 3px #006dca` for keyboard navigation focus. Do not replace with native CSS `outline` — the system explicitly overrides it.
 - Section-level vertical padding is 120px top/bottom on desktop; scale down proportionally on mobile but do not compress below the minimum that preserves the generous whitespace posture.
 - The stats accordion renders inactive row text in #d1d2d5 and expanded row text in white — implement as a toggled state class on the row, not as two separate components.
@@ -1866,7 +1995,7 @@ The central design tension is urgency versus control. Responders may open the pr
 - All primary and secondary CTA buttons must use border-radius: 100px (fully-pill). Do not apply card radius (5px) or utility radius (4px) to action buttons.
 - Always apply #006dca (focus-blue) as an inset box-shadow (3px) on :focus-visible interactive elements. Never suppress focus rings — this is the only accessible focus indicator color in the system.
 - Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, operational data, testimonials, and resources sections.
-- Apply font-weight 600 to all Lazzer navigation items, CTAs, and display headings. Apply font-weight 500 to Lazzer supporting labels and banner descriptions. Reserve weight 400 for Inter body copy only.
+- Apply font-weight 600 to all Host Grotesk navigation items, CTAs, and display headings. Apply font-weight 500 to Host Grotesk supporting labels and banner descriptions. Reserve weight 400 for Host Grotesk body copy only.
 - Implement focus-visible states using inset box-shadow rings only — never native outline. Use `inset 0 0 0 3px #006dca` (blue) for general interactive elements and `inset 0 0 0 2px #181e15` (near-black) for footer and banner elements.
 - Keep micro-interactions at 0.1s–0.3s. Use 0.1s for transform (icon hover lift), 0.2s for opacity and color changes, and 0.3s for layout-affecting properties (padding, font-size, opacity of panels). The CSS custom property --mp-transition-duration: 200ms and --mp-transition-easing: ease-in-out define the canonical defaults.
 - Keep the 32px side inset on all inner content rails. Full-bleed backgrounds span 1440px, but text and components must stay within the 1376px inner rail.
@@ -1874,12 +2003,12 @@ The central design tension is urgency versus control. Responders may open the pr
 ### Don&#x27;t
 - Do not add decorative drop shadows to buttons or surface cards. The brand explicitly resets box-shadow to none on .srf-btn. Shadows appear only on floating overlays (dropdowns/popovers) at very low opacity (max #0003). Applying shadow to flat surfaces contradicts the restrained, data-forward depth model.
 - Do not apply 100px border-radius to cards or containers. Reserve pill radius (100px) exclusively for CTA buttons. Cards use 5px radius.
-- Do not apply weight 700 to Lazzer headings or nav items as a general style — weight 700 is reserved for inline emphasis within specific contexts (e.g., `&lt;b&gt;` inside browser-warning banners). Heading hierarchy is expressed through size, not by escalating weight beyond 600.
+- Do not apply weight 700 to Host Grotesk headings or nav items as a general style — weight 700 is reserved for inline emphasis within specific contexts (e.g., `&lt;b&gt;` inside browser-warning banners). Heading hierarchy is expressed through size, not by escalating weight beyond 600.
 - Do not introduce &#x27;Factor A&#x27; or &#x27;Factor A Variable&#x27; into UI surfaces without explicit design authorization. These @font-face declarations exist in the stylesheet but have no observed component-level usage — they are likely reserved for a specific product sub-brand or campaign context.
 - Do not introduce additional background colors beyond the observed palette (white, #181e15 dark, #dceeeb mint, #e8e1ff lavender gradient, #c190ff accent). Introducing new section backgrounds breaks the deliberate light/dark alternation that structures page rhythm.
 - Do not introduce lifestyle or stock photography. Every feature section uses product UI screenshots and operational data as primary media. Photography would weaken the product&#x27;s emphasis on reliable on-call workflows.
 - Do not introduce motion beyond the observed transition set. No keyframe animations were observed outside the global loading spinner (0.75s linear). Do not add entrance animations, scroll-triggered transforms, or parallax effects not present in the evidence.
-- Do not mix arbitrary radius values. The system uses a defined set: 0, 2px, 3px, 4px, 5px, 6px, 10px, 100px (pill), and 50% (circle). Do not introduce values like 8px, 16px, or 24px that are not evidenced in the system.
+- Do not mix arbitrary radius values. Marketing cards retain the existing 5px radius; Figma-derived product metric/table components use their evidenced 8px/12px radii; actions use 100px and avatars use 50%.
 - Do not reduce section vertical padding below 120px for content sections. Compressing to 60px or 80px collapses the generous whitespace posture that distinguishes this layout from a typical marketing template.
 - Do not use #006dca (blue) or #2b94e1 (blue) as a brand accent or CTA color. These tokens exist exclusively as accessibility focus-ring indicators. Using them as primary interactive colors misrepresents the brand palette and undermines the lavender accent system.
 
@@ -1925,15 +2054,15 @@ Quick Color Reference:
 - muted text: `#6c6e79`
 
 Quick Typography Reference:
-- body: Inter, sans-serif, 16px, 400
-- headings: Lazzer, sans-serif, 48px, 600
-- ui: Lazzer, sans-serif, 14px, 500
+- body: Host Grotesk, sans-serif, 16px, 400
+- headings: Host Grotesk, sans-serif, 48px, 600
+- ui: Host Grotesk, sans-serif, 14px, 500
 
 Implementation Rules:
 - All primary and secondary CTA buttons must use border-radius: 100px (fully-pill). Do not apply card radius (5px) or utility radius (4px) to action buttons.
 - Always apply #006dca (focus-blue) as an inset box-shadow (3px) on :focus-visible interactive elements. Never suppress focus rings — this is the only accessible focus indicator color in the system.
 - Apply 120px top and bottom padding to every major content section. This is the confirmed section rhythm token observed across solutions, operational data, testimonials, and resources sections.
-- Apply font-weight 600 to all Lazzer navigation items, CTAs, and display headings. Apply font-weight 500 to Lazzer supporting labels and banner descriptions. Reserve weight 400 for Inter body copy only.
+- Apply font-weight 600 to all Host Grotesk navigation items, CTAs, and display headings. Apply font-weight 500 to Host Grotesk supporting labels and banner descriptions. Reserve weight 400 for Host Grotesk body copy only.
 - Implement focus-visible states using inset box-shadow rings only — never native outline. Use `inset 0 0 0 3px #006dca` (blue) for general interactive elements and `inset 0 0 0 2px #181e15` (near-black) for footer and banner elements.
 - Keep micro-interactions at 0.1s–0.3s. Use 0.1s for transform (icon hover lift), 0.2s for opacity and color changes, and 0.3s for layout-affecting properties (padding, font-size, opacity of panels). The CSS custom property --mp-transition-duration: 200ms and --mp-transition-easing: ease-in-out define the canonical defaults.
 
@@ -1977,10 +2106,20 @@ Example Component Prompts:
   --layout-card-gap: 12px;
   --layout-cta-height-desktop: 60px;
   --layout-cta-height-mobile: 48px;
-  --font-body: Inter, sans-serif;
-  --font-caption: Inter, sans-serif;
-  --font-heading-lg: Lazzer, sans-serif;
-  --font-ui: Lazzer, sans-serif;
+  --font-body: Host Grotesk, sans-serif;
+  --font-caption: Host Grotesk, sans-serif;
+  --font-heading-lg: Host Grotesk, sans-serif;
+  --font-ui: Host Grotesk, sans-serif;
+  --leading-display: 1.04;
+  --leading-heading: 1.12;
+  --leading-body: 1.55;
+  --leading-ui: 1.4;
+  --leading-meta: 1.45;
+  --tracking-display: -0.008em;
+  --tracking-heading: -0.004em;
+  --tracking-body: 0.006em;
+  --tracking-ui: 0.008em;
+  --tracking-meta: 0.012em;
 }
 ```
 
@@ -2010,10 +2149,20 @@ Example Component Prompts:
   --layout-card-gap: 12px;
   --layout-cta-height-desktop: 60px;
   --layout-cta-height-mobile: 48px;
-  --font-body: Inter, sans-serif;
-  --font-caption: Inter, sans-serif;
-  --font-heading-lg: Lazzer, sans-serif;
-  --font-ui: Lazzer, sans-serif;
+  --font-body: Host Grotesk, sans-serif;
+  --font-caption: Host Grotesk, sans-serif;
+  --font-heading-lg: Host Grotesk, sans-serif;
+  --font-ui: Host Grotesk, sans-serif;
+  --leading-display: 1.04;
+  --leading-heading: 1.12;
+  --leading-body: 1.55;
+  --leading-ui: 1.4;
+  --leading-meta: 1.45;
+  --tracking-display: -0.008em;
+  --tracking-heading: -0.004em;
+  --tracking-body: 0.006em;
+  --tracking-ui: 0.008em;
+  --tracking-meta: 0.012em;
 }
 ```</pre></div>
   </div>
@@ -2044,9 +2193,8 @@ Use this skill for any screen, component, landing section, onboarding flow, or m
 - Border: #D1D2D5
 - Muted text: #6C6E79
 - Focus indicator: #006DCA
-- Lazzer for display / UI authority
-- Inter for reading / metadata
-- 5px card radius
+- Host Grotesk across display, UI, reading, and metadata with role-specific weights and line-height
+- 5px marketing card radius; 8px metric/table radius and 12px panel radius for Figma-derived product components
 - 100px marketing CTA radius
 - Flat surfaces; no decorative card shadows
 - Product UI screenshots as the primary media language
@@ -2088,8 +2236,23 @@ If a choice affects product behavior, product scope, or mobile/web workflow, DS-
 ## Radius
 --radius-card: 5px
 --radius-control: 6px
+--radius-product-card: 8px
+--radius-product-panel: 12px
 --radius-action: 100px
 --radius-circle: 50%
+
+## Typography
+--font-family: "Host Grotesk", "Segoe UI", sans-serif
+--text-display: 48px / 1.04 / 600
+--text-heading: 32px / 1.12 / 600
+--text-body: 16px / 1.55 / 400
+--text-ui: 14px / 1.4 / 500–600
+--text-meta: 12–13px / 1.4–1.45 / 400
+--tracking-display: -0.008em
+--tracking-heading: -0.004em
+--tracking-body: 0.006em
+--tracking-ui: 0.008em
+--tracking-meta: 0.012em
 
 ## Layout
 --section-padding-y: 120px
@@ -2131,15 +2294,22 @@ Keep any third-party component library visually normalized to DS-01 tokens befor
 
 ## From DESIGN.md
 - Exact brand palette and token roles
-- Lazzer / Inter typography split
+- Host Grotesk single-family hierarchy with 400/500/600/700 roles
 - 1440px section canvas and 32px inner inset
 - 120px major section rhythm
-- 5px card radius
+- 5px marketing card radius plus evidenced 8px/12px product component radii
 - 100px CTA pill radius
 - Flat depth model; no decorative shadows
 - Product UI as primary marketing media
 - Light-theme reference
 - Focus blue reserved for accessibility
+
+## From Cloudy Figma UI kit
+- Metric card anatomy and spacing: node 16656:46666
+- Responsive data-table panel: node 16657:47844
+- Sidebar navigation states: node 16654:45146
+- Mobile stacking and top navigation: node 16657:48345
+- Glyph assets are exported from Figma and stored in assets/figma-components
 
 ## From DS-01
 - Four surfaces must share one theme
