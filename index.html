@@ -64,6 +64,7 @@
   --type-body:1rem;      --leading-body:1.5;
   --type-ui:.875rem;     --leading-ui:1.4286;
   --type-meta:.75rem;    --leading-meta:1.3333;
+  --tracking-action:.04em;
 
   /* --- product-mock type (five fixed steps) -------------------------------- */
   --sre-t-meta:11px;    --sre-lh-meta:15px;
@@ -181,7 +182,8 @@ img,svg{max-width:100%}
 .nav-label{padding:0 8px 8px;font-family:var(--font-mono);font-size:10px;font-weight:500;
   letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;height:32px;padding:0 8px;
-  border-left:2px solid transparent;font-size:13.5px;color:var(--ink-2);
+  border-left:2px solid transparent;font-family:var(--font-mono);font-size:13.5px;color:var(--ink-2);
+  font-variant-ligatures:none;letter-spacing:var(--tracking-action);text-transform:uppercase;
   transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
 .nav a:hover{background:var(--surf-2);color:var(--ink)}
 .nav a.active{background:var(--surf-2);border-left-color:var(--brand);color:var(--ink);font-weight:500}
@@ -195,7 +197,8 @@ img,svg{max-width:100%}
 .top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
 .top-btn{height:34px;display:inline-flex;align-items:center;padding:0 14px;white-space:nowrap;
   background:transparent;border:1px solid var(--line-2);color:var(--ink-2);
-  font-family:var(--font-sans);font-size:12.5px;font-weight:500;letter-spacing:0;
+  font-family:var(--font-mono);font-size:12.5px;font-weight:500;letter-spacing:var(--tracking-action);
+  font-variant-ligatures:none;text-transform:uppercase;
   transition:border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .top-btn:hover{border-color:var(--brand);color:var(--brand)}
 .top-btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
@@ -269,8 +272,8 @@ pre.code b{color:var(--accent);font-weight:400}
 
 /* ---- buttons ---------------------------------------------------------------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;
-  font-family:var(--font-sans);font-size:14px;line-height:var(--leading-ui);
-  font-weight:500;letter-spacing:0;
+  font-family:var(--font-mono);font-size:14px;line-height:var(--leading-ui);
+  font-weight:500;letter-spacing:var(--tracking-action);font-variant-ligatures:none;text-transform:uppercase;
   padding:11px 20px;border-radius:0;
   background:var(--brand);color:var(--brand-ink);border:1px solid var(--brand);
   clip-path:polygon(0 0,100% 0,100% calc(100% - var(--grid-cut)),calc(100% - var(--grid-cut)) 100%,0 100%);
@@ -281,13 +284,14 @@ pre.code b{color:var(--accent);font-weight:400}
 .btn.ghost:hover{background:transparent;border-color:var(--brand);color:var(--brand);transform:none}
 .btn[disabled],.btn.is-disabled{opacity:.42;pointer-events:none}
 .btn-lead{position:relative;min-width:296px;padding:18px 50px;justify-content:flex-start;text-align:left;
-  font-family:var(--font-sans);font-size:18px;font-weight:500;letter-spacing:0;
+  font-family:var(--font-mono);font-size:18px;font-weight:500;letter-spacing:var(--tracking-action);
   background:var(--brand);border:0;color:var(--brand-ink)}
 .btn-lead::after{content:"";position:absolute;right:28px;width:20px;height:20px;background:currentColor;
   -webkit-mask:var(--ico-arrow-right) center/contain no-repeat;mask:var(--ico-arrow-right) center/contain no-repeat}
 .ready-button{position:relative;width:240px;min-height:60px;padding:0 48px 0 28px;
   display:inline-flex;align-items:center;border:1px solid #4B433D;background:#1B1815;color:#F4F1EB;
-  font-family:var(--font-sans);font-size:16px;font-weight:500;line-height:24px;letter-spacing:0;
+  font-family:var(--font-mono);font-size:16px;font-weight:500;line-height:24px;letter-spacing:var(--tracking-action);
+  font-variant-ligatures:none;text-transform:uppercase;
   clip-path:polygon(0 0,100% 0,100% calc(100% - var(--grid-cut)),calc(100% - var(--grid-cut)) 100%,0 100%);
   transition:background var(--dur) var(--ease),transform var(--dur) var(--ease)}
 .ready-button::after{content:"";position:absolute;right:24px;width:20px;height:20px;background:currentColor;
@@ -299,7 +303,8 @@ pre.code b{color:var(--accent);font-weight:400}
 /* ---- nav switches ------------------------------------------------------------ */
 .navlinks{display:flex;gap:4px;flex:1;min-width:0}
 .navlinks a{display:flex;align-items:center;justify-content:space-between;height:42px;flex:1;padding:0 14px;
-  background:#1B1815;color:#DED9D3;font-family:var(--font-sans);font-size:13px;letter-spacing:0;
+  background:#1B1815;color:#DED9D3;font-family:var(--font-mono);font-size:13px;letter-spacing:var(--tracking-action);
+  font-variant-ligatures:none;text-transform:uppercase;
   transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
 .navlinks a::after{content:"";width:14px;height:14px;flex:none;background:currentColor;
   -webkit-mask:var(--ico-play) center/contain no-repeat;mask:var(--ico-play) center/contain no-repeat}
@@ -345,7 +350,8 @@ pre.code b{color:var(--accent);font-weight:400}
 .stage .tlhead{background:#1B1815;border-color:#39322D}
 .tlhead .t{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .stage .tlhead .t{color:#918981}
-.replay{margin-left:auto;font-family:var(--font-sans);font-size:12px;font-weight:500;letter-spacing:0;
+.replay{margin-left:auto;font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:var(--tracking-action);
+  font-variant-ligatures:none;text-transform:uppercase;
   background:transparent;border:1px solid var(--line-2);color:var(--ink-2);padding:5px 11px;border-radius:2px}
 .replay:hover{border-color:var(--brand);color:var(--brand)}
 .stage .replay{border-color:#5F564E;color:#DED9D3}
@@ -382,7 +388,8 @@ pre.code b{color:var(--accent);font-weight:400}
   font-size:var(--sre-t-caption);color:#B9B3AD}
 .sre-tabs{display:flex;gap:8px;padding:14px 18px;border-bottom:1px solid #39322D}
 .sre-tab{padding:6px 12px;border:1px solid #39322D;background:transparent;color:#B9B3AD;
-  font-family:var(--font-sans);font-size:var(--sre-t-caption);line-height:var(--sre-lh-caption)}
+  font-family:var(--font-mono);font-size:var(--sre-t-caption);line-height:var(--sre-lh-caption);
+  font-variant-ligatures:none;letter-spacing:var(--tracking-action);text-transform:uppercase}
 .sre-tab[aria-selected="true"]{background:#1B1815;border-color:#5F564E;color:#F4F1EB}
 .sre-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid #39322D}
 .sre-stat{padding:14px 18px;border-right:1px solid #39322D}
@@ -483,7 +490,8 @@ pre.code b{color:var(--accent);font-weight:400}
 .sw button.chip{width:100%;height:74px;display:block;border:0;border-bottom:1px solid var(--line-2);
   background:var(--c);cursor:copy;position:relative}
 .sw button.chip::after{content:"Copy";position:absolute;inset:auto 8px 8px auto;
-  font-family:var(--font-sans);font-size:10px;font-weight:500;letter-spacing:0;
+  font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:var(--tracking-action);
+  font-variant-ligatures:none;text-transform:uppercase;
   padding:2px 6px;background:#100E0D;color:#F4F1EB;opacity:0;transition:opacity var(--dur) var(--ease)}
 .sw button.chip:hover::after,.sw button.chip:focus-visible::after{opacity:1}
 .sw button.chip[data-copied="true"]::after{content:"Copied";opacity:1}
@@ -504,7 +512,7 @@ pre.code b{color:var(--accent);font-weight:400}
 .s-section{font-size:clamp(2.25rem,3.6vw,var(--type-section));line-height:var(--leading-section);letter-spacing:-.035em}
 .s-card{font-size:var(--type-card);line-height:var(--leading-card);letter-spacing:-.018em;font-weight:500}
 .s-body{font-size:var(--type-body);line-height:var(--leading-body)}
-.s-ui{font-family:var(--font-sans);font-size:var(--type-ui);line-height:var(--leading-ui);font-weight:500;letter-spacing:0}
+.s-ui{font-family:var(--font-mono);font-size:var(--type-ui);line-height:var(--leading-ui);font-weight:500;letter-spacing:var(--tracking-action);font-variant-ligatures:none;text-transform:uppercase}
 .s-meta{font-family:var(--font-mono);font-size:var(--type-meta);line-height:var(--leading-meta);text-transform:uppercase}
 .fontcard{padding:24px;border:1px solid var(--line-2);background:var(--surf)}
 .fontcard .big{font-size:40px;line-height:1.1;letter-spacing:-.03em}
@@ -712,7 +720,8 @@ pre.code b{color:var(--accent);font-weight:400}
 .pgh-nav{display:flex;gap:0;margin-top:14px;border-top:1px solid var(--line);
   overflow-x:auto;scrollbar-width:none}
 .pgh-nav a{display:flex;align-items:center;gap:8px;padding:12px 15px;white-space:nowrap;
-  font-size:13.5px;color:var(--ink-2);text-decoration:none;
+  font-family:var(--font-mono);font-size:13.5px;color:var(--ink-2);text-decoration:none;
+  font-variant-ligatures:none;letter-spacing:var(--tracking-action);text-transform:uppercase;
   border-bottom:2px solid transparent;margin-bottom:-1px}
 .pgh-nav a:hover{color:var(--ink)}
 .pgh-nav a[aria-current="page"]{color:var(--ink);font-weight:500;border-bottom-color:var(--brand)}
@@ -727,13 +736,14 @@ pre.code b{color:var(--accent);font-weight:400}
 .snav .grp{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
   color:var(--muted);padding:13px 15px 7px}
 .snav a{display:flex;align-items:center;gap:10px;padding:0 15px;height:var(--row-normal);
-  font-size:13.5px;color:var(--ink-2);text-decoration:none;
+  font-family:var(--font-mono);font-size:13.5px;color:var(--ink-2);text-decoration:none;
+  font-variant-ligatures:none;letter-spacing:var(--tracking-action);text-transform:uppercase;
   border-left:2px solid transparent;transition:background var(--dur) var(--ease)}
 .snav a:hover{background:var(--surf-2);color:var(--ink)}
 .snav a[aria-current="page"]{background:var(--surf-2);color:var(--ink);font-weight:500;
   border-left-color:var(--brand)}
 .snav a .cnt{margin-left:auto}
-.snav .sub a{padding-left:41px;height:34px;font-size:13px;color:var(--muted)}
+.snav .sub a{padding-left:41px;height:34px;font-size:13px;color:var(--muted);text-transform:none}
 .snav .sub a:hover,.snav .sub a[aria-current="page"]{color:var(--ink)}
 .snav a.dis{color:var(--muted);cursor:default}
 .snav a.dis:hover{background:transparent}
@@ -1204,7 +1214,7 @@ a.acard:hover h5{color:var(--accent)}
     <div class="bd">
       <p class="lab">Foundations / Typography</p>
       <h2 class="mt-s">Host Grotesk argues. DM Mono reports.</h2>
-      <p class="lede">Two self-hosted families, split by meaning. Host Grotesk carries prose, navigation, actions, field labels, tabs and human-readable states. DM Mono is reserved for code and machine-readable facts such as timestamps, IDs, paths, tokens and measurements. Technical UI text is uppercase; literal source code keeps its syntax casing.</p>
+      <p class="lede">Two self-hosted families, split by meaning. Host Grotesk carries prose, field labels and human-readable states. DM Mono carries navigation, action labels, code and machine-readable facts such as timestamps, IDs, paths, tokens and measurements. Navigation and action labels are uppercase; literal source code keeps its syntax casing.</p>
 
       <div class="grid g2 mt-l">
         <div class="fontcard">
@@ -1233,10 +1243,16 @@ a.acard:hover h5{color:var(--accent)}
 }
 
 .mono,.tech,.lab,.eyebrow,.rail .mk{ text-transform:<b>uppercase</b>; }
-.btn,.navlinks a,.app-tab,.field label,.chip{ font-family:<b>var(--font-sans)</b>; }</pre>
+.btn,.ready-button,.navlinks a,.sre-tab{
+  font-family:<b>var(--font-mono)</b>!important;
+  font-variant-ligatures:<b>none</b>;
+  letter-spacing:<b>var(--tracking-action)</b>;
+  text-transform:<b>uppercase</b>;
+}
+.field label,.chip{ font-family:<b>var(--font-sans)</b>; }</pre>
         </div>
       </div>
-      <p class="note">Preserve source casing inside <span class="tok">code</span>, <span class="tok">pre</span>, file names and exact tokens. Everywhere else, DM Mono is an uppercase technical signal; lowercase or sentence-case interface language belongs in Host Grotesk.</p>
+      <p class="note">Preserve source casing inside <span class="tok">code</span>, <span class="tok">pre</span>, file names, service names and exact tokens. Navigation and action labels use uppercase DM Mono with <span class="tok">.04em</span> tracking; prose and other sentence-case interface language stay in Host Grotesk.</p>
     </div>
   </div>
 </section>
@@ -1274,7 +1290,7 @@ a.acard:hover h5{color:var(--accent)}
         <div class="type-row">
           <div class="type-name">UI</div>
           <div class="s-ui">Get a live demo</div>
-          <div class="type-spec">14px Host Grotesk<br>sentence case · w500</div>
+          <div class="type-spec">14px DM Mono<br>uppercase · .04em · w500</div>
         </div>
         <div class="type-row">
           <div class="type-name">Meta</div>
@@ -1870,7 +1886,7 @@ outline-offset:3px;</pre>
     <div class="bd">
       <p class="lab">Components / Buttons</p>
       <h2 class="mt-s">Clear actions, amber, cut at the corner.</h2>
-      <p class="lede">Button labels are human-readable actions, so they use Host Grotesk in sentence case. Every button is square with the 14px notch. There is no blue primary anywhere in the system — an earlier revision had one and layer 17 removed it.</p>
+      <p class="lede">Button labels use DM Mono in uppercase with <span class="tok">.04em</span> tracking, giving every action the same compact technical voice as navigation. Every button is square with the 14px notch. There is no blue primary anywhere in the system — an earlier revision had one and layer 17 removed it.</p>
 
       <div class="frame mt-l">
         <div class="frame-bar"><span class="t">variants</span><span class="src">.btn</span></div>
@@ -1885,7 +1901,7 @@ outline-offset:3px;</pre>
             <button class="btn ghost sm" type="button">Ghost sm</button>
           </div>
           <div class="mt-m"><button class="btn btn-lead" type="button">Get a live demo</button></div>
-          <p class="note">The lead button is hero-only: 296px minimum, Host Grotesk 18px, arrow pinned 28px right, no border.</p>
+          <p class="note">The lead button is hero-only: 296px minimum, DM Mono 18px uppercase, arrow pinned 28px right, no border.</p>
         </div>
       </div>
       <div class="frame mt-m">
@@ -1940,7 +1956,7 @@ outline-offset:3px;</pre>
         <div class="frame-body pad-0">
           <div class="bp">
             <div><span class="n">padding</span><span class="w">11px 20px</span><span>8px 15px small · 18px 50px lead</span></div>
-            <div><span class="n">type</span><span class="w">Host 14px</span><span>sentence case · w500 · 18px on the lead</span></div>
+            <div><span class="n">type</span><span class="w">DM Mono 14px</span><span>uppercase · .04em · w500 · 18px on the lead</span></div>
             <div><span class="n">fill</span><span class="w">#F0A439</span><span>label #171411 · hover #FFB95E</span></div>
             <div><span class="n">radius</span><span class="w">0</span><span>plus the 14px corner cut, outline repainted</span></div>
             <div><span class="n">hover</span><span class="w">−2px Y</span><span>fill brightens; no scale, no shadow</span></div>
@@ -2340,7 +2356,7 @@ outline-offset:3px;</pre>
         <div class="card dont"><h5>Don't</h5><p>Flip the whole theme to get a dark section. The bands coexist; only the band's tokens change.</p></div>
 
         <div class="card do"><h5>Do</h5><p>Use uppercase DM Mono for timestamps, IDs, paths, tokens, measurements and technical keys. Preserve original casing only in literal source code.</p></div>
-        <div class="card dont"><h5>Don't</h5><p>Set prose, navigation, actions, field labels, tabs or human-readable states in mono. Use Host Grotesk whenever the language needs sentence case.</p></div>
+        <div class="card dont"><h5>Don't</h5><p>Set prose, field labels, service names or human-readable states in uppercase mono. Use DM Mono for navigation and action labels; use Host Grotesk whenever longer language needs sentence case.</p></div>
 
         <div class="card do"><h5>Do</h5><p>Pair every state colour with a word. The chip says "Resolved" as well as being green.</p></div>
         <div class="card dont"><h5>Don't</h5><p>Rely on a dot alone. A colour with no label fails the moment the reader is colour-blind or the screen is dimmed.</p></div>

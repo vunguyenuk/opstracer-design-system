@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="color-scheme" content="light dark" />
+<meta name="supported-color-schemes" content="light dark" />
+<title>Join Spartan on OpsTracer</title>
+
+<!-- ===========================================================================
+     OpsTracer · transactional email · organisation invitation
+     Built from DS-01. What changes in an email and why:
+
+       · Layout is tables, not grid. Outlook has no flexbox and no grid.
+       · Every structural style is inline. Gmail strips <head> styles on
+         forwarded mail; the <style> block below only carries the dark-mode
+         and mobile overrides, which are progressive enhancements.
+       · The 14px corner notch is dropped. It is clip-path, which no email
+         client renders. Radius 0 still carries the geometry.
+       · Host Grotesk and DM Mono load where the client allows a webfont and
+         fall back to the platform stack everywhere else. Never let a layout
+         depend on the webfont arriving.
+       · Width 600px. Nothing below 320px breaks.
+
+     MERGE FIELDS — replace the sample values with your template variables:
+       {{org_name}}          spartan
+       {{org_role}}          Member
+       {{inviter_name}}      Linh Pham
+       {{inviter_email}}     linh@spartan.dev
+       {{recipient_email}}   dev@spartan.dev
+       {{expires_date}}      15 September 2026
+       {{expires_in}}        7 days
+       {{accept_url}}        https://app.opstracer.ai/invite/8f3c1a…
+       {{preferences_url}}   {{terms_url}}   {{privacy_url}}   {{help_url}}
+       {{company_address}}
+
+     A plain-text alternative is at the bottom of this file. Send both parts —
+     a transactional email with no text/plain part scores worse on delivery
+     and is unreadable in text-only clients.
+     =========================================================================== -->
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" />
+<style type="text/css">
+  /* client resets */
+  body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+  table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
+  img{-ms-interpolation-mode:bicubic;border:0;line-height:100%;outline:none;text-decoration:none}
+  body{margin:0!important;padding:0!important;width:100%!important}
+  a{text-decoration:none}
+  .lnk:hover{text-decoration:underline!important}
+
+  /* mobile */
+  @media only screen and (max-width:620px){
+    .sh{width:100%!important}
+    .pad{padding-left:20px!important;padding-right:20px!important}
+    .h1{font-size:23px!important;line-height:29px!important}
+    .cta{display:block!important;width:100%!important}
+    .kv-l{display:block!important;width:100%!important;padding-bottom:3px!important}
+    .kv-v{display:block!important;width:100%!important;text-align:left!important}
+  }
+
+  /* dark mode — Apple Mail, iOS Mail, Outlook for Mac */
+  @media (prefers-color-scheme:dark){
+    .bg{background-color:#100E0D!important}
+    .card{background-color:#151210!important;border-color:#39322D!important}
+    .band{background-color:#1B1815!important}
+    .bd{border-color:#39322D!important}
+    .ink{color:#F4F1EB!important}
+    .ink2{color:#DED9D3!important}
+    .muted{color:#918981!important}
+    .amber{color:#F0A43A!important}
+  }
+</style>
+</head>
+
+<body class="bg" style="margin:0;padding:0;background-color:#ECEBE5;">
+
+<!-- preheader: the line the inbox shows next to the subject -->
+<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+  Linh Pham invited you to the spartan organisation on OpsTracer. The link expires in 7 days.
+  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" class="bg" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ECEBE5;">
+<tr>
+<td align="center" style="padding:36px 12px;">
+
+  <!-- ============================ CARD ============================ -->
+  <table role="presentation" class="sh card" width="600" cellpadding="0" cellspacing="0" border="0"
+         style="width:600px;max-width:600px;background-color:#F4F3EE;border:1px solid #D4D2CA;">
+
+    <!-- masthead -->
+    <tr>
+      <td class="pad bd" style="padding:20px 30px;border-bottom:1px solid #D4D2CA;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td align="left" class="ink" style="font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#0E1616;">
+              OpsTracer
+            </td>
+            <td align="right" class="muted" style="font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#697873;">
+              Invitation
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- headline + lede -->
+    <tr>
+      <td class="pad" style="padding:32px 30px 0 30px;">
+        <h1 class="h1 ink" style="margin:0;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:26px;line-height:32px;font-weight:500;letter-spacing:-0.012em;color:#0E1616;">
+          Join spartan on OpsTracer
+        </h1>
+        <p class="ink2" style="margin:14px 0 0 0;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:23px;color:#394744;">
+          <strong class="ink" style="font-weight:600;color:#0E1616;">Linh Pham</strong> invited you to join as a
+          Member. You&rsquo;ll appear on the rotations you&rsquo;re added to, and can acknowledge an
+          incident from the app, by replying to the SMS, or by pressing a key on the call.
+        </p>
+      </td>
+    </tr>
+
+    <!-- detail block — the label/value rows from the system, as a table -->
+    <tr>
+      <td class="pad" style="padding:26px 30px 0 30px;">
+        <table role="presentation" class="bd" width="100%" cellpadding="0" cellspacing="0" border="0"
+               style="border-top:1px solid #D4D2CA;">
+          <tr>
+            <td class="kv-l bd muted" width="140" valign="top" style="width:140px;padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#697873;">
+              Organisation
+            </td>
+            <td class="kv-v bd ink" align="right" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;font-weight:500;color:#0E1616;">
+              spartan
+            </td>
+          </tr>
+          <tr>
+            <td class="kv-l bd muted" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#697873;">
+              Role
+            </td>
+            <td class="kv-v bd ink" align="right" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;font-weight:500;color:#0E1616;">
+              Member
+            </td>
+          </tr>
+          <tr>
+            <td class="kv-l bd muted" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#697873;">
+              Invited by
+            </td>
+            <td class="kv-v bd ink" align="right" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#0E1616;">
+              Linh Pham
+              <span class="muted" style="color:#697873;">&nbsp;&middot;&nbsp;linh@spartan.dev</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="kv-l bd muted" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#697873;">
+              Expires
+            </td>
+            <td class="kv-v bd ink" align="right" valign="top" style="padding:11px 0;border-bottom:1px solid #D4D2CA;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#0E1616;">
+              15 September 2026
+              <span class="muted" style="color:#697873;">&nbsp;&middot;&nbsp;in 7 days</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- primary action -->
+    <tr>
+      <td class="pad" style="padding:26px 30px 0 30px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="cta">
+          <tr>
+            <td align="center" bgcolor="#F0A439" style="background-color:#F0A439;">
+              <a class="cta" href="https://app.opstracer.ai/invite/8f3c1a" target="_blank"
+                 style="display:inline-block;padding:14px 30px;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:20px;font-weight:600;color:#171411;text-decoration:none;">
+                Accept invitation
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- fallback URL -->
+    <tr>
+      <td class="pad" style="padding:18px 30px 28px 30px;">
+        <p class="muted" style="margin:0 0 6px 0;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;line-height:19px;color:#697873;">
+          If the button doesn&rsquo;t work, paste this into your browser:
+        </p>
+        <p style="margin:0;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:18px;word-break:break-all;">
+          <a class="lnk amber" href="https://app.opstracer.ai/invite/8f3c1a" target="_blank" style="color:#9A5410;text-decoration:none;">https://app.opstracer.ai/invite/8f3c1a</a>
+        </p>
+      </td>
+    </tr>
+
+    <!-- security band -->
+    <tr>
+      <td class="pad band bd" bgcolor="#E9E8E1" style="padding:16px 30px;background-color:#E9E8E1;border-top:1px solid #D4D2CA;">
+        <p class="ink2" style="margin:0;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px;line-height:19px;color:#394744;">
+          This link works once, only for
+          <span style="font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;">dev@spartan.dev</span>.
+          If you weren&rsquo;t expecting it, ignore this email &mdash; nothing happens until you accept,
+          and no one is told you saw it.
+        </p>
+      </td>
+    </tr>
+
+  </table>
+
+  <!-- ============================ FOOTER ============================ -->
+  <table role="presentation" class="sh" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;">
+    <tr>
+      <td class="pad" style="padding:20px 30px 0 30px;">
+        <p class="muted" style="margin:0;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;line-height:18px;color:#697873;">
+          You received this because linh@spartan.dev invited this address to an OpsTracer organisation.
+          This is a one-off message about your account, not a newsletter.
+        </p>
+        <p style="margin:12px 0 0 0;font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;line-height:18px;">
+          <a class="lnk muted" href="https://opstracer.ai/help" target="_blank" style="color:#697873;">Help</a>
+          <span class="muted" style="color:#B4B2A8;">&nbsp;&middot;&nbsp;</span>
+          <a class="lnk muted" href="https://opstracer.ai/terms" target="_blank" style="color:#697873;">Terms</a>
+          <span class="muted" style="color:#B4B2A8;">&nbsp;&middot;&nbsp;</span>
+          <a class="lnk muted" href="https://opstracer.ai/privacy" target="_blank" style="color:#697873;">Privacy</a>
+          <span class="muted" style="color:#B4B2A8;">&nbsp;&middot;&nbsp;</span>
+          <a class="lnk muted" href="https://app.opstracer.ai/settings/notifications" target="_blank" style="color:#697873;">Email preferences</a>
+        </p>
+        <p class="muted" style="margin:14px 0 0 0;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:16px;letter-spacing:0.04em;color:#8C948F;">
+          OpsTracer &nbsp;&middot;&nbsp; {{company_address}}
+        </p>
+      </td>
+    </tr>
+  </table>
+
+</td>
+</tr>
+</table>
+
+<!-- ===========================================================================
+     PLAIN-TEXT ALTERNATIVE — send as the text/plain part
+
+     Subject: Linh Pham invited you to spartan on OpsTracer
+
+     Join spartan on OpsTracer
+
+     Linh Pham invited you to join as a Member. You'll appear on the rotations
+     you're added to, and can acknowledge an incident from the app, by replying
+     to the SMS, or by pressing a key on the call.
+
+     Organisation: spartan
+     Role:         Member
+     Invited by:   Linh Pham (linh@spartan.dev)
+     Expires:      15 September 2026, in 7 days
+
+     Accept the invitation:
+     https://app.opstracer.ai/invite/8f3c1a
+
+     This link works once, only for dev@spartan.dev. If you weren't expecting
+     it, ignore this email — nothing happens until you accept.
+
+     You received this because linh@spartan.dev invited this address to an
+     OpsTracer organisation.
+     Help: https://opstracer.ai/help
+     Terms: https://opstracer.ai/terms
+     Privacy: https://opstracer.ai/privacy
+     Email preferences: https://app.opstracer.ai/settings/notifications
+     OpsTracer · {{company_address}}
+     =========================================================================== -->
+
+</body>
+</html>
