@@ -105,6 +105,27 @@
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+
+/* ---- scrollbars ------------------------------------------------------------
+   native scrollbars were rendering in the OS colour scheme, so a dark-mode OS
+   painted a #282828 bar down a light page. color-scheme pins them to the theme
+   the page is actually showing; the sidebar drops its bar entirely, code blocks
+   get a thin one drawn from tokens. */
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark}}
+
+.sidebar{scrollbar-width:none;-ms-overflow-style:none}
+.sidebar::-webkit-scrollbar{width:0;height:0}
+
+pre.code,.frame-body.pad-0,.pgh-nav{scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+pre.code::-webkit-scrollbar,.frame-body.pad-0::-webkit-scrollbar{width:10px;height:10px}
+pre.code::-webkit-scrollbar-track,.frame-body.pad-0::-webkit-scrollbar-track{background:transparent}
+pre.code::-webkit-scrollbar-thumb,.frame-body.pad-0::-webkit-scrollbar-thumb{
+  background:var(--line-2);border:3px solid transparent;background-clip:content-box}
+pre.code::-webkit-scrollbar-thumb:hover,.frame-body.pad-0::-webkit-scrollbar-thumb:hover{
+  background:var(--muted);border:3px solid transparent;background-clip:content-box}
+pre.code::-webkit-scrollbar-corner,.frame-body.pad-0::-webkit-scrollbar-corner{background:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:var(--font-sans);font-size:16.5px;line-height:var(--leading-body);
   -webkit-font-smoothing:antialiased;font-kerning:normal}
@@ -174,8 +195,8 @@ img,svg{max-width:100%}
 .sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);z-index:30;
   background:var(--bg);border-right:1px solid var(--line);overflow:auto;padding:0 0 48px}
 .side-brand{display:flex;align-items:center;gap:12px;height:66px;padding:0 20px;
-  border-bottom:1px solid var(--line);font-size:20px;font-weight:600;letter-spacing:-.025em}
-.lamp{width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--glow);flex:none}
+  border-bottom:1px solid var(--line);background:var(--bg)}
+.side-brand .brand-logo{display:block;width:120px;height:auto;flex:none}
 .side-brand small{margin-left:auto;font-family:var(--font-mono);font-size:10px;font-weight:400;
   letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .nav-group{padding:18px 12px 0}
@@ -558,6 +579,7 @@ pre.code b{color:var(--accent);font-weight:400}
 .demo-navin{display:flex;align-items:flex-start;gap:4px;padding:20px 24px;min-height:82px}
 .demo-brand{display:flex;align-items:center;gap:12px;flex:0 0 200px;min-height:42px;
   font-size:22px;font-weight:600;letter-spacing:-.025em;color:#F4F1EB}
+.demo-brand .brand-logo{display:block;width:140px;height:auto}
 .demo-navcta{display:flex;gap:4px}
 .demo-navcta .btn{height:42px;padding-inline:22px;font-size:12px}
 .demo-hero{position:relative;border:1px solid #39322D;background:#100E0D;color:#F4F1EB;overflow:hidden;min-height:340px}
@@ -889,7 +911,7 @@ a.acard:hover h5{color:var(--accent)}
 <div class="shell">
 
 <aside class="sidebar" id="sidebar">
-  <div class="side-brand"><span class="lamp"></span>OpsTracer<small>DS-01</small></div>
+  <div class="side-brand"><img class="brand-logo" src="assets/black-horizontal.svg" alt="OpsTracer"><small>DS-01</small></div>
   <nav class="nav" aria-label="Design system sections">
     <div class="nav-group">
       <div class="nav-label">System</div>
