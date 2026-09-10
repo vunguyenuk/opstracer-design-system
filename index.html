@@ -34,8 +34,18 @@
   --code:#F7F9F8;
   --glow:rgba(154,84,16,.10);
 
-  /* --- brand action (theme-invariant) ------------------------------------ */
+  /* --- action hierarchy --------------------------------------------------- */
   --brand:#F0A439; --brand-hover:#FFB95E; --brand-ink:#171411;
+  --black:#171411; --black-hover:#28231E; --on-black:#F4F1EB;
+
+  /* --- semantic status on paper ------------------------------------------
+     Status colours are tuned for text contrast on the light app surface.
+     The brighter SRE quartet below remains available inside dark evidence. */
+  --state-success-ink:#1C7053; --state-success-line:#74AD97; --state-success-bg:#DCEAE7;
+  --state-warning-ink:#8A4B0F; --state-warning-line:#C88B36; --state-warning-bg:#F2E4D2;
+  --state-danger-ink:#A6392E;  --state-danger-line:#D18B84;  --state-danger-bg:#F6E1DE;
+  --state-info-ink:#3158A8;    --state-info-line:#8EA7DE;    --state-info-bg:#E0E7F7;
+  --state-neutral-ink:#394744; --state-neutral-line:#C4C2B8; --state-neutral-bg:#E4E3DC;
 
   /* --- SRE signal quartet (theme-invariant) ------------------------------ */
   --sre-amber:#F0A43A; --sre-amber-line:#68502A; --sre-amber-bg:#251E14;
@@ -51,7 +61,7 @@
   --sre-muted:#918981; --sre-muted-2:#7F7770; --sre-line:#39322D;
 
   /* --- geometry ----------------------------------------------------------- */
-  --grid-cut:14px;   /* buttons, cards, CTA          */
+  --grid-cut:14px;   /* cards and content containers */
   --sre-notch:18px;  /* SRE product panels           */
   --sre-shell:1540px;
 
@@ -90,6 +100,12 @@
     --crit:#EF6257; --crit-dim:#281916;
     --code:#171411;
     --glow:rgba(240,164,58,.16);
+    --black:#F4F1EB; --black-hover:#DED9D3; --on-black:#171411;
+    --state-success-ink:#37C993; --state-success-line:#256D54; --state-success-bg:#15251F;
+    --state-warning-ink:#F0A43A; --state-warning-line:#68502A; --state-warning-bg:#251E14;
+    --state-danger-ink:#EF6257;  --state-danger-line:#713B36;  --state-danger-bg:#281916;
+    --state-info-ink:#6790FF;    --state-info-line:#3158A8;    --state-info-bg:#13234A;
+    --state-neutral-ink:#B9B3AD; --state-neutral-line:#39322D; --state-neutral-bg:#1B1815;
   }
 }
 :root[data-theme="dark"]{
@@ -101,6 +117,12 @@
   --crit:#EF6257; --crit-dim:#281916;
   --code:#171411;
   --glow:rgba(240,164,58,.16);
+  --black:#F4F1EB; --black-hover:#DED9D3; --on-black:#171411;
+  --state-success-ink:#37C993; --state-success-line:#256D54; --state-success-bg:#15251F;
+  --state-warning-ink:#F0A43A; --state-warning-line:#68502A; --state-warning-bg:#251E14;
+  --state-danger-ink:#EF6257;  --state-danger-line:#713B36;  --state-danger-bg:#281916;
+  --state-info-ink:#6790FF;    --state-info-line:#3158A8;    --state-info-bg:#13234A;
+  --state-neutral-ink:#B9B3AD; --state-neutral-line:#39322D; --state-neutral-bg:#1B1815;
 }
 
 *{box-sizing:border-box}
@@ -293,19 +315,22 @@ pre.code b{color:var(--accent);font-weight:400}
 
 /* ---- buttons ---------------------------------------------------------------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:14px;line-height:var(--leading-ui);
-  font-weight:500;letter-spacing:var(--tracking-action);font-variant-ligatures:none;text-transform:uppercase;
-  padding:11px 20px;border-radius:0;
+  min-height:40px;font-family:var(--font-sans);font-size:14px;line-height:var(--leading-ui);
+  font-weight:500;letter-spacing:0;text-transform:none;
+  padding:9px 20px;border-radius:0;
   background:var(--brand);color:var(--brand-ink);border:1px solid var(--brand);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--grid-cut)),calc(100% - var(--grid-cut)) 100%,0 100%);
   transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),transform var(--dur) var(--ease)}
 .btn:hover{background:var(--brand-hover);border-color:var(--brand-hover);color:var(--brand-ink);transform:translateY(-2px)}
-.btn.sm{padding:8px 15px;font-size:12.5px}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn.ghost:hover{background:transparent;border-color:var(--brand);color:var(--brand);transform:none}
+.btn.sm{min-height:32px;padding:6px 15px;font-size:12.5px}
+.btn.strong{background:var(--black);border-color:var(--black);color:var(--on-black)}
+.btn.strong:hover{background:var(--black-hover);border-color:var(--black-hover);color:var(--on-black)}
+.stage .btn.strong{background:#F4F1EB;border-color:#F4F1EB;color:#171411}
+.stage .btn.strong:hover{background:#DED9D3;border-color:#DED9D3;color:#171411}
+.btn.secondary,.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.secondary:hover,.btn.ghost:hover{background:var(--surf-2);border-color:var(--ink-2);color:var(--ink);transform:none}
 .btn[disabled],.btn.is-disabled{opacity:.42;pointer-events:none}
 .btn-lead{position:relative;min-width:296px;padding:18px 50px;justify-content:flex-start;text-align:left;
-  font-family:var(--font-mono);font-size:18px;font-weight:500;letter-spacing:var(--tracking-action);
+  font-family:var(--font-sans);font-size:18px;font-weight:500;letter-spacing:0;
   background:var(--brand);border:0;color:var(--brand-ink)}
 .btn-lead::after{content:"";position:absolute;right:28px;width:20px;height:20px;background:currentColor;
   -webkit-mask:var(--ico-arrow-right) center/contain no-repeat;mask:var(--ico-arrow-right) center/contain no-repeat}
@@ -313,7 +338,6 @@ pre.code b{color:var(--accent);font-weight:400}
   display:inline-flex;align-items:center;border:1px solid #4B433D;background:#1B1815;color:#F4F1EB;
   font-family:var(--font-mono);font-size:16px;font-weight:500;line-height:24px;letter-spacing:var(--tracking-action);
   font-variant-ligatures:none;text-transform:uppercase;
-  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--grid-cut)),calc(100% - var(--grid-cut)) 100%,0 100%);
   transition:background var(--dur) var(--ease),transform var(--dur) var(--ease)}
 .ready-button::after{content:"";position:absolute;right:24px;width:20px;height:20px;background:currentColor;
   -webkit-mask:var(--ico-arrow-right) center/contain no-repeat;mask:var(--ico-arrow-right) center/contain no-repeat}
@@ -336,14 +360,19 @@ pre.code b{color:var(--accent);font-weight:400}
   font-family:var(--font-mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .stage .eyebrow{color:#DED9D3}
 
-/* ---- status chips (the three that ship) ---------------------------------------- */
+/* ---- status and classification chips ------------------------------------------- */
 .chip-out{display:inline-flex;align-items:center;padding:3px 9px;border-radius:2px;
   font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:500;
   border:1px solid currentColor;background:transparent}
-.chip-out.red{color:var(--sre-red)}
-.chip-out.amber{color:var(--sre-amber)}
-.chip-out.green{color:var(--sre-green)}
-.chip-out.blue{color:var(--sre-blue)}
+.chip-out.red{color:var(--state-danger-ink);border-color:var(--state-danger-line);background:var(--state-danger-bg)}
+.chip-out.amber{color:var(--state-warning-ink);border-color:var(--state-warning-line);background:var(--state-warning-bg)}
+.chip-out.green{color:var(--state-success-ink);border-color:var(--state-success-line);background:var(--state-success-bg)}
+.chip-out.blue{color:var(--state-info-ink);border-color:var(--state-info-line);background:var(--state-info-bg)}
+.chip-out.neutral{color:var(--state-neutral-ink);border-color:var(--state-neutral-line);background:var(--state-neutral-bg)}
+.stage .chip-out.red,.sre .chip-out.red{color:var(--sre-red);border-color:var(--sre-red-line);background:var(--sre-red-bg)}
+.stage .chip-out.amber,.sre .chip-out.amber{color:var(--sre-amber);border-color:var(--sre-amber-line);background:var(--sre-amber-bg)}
+.stage .chip-out.green,.sre .chip-out.green{color:var(--sre-green);border-color:var(--sre-green-line);background:var(--sre-green-bg)}
+.stage .chip-out.blue,.sre .chip-out.blue{color:var(--sre-blue);border-color:var(--sre-blue-line);background:var(--sre-blue-bg)}
 .chip-solid{display:inline-flex;align-items:center;padding:3px 9px;border-radius:2px;
   font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:500}
 .chip-solid.red{background:var(--sre-red-bg);border:1px solid var(--sre-red-line);color:var(--sre-red)}
@@ -351,10 +380,18 @@ pre.code b{color:var(--accent);font-weight:400}
 .chip-solid.green{background:var(--sre-green-bg);border:1px solid var(--sre-green-line);color:var(--sre-green)}
 .chip-solid.blue{background:var(--sre-blue-bg);border:1px solid var(--sre-blue-line);color:var(--sre-blue)}
 .chip-out.tech,.chip-solid.tech{font-family:var(--font-mono);text-transform:uppercase}
-.pill{display:inline-block;margin-left:8px;vertical-align:1px;white-space:nowrap;
-  font-family:var(--font-sans);font-size:11px;font-weight:500;letter-spacing:0;
-  padding:2px 7px;border-radius:2px;background:var(--crit-dim);color:var(--crit)}
-.pill.ok{background:var(--sig-dim);color:var(--sig)}
+.status{display:inline-flex;align-items:center;gap:7px;min-height:24px;padding:3px 9px;border:1px solid;
+  border-radius:2px;font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:500}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.status.success{color:var(--state-success-ink);border-color:var(--state-success-line);background:var(--state-success-bg)}
+.status.warning{color:var(--state-warning-ink);border-color:var(--state-warning-line);background:var(--state-warning-bg)}
+.status.danger{color:var(--state-danger-ink);border-color:var(--state-danger-line);background:var(--state-danger-bg)}
+.status.info{color:var(--state-info-ink);border-color:var(--state-info-line);background:var(--state-info-bg)}
+.status.neutral{color:var(--state-neutral-ink);border-color:var(--state-neutral-line);background:var(--state-neutral-bg)}
+.role-badge{display:inline-flex;align-items:center;min-height:24px;padding:3px 9px;border:1px solid var(--state-neutral-line);
+  border-radius:2px;background:var(--state-neutral-bg);color:var(--state-neutral-ink);
+  font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:500}
+.step .chip-solid{margin-left:8px;padding:2px 7px;vertical-align:1px;font-size:11px;line-height:14px}
 
 /* ---- dots ---------------------------------------------------------------------- */
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
@@ -466,7 +503,7 @@ pre.code b{color:var(--accent);font-weight:400}
 .ev-view{align-self:start;font-size:var(--sre-t-caption);line-height:var(--sre-lh-body);color:var(--sre-blue)}
 .rec-card{margin-top:14px;padding:14px 16px;border:1px solid var(--sre-green-line);background:var(--sre-green-bg);
   display:flex;align-items:flex-start;gap:16px;font-size:var(--sre-t-caption);line-height:var(--sre-lh-caption);color:#DED9D3}
-.rec-card .chip-out{flex:none;margin-left:auto}
+.rec-card .chip-solid{flex:none;margin-left:auto}
 
 /* ---- overlay cards (hero globe, warm-retoned) ------------------------------------- */
 .incident-card{width:250px;height:60px;display:flex;flex-direction:column;justify-content:center;gap:5px;
@@ -661,8 +698,22 @@ pre.code b{color:var(--accent);font-weight:400}
   .sre-tabs{flex-wrap:wrap}
   .sre-bar{flex-wrap:wrap}
   .sre-bar .acts{margin-left:0;gap:12px}
-  .sre-rowhead,.sre-row{grid-template-columns:60px minmax(0,1fr);gap:8px}
-  .sre-rowhead .ev,.sre-rowhead .st,.sre-row .ev{display:none}
+  .sre-rowhead,.sre-row{grid-template-columns:60px minmax(0,1fr) auto;gap:8px 12px}
+  .sre-rowhead .ev,.sre-row .ev{display:none}
+  .sre-rowhead .st,.sre-row > :last-child{justify-self:end}
+}
+@media (max-width:520px){
+  .btn-lead{width:100%;min-width:0}
+  .segmented{width:100%}
+  .segmented .btn{flex:1}
+}
+@media (max-width:400px){
+  .sre-rowhead{grid-template-columns:52px minmax(0,1fr)}
+  .sre-rowhead .st{display:none}
+  .sre-row{grid-template-columns:52px minmax(0,1fr);align-items:start;row-gap:8px}
+  .sre-row .tm{grid-column:1;grid-row:1 / span 2;padding-top:2px}
+  .sre-row .sig{grid-column:2;grid-row:1}
+  .sre-row > :last-child{grid-column:2;grid-row:2;justify-self:start}
 }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
@@ -686,8 +737,8 @@ pre.code b{color:var(--accent);font-weight:400}
   --lift-2:0 2px 6px rgba(14,22,22,.08), 0 20px 52px rgba(14,22,22,.16);
   /* --- decision 2: the notch at small sizes ---------------------------------
      14px eats the corner off anything short. The cut scales by object height. */
-  --cut-lg:14px;   /* 40px and taller — buttons, cards, panels */
-  --cut-sm:8px;    /* 28–40px — icon buttons, inputs, chips-with-border */
+  --cut-lg:14px;   /* cards and content containers */
+  --cut-sm:8px;    /* compact notched containers; never buttons */
   /* below 28px the object is square: no cut, no notch line */
   /* --- decision 3: app density ---------------------------------------------
      Row heights for the product surface. Normal is the default. */
@@ -742,8 +793,8 @@ pre.code b{color:var(--accent);font-weight:400}
 .pgh-nav{display:flex;gap:0;margin-top:14px;border-top:1px solid var(--line);
   overflow-x:auto;scrollbar-width:none}
 .pgh-nav a{display:flex;align-items:center;gap:8px;padding:12px 15px;white-space:nowrap;
-  font-family:var(--font-mono);font-size:13.5px;color:var(--ink-2);text-decoration:none;
-  font-variant-ligatures:none;letter-spacing:var(--tracking-action);text-transform:uppercase;
+  font-family:var(--font-sans);font-size:13.5px;color:var(--ink-2);text-decoration:none;
+  letter-spacing:0;text-transform:none;
   border-bottom:2px solid transparent;margin-bottom:-1px}
 .pgh-nav a:hover{color:var(--ink)}
 .pgh-nav a[aria-current="page"]{color:var(--ink);font-weight:500;border-bottom-color:var(--brand)}
@@ -758,8 +809,8 @@ pre.code b{color:var(--accent);font-weight:400}
 .snav .grp{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
   color:var(--muted);padding:13px 15px 7px}
 .snav a{display:flex;align-items:center;gap:10px;padding:0 15px;height:var(--row-normal);
-  font-family:var(--font-mono);font-size:13.5px;color:var(--ink-2);text-decoration:none;
-  font-variant-ligatures:none;letter-spacing:var(--tracking-action);text-transform:uppercase;
+  font-family:var(--font-sans);font-size:13.5px;color:var(--ink-2);text-decoration:none;
+  letter-spacing:0;text-transform:none;
   border-left:2px solid transparent;transition:background var(--dur) var(--ease)}
 .snav a:hover{background:var(--surf-2);color:var(--ink)}
 .snav a[aria-current="page"]{background:var(--surf-2);color:var(--ink);font-weight:500;
@@ -804,24 +855,142 @@ a.acard:hover h5{color:var(--accent)}
 .btn.is-loading::before{content:"";position:absolute;top:calc(50% - 7px);left:calc(50% - 7px);
   width:14px;height:14px;border:1.5px solid var(--brand-ink);border-top-color:transparent;
   border-radius:50%;animation:ot-spin .7s linear infinite}
-.btn.ghost.is-loading::before,.btn.invisible.is-loading::before{border-color:var(--ink);
+.btn.ghost.is-loading::before,.btn.secondary.is-loading::before,.btn.invisible.is-loading::before{border-color:var(--ink);
   border-top-color:transparent}
 @keyframes ot-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.btn.is-loading::before{animation-duration:2s}}
 
+/* --- segmented choice -----------------------------------------------------
+   A selection is state, not a CTA. The selected item uses warm black so the
+   brand amber remains available for the page's one consequential action. */
+.segmented{display:inline-flex;align-items:stretch;border:1px solid var(--line-2);background:var(--surf)}
+.segmented .btn{min-height:32px;padding:6px 15px;border:0;border-right:1px solid var(--line-2);
+  background:transparent;color:var(--ink-2);clip-path:none;background-image:none;transform:none}
+.segmented .btn:last-child{border-right:0}
+.segmented .btn:hover{background:var(--surf-2);color:var(--ink);transform:none}
+.segmented .btn[aria-pressed="true"]{background:var(--black);color:var(--on-black)}
+.segmented .btn[aria-pressed="true"]:hover{background:var(--black-hover);color:var(--on-black)}
+.segmented.lg .btn{min-height:48px;padding:12px 24px;font-size:15px}
+
+/* --- fields --------------------------------------------------------------- */
+.field-stack{display:grid;gap:16px}
+.field{display:grid;gap:6px}
+.field label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;color:var(--ink)}
+.field input,.field select{width:100%;min-height:40px;padding:9px 12px;border:1px solid var(--line-2);
+  border-radius:0;background:var(--surf);color:var(--ink);font-family:var(--font-sans);font-size:14px;line-height:20px}
+.field input:hover,.field select:hover{border-color:var(--ink-2)}
+.field input:focus-visible,.field select:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-color:var(--ink)}
+.field-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field-help{font-size:12px;line-height:16px;color:var(--muted)}
+
+/* --- on-call workspace ---------------------------------------------------- */
+.oc-app{background:var(--surf)}
+.oc-head{display:flex;align-items:center;gap:16px;padding:20px 24px;border-bottom:1px solid var(--line)}
+.oc-head-copy{display:grid;gap:4px}
+.oc-head h4{font-size:24px;line-height:30px;font-weight:500;letter-spacing:-.012em}
+.oc-head p{margin:0;font-size:13px;line-height:18px;color:var(--muted)}
+.oc-head .acts{margin-left:auto;display:flex;align-items:center;gap:8px}
+.oc-toolbar{display:flex;align-items:center;gap:12px;padding:12px 24px;border-bottom:1px solid var(--line)}
+.oc-range{margin-left:auto;display:flex;align-items:center;gap:8px}
+.oc-range strong{min-width:128px;text-align:center;font-size:13px;font-weight:500;color:var(--ink)}
+.oc-layout{display:grid;grid-template-columns:240px minmax(0,1fr);min-width:0}
+.oc-now{padding:20px;border-right:1px solid var(--line);display:grid;align-content:start;gap:16px}
+.oc-now-title{font-family:var(--font-mono);font-size:10px;line-height:15px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted)}
+.oc-person{display:flex;align-items:center;gap:12px}
+.oc-avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:var(--black);color:var(--on-black);font-size:13px;font-weight:600}
+.oc-person strong{display:block;font-size:15px;line-height:20px;font-weight:600;color:var(--ink)}
+.oc-person small{display:block;margin-top:2px;font-size:12px;line-height:16px;color:var(--muted)}
+.oc-handoff{padding:12px;background:var(--bg-2);border:1px solid var(--line)}
+.oc-handoff b{display:block;font-family:var(--font-mono);font-size:12px;line-height:17px;font-weight:500;color:var(--ink)}
+.oc-handoff span{display:block;margin-top:3px;font-size:12px;line-height:16px;color:var(--muted)}
+.oc-rules{border-top:1px solid var(--line)}
+.oc-rule{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);
+  font-size:12px;line-height:16px;color:var(--muted)}
+.oc-rule b{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--ink);text-align:right}
+.oc-calendar{min-width:0;overflow-x:auto;color:#F4F1EB;background:#100E0D}
+.oc-week{display:grid;grid-template-columns:64px repeat(7,minmax(96px,1fr));min-width:760px}
+.oc-time-axis,.oc-day{min-height:286px;border-right:1px solid #39322D}
+.oc-day:last-child{border-right:0}
+.oc-time-head,.oc-day-head{height:48px;padding:9px 10px;border-bottom:1px solid #39322D}
+.oc-time-head{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#918981}
+.oc-day-head{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.oc-day-head b{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#918981}
+.oc-day-head span{font-family:var(--font-mono);font-size:12px;color:#B9B3AD}
+.oc-day[aria-current="date"] .oc-day-head b,.oc-day[aria-current="date"] .oc-day-head span{color:var(--sre-amber)}
+.oc-times{height:238px;padding:10px 8px 12px;display:flex;flex-direction:column;justify-content:space-between;
+  font-family:var(--font-mono);font-size:10px;color:#7F7770}
+.oc-shift{margin:12px 8px;padding:12px 10px;min-height:210px;border:1px solid #39322D;
+  background:#1B1815;display:flex;flex-direction:column;gap:8px}
+.oc-day[aria-current="date"] .oc-shift{border-color:var(--sre-amber-line);background:var(--sre-amber-bg)}
+.oc-shift .oc-avatar{width:28px;height:28px;background:#332D27;color:#F4F1EB;font-size:10px}
+.oc-shift strong{font-size:13px;line-height:18px;font-weight:500;color:#F4F1EB}
+.oc-shift .time{font-family:var(--font-mono);font-size:10px;line-height:15px;color:#918981}
+.oc-shift .chip-solid{margin-top:auto;align-self:flex-start}
+
+.oc-config{display:grid;grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);background:var(--surf)}
+.oc-config-form{padding:20px;border-right:1px solid var(--line)}
+.oc-config h4{font-size:18px;line-height:24px;font-weight:600}
+.oc-config-intro{margin:5px 0 16px;font-size:13px;line-height:18px;color:var(--muted)}
+.oc-members{border:1px solid var(--line-2)}
+.oc-member{display:flex;align-items:center;gap:10px;min-height:40px;padding:7px 10px;border-bottom:1px solid var(--line)}
+.oc-member:last-child{border-bottom:0}
+.oc-member .order{font-family:var(--font-mono);font-size:10px;color:var(--muted)}
+.oc-member .oc-avatar{width:26px;height:26px;font-size:9px}
+.oc-member strong{font-size:13px;font-weight:500}
+.oc-member small{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted)}
+.oc-policy{padding:20px}
+.oc-policy-head{display:flex;align-items:start;gap:16px;margin-bottom:16px}
+.oc-policy-head .btn{margin-left:auto}
+.oc-policy-flow{border:1px solid var(--line-2)}
+.oc-policy-step{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:16px}
+.oc-step-no{width:36px;height:36px;display:grid;place-items:center;background:var(--black);color:var(--on-black);
+  font-family:var(--font-mono);font-size:11px}
+.oc-step-copy{display:grid;gap:3px}
+.oc-step-copy span{font-size:12px;line-height:16px;color:var(--muted)}
+.oc-step-copy strong{font-size:14px;line-height:20px;font-weight:600;color:var(--ink)}
+.oc-target{padding:5px 8px;border:1px solid var(--line-2);background:var(--bg-2);
+  font-size:12px;line-height:16px;color:var(--ink-2);white-space:nowrap}
+.oc-wait{display:flex;align-items:center;gap:10px;padding:9px 16px;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);background:var(--bg-2);font-size:12px;line-height:16px;color:var(--muted)}
+.oc-wait .ui-icon{color:var(--accent)}
+.oc-wait b{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--ink)}
+.oc-policy-foot{display:flex;align-items:center;gap:12px;margin-top:16px}
+.oc-repeat{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.oc-repeat input{accent-color:var(--black)}
+.oc-policy-foot .btn:last-child{margin-left:auto}
+
+@media (max-width:980px){
+  .oc-layout,.oc-config{grid-template-columns:1fr}
+  .oc-now,.oc-config-form{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:760px){
+  .oc-head,.oc-toolbar{align-items:flex-start;flex-wrap:wrap;padding-inline:16px}
+  .oc-head .acts,.oc-range{margin-left:0;width:100%}
+  .oc-head .acts .btn{flex:1}
+  .oc-range{justify-content:space-between}
+  .oc-now,.oc-config-form,.oc-policy{padding:16px}
+  .field-pair{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .oc-policy-step{grid-template-columns:32px minmax(0,1fr);padding:12px}
+  .oc-step-no{width:32px;height:32px}
+  .oc-target{grid-column:2;justify-self:start;white-space:normal}
+  .oc-policy-head,.oc-policy-foot{flex-wrap:wrap}
+  .oc-policy-head .btn,.oc-policy-foot .btn:last-child{margin-left:0;width:100%}
+}
+
 /* --- icon button ----------------------------------------------------------- */
 .ibtn{display:inline-grid;place-items:center;width:32px;height:32px;padding:0;flex:none;
   background:transparent;border:1px solid var(--line);color:var(--ink);cursor:pointer;
-  --cut:var(--cut-sm);--notch-line:var(--line);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut-sm)),calc(100% - var(--cut-sm)) 100%,0 100%);
   transition:color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
-.ibtn:hover{color:var(--accent);border-color:var(--accent);--notch-line:var(--accent)}
-.ibtn.sm{width:26px;height:26px;--cut:0;clip-path:none;background-image:none}
-.ibtn.lg{width:40px;height:40px;--cut:var(--cut-lg);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut-lg)),calc(100% - var(--cut-lg)) 100%,0 100%)}
-.ibtn.plain{border-color:transparent;--notch-line:transparent}
-.ibtn.plain:hover{background:var(--surf-2);border-color:transparent;--notch-line:transparent}
-.ibtn.danger:hover{color:var(--crit);border-color:var(--crit);--notch-line:var(--crit)}
+.ibtn:hover{color:var(--accent);border-color:var(--accent)}
+.ibtn.sm{width:26px;height:26px}
+.ibtn.lg{width:40px;height:40px}
+.ibtn.plain{border-color:transparent}
+.ibtn.plain:hover{background:var(--surf-2);border-color:transparent}
+.ibtn.danger:hover{color:var(--crit);border-color:var(--crit)}
 .ibtn[disabled]{opacity:.42;pointer-events:none}
 
 /* --- link ------------------------------------------------------------------ */
@@ -860,9 +1029,9 @@ a.acard:hover h5{color:var(--accent)}
    the kept side of the diagonal so the clip cannot shave it away.
    Authored last, because every component sets `background` shorthand of its own
    and a shorthand later in the sheet would reset background-image to none.       */
-.frame,.sre,.btn.ghost,.motion-box,.acard,.ibtn,.btn.inactive,
+.frame,.sre,.motion-box,.acard,
 .geo-demo.cut14,.geo-demo.cut18,.geo-demo.cut24,
-.ready-button,.ready-button.primary,.tlwrap.cutline{
+.tlwrap.cutline{
   --cut-line:var(--notch-line,var(--line-2));
   background-image:linear-gradient(to bottom right,
     transparent calc(50% - 1px),
@@ -875,10 +1044,6 @@ a.acard:hover h5{color:var(--accent)}
   background-origin:border-box;
 }
 .sre{--cut:var(--sre-notch);--notch-line:#39322D}
-.btn.ghost{--notch-line:var(--line)}
-.btn.ghost:hover{--notch-line:var(--brand)}
-.ready-button{--notch-line:#4B433D}
-.ready-button.primary{--notch-line:transparent}
 .motion-box{--notch-line:var(--line-2)}
 .geo-demo{--notch-line:var(--accent)}
 /* the integration case card has no border on the landing page, so its cut
@@ -944,6 +1109,7 @@ a.acard:hover h5{color:var(--accent)}
       <a href="#splitlayout">Split layout</a>
       <a href="#pageheader">Page header</a>
       <a href="#sidenav">Side nav</a>
+      <a href="#oncall">On-call workspace</a>
     </div>
     <div class="nav-group">
       <div class="nav-label">Components</div>
@@ -996,9 +1162,9 @@ a.acard:hover h5{color:var(--accent)}
     <div class="mk">SYSTEM</div>
     <div class="bd">
       <p class="lab">OpsTracer design system</p>
-      <h2 class="mt-s">Two bands, one signal quartet, one amber action.</h2>
-      <p class="lede">DS-01 documents the language the OpsTracer landing page ships today. The page runs a warm paper shell for editorial bands and the SRE Lead dark palette for the nav, the hero and every product panel. Colour speaks four times — amber, red, green, blue — and the only action colour is brand amber.</p>
-      <div class="callout warn mt-m">These values are the <b>resolved</b> output of <span class="tok">opstracer-landing-page/index.html</span>, read after all 22 override layers. The base token block at the top of that file is superseded — layer 6 replaces the surfaces, layer 8 flips nav and hero, layer 17 makes every primary action amber. Reading only the top of the file gives the wrong system.</div>
+      <h2 class="mt-s">Two bands, one signal system, two action weights.</h2>
+      <p class="lede">DS-01 now covers the product that ships as well as the landing language it came from. Warm paper carries the app shell, near-black carries focused operational panels, amber identifies the single consequential action, and warm black handles strong controls that should not compete with it.</p>
+      <div class="callout warn mt-m">This revision was checked against the live product across Overview, Incidents, Alert routing, On-call, Personal and Organization routes. The repeated issue was semantic collision: amber was being asked to mean action, selection, role and status at the same time. The system below separates those jobs.</div>
 
       <div class="grid g4 mt-l">
         <div class="frame"><div class="frame-body">
@@ -1007,11 +1173,11 @@ a.acard:hover h5{color:var(--accent)}
         </div></div>
         <div class="frame"><div class="frame-body">
           <p class="lab">Action</p><h4 class="mt-s" style="color:var(--brand)">#F0A439</h4>
-          <p class="note" style="margin-top:8px">Brand amber with an ink label. Every button, every band.</p>
+          <p class="note" style="margin-top:8px">Brand amber with an ink label. One primary action per view.</p>
         </div></div>
         <div class="frame"><div class="frame-body">
-          <p class="lab">Geometry</p><h4 class="mt-s">Radius 0, corner cut</h4>
-          <p class="note" style="margin-top:8px">14px on actions and cards, 18px on SRE product panels.</p>
+          <p class="lab">Geometry</p><h4 class="mt-s">Square controls, notched panels</h4>
+          <p class="note" style="margin-top:8px">Buttons stay rectangular. Cards use 14px cuts; SRE panels use 18px.</p>
         </div></div>
         <div class="frame"><div class="frame-body">
           <p class="lab">Depth</p><h4 class="mt-s">Lines, not shadows</h4>
@@ -1105,6 +1271,7 @@ a.acard:hover h5{color:var(--accent)}
         <div class="sw"><button class="chip" style="--c:#D4D2CA" data-hex="#D4D2CA" aria-label="Copy line"></button><div class="meta"><div class="name">--line</div><div class="hex">#D4D2CA</div><p class="use">Internal dividers and band seams.</p></div></div>
         <div class="sw"><button class="chip" style="--c:#C4C2B8" data-hex="#C4C2B8" aria-label="Copy line-2"></button><div class="meta"><div class="name">--line-2</div><div class="hex">#C4C2B8</div><p class="use">Container edges. One step stronger.</p></div></div>
         <div class="sw"><button class="chip" style="--c:#0E1616" data-hex="#0E1616" aria-label="Copy ink"></button><div class="meta"><div class="name">--ink</div><div class="hex">#0E1616</div><p class="use">Section headings on paper.</p></div></div>
+        <div class="sw"><button class="chip" style="--c:#171411" data-hex="#171411" aria-label="Copy warm black"></button><div class="meta"><div class="name">--black</div><div class="hex">#171411</div><p class="use">Strong secondary controls and selected segments.</p></div></div>
         <div class="sw"><button class="chip" style="--c:#394744" data-hex="#394744" aria-label="Copy ink-2"></button><div class="meta"><div class="name">--ink-2</div><div class="hex">#394744</div><p class="use">Body copy and rail markers.</p></div></div>
         <div class="sw"><button class="chip" style="--c:#697873" data-hex="#697873" aria-label="Copy muted"></button><div class="meta"><div class="name">--muted</div><div class="hex">#697873</div><p class="use">Mono labels and quiet metadata.</p></div></div>
       </div>
@@ -1146,28 +1313,28 @@ a.acard:hover h5{color:var(--accent)}
     <div class="bd">
       <p class="lab">Foundations / Signal quartet</p>
       <h2 class="mt-s">Four colours, three values each.</h2>
-      <p class="lede">Every state in the product is one of four hues, and each ships as a triple: the hue itself for text and marks, a darkened line for the chip border, and a deep ground for the chip fill. These do not swap with the band — a red event is the same red on paper and on near-black.</p>
+      <p class="lede">Operational evidence keeps the bright four-hue SRE quartet on dark panels. Product status on paper uses darker semantic text plus a pale tint and border, so the same meaning remains legible without turning every badge into a tiny CTA.</p>
 
       <div class="grid g4 mt-l">
         <div class="frame"><div class="frame-bar"><span class="t tech">--sre-amber</span></div><div class="frame-body">
           <div class="trio"><span style="background:#F0A43A;color:#171411">F0A43A</span><span style="background:#68502A;color:#F0A43A">68502A</span><span style="background:#251E14;color:#F0A43A">251E14</span></div>
-          <p class="note">Live, in-flight, changed, warning. Also the brand action.</p>
-          <div class="row mt-s"><span class="chip-out amber">Changed</span><span class="chip-solid amber">Effect</span></div>
+          <p class="note">Live, in-flight, changed and warning. It shares a hue with the brand, not a UI role.</p>
+          <div class="row mt-s"><span class="chip-solid amber">Changed</span><span class="chip-solid amber">Effect</span></div>
         </div></div>
         <div class="frame"><div class="frame-bar"><span class="t tech">--sre-red</span></div><div class="frame-body">
           <div class="trio"><span style="background:#EF6257;color:#171411">EF6257</span><span style="background:#713B36;color:#EF6257">713B36</span><span style="background:#281916;color:#EF6257">281916</span></div>
           <p class="note">Triggered, SEV-1, root cause, error rate.</p>
-          <div class="row mt-s"><span class="chip-out red">Triggered</span><span class="chip-solid red">Root cause</span></div>
+          <div class="row mt-s"><span class="chip-solid red">Triggered</span><span class="chip-solid red">Root cause</span></div>
         </div></div>
         <div class="frame"><div class="frame-bar"><span class="t tech">--sre-green</span></div><div class="frame-body">
           <div class="trio"><span style="background:#37C993;color:#171411">37C993</span><span style="background:#256D54;color:#37C993">256D54</span><span style="background:#15251F;color:#37C993">15251F</span></div>
           <p class="note">Resolved, verified, acked, recommended.</p>
-          <div class="row mt-s"><span class="chip-out green">Resolved</span><span class="chip-solid green">Recommended</span></div>
+          <div class="row mt-s"><span class="chip-solid green">Resolved</span><span class="chip-solid green">Recommended</span></div>
         </div></div>
         <div class="frame"><div class="frame-bar"><span class="t tech">--sre-blue</span></div><div class="frame-body">
           <div class="trio"><span style="background:#6790FF;color:#171411">6790FF</span><span style="background:#3158A8;color:#6790FF">3158A8</span><span style="background:#13234A;color:#6790FF">13234A</span></div>
           <p class="note">Correlation, links, deploy found, "View" affordances.</p>
-          <div class="row mt-s"><span class="chip-out blue">Correlated</span><span class="chip-solid blue">Linked</span></div>
+          <div class="row mt-s"><span class="chip-solid blue">Correlated</span><span class="chip-solid blue">Linked</span></div>
         </div></div>
       </div>
 
@@ -1202,10 +1369,10 @@ a.acard:hover h5{color:var(--accent)}
     <div class="mk">ACTION</div>
     <div class="bd">
       <p class="lab">Foundations / Brand action</p>
-      <h2 class="mt-s">Amber is the only action colour.</h2>
-      <p class="lede">Every primary action on the page is <span class="tok">#F0A439</span> with an ink label. Amber against paper with light text would sit near 2:1, so the label goes dark rather than light — that decision is what fixes the button's shape across both bands.</p>
+      <h2 class="mt-s">Amber commits. Warm black controls.</h2>
+      <p class="lede">The primary action is <span class="tok">#F0A439</span> with a dark label. A second filled tier uses warm black <span class="tok">#171411</span> for administrative actions and selected choices. This keeps amber scarce enough to remain meaningful.</p>
 
-      <div class="grid g3 mt-l">
+      <div class="grid g4 mt-l">
         <div class="frame"><div class="frame-body" style="text-align:center">
           <div style="height:66px;background:#F0A439"></div>
           <div class="mono mt-s" style="font-size:11px">#F0A439</div><p class="note" style="margin-top:4px">Rest</p>
@@ -1216,13 +1383,17 @@ a.acard:hover h5{color:var(--accent)}
         </div></div>
         <div class="frame"><div class="frame-body" style="text-align:center">
           <div style="height:66px;background:#171411"></div>
-          <div class="mono mt-s" style="font-size:11px">#171411</div><p class="note" style="margin-top:4px">Label on amber</p>
+          <div class="mono mt-s" style="font-size:11px">#171411</div><p class="note" style="margin-top:4px">Warm black control</p>
+        </div></div>
+        <div class="frame"><div class="frame-body" style="text-align:center">
+          <div style="height:66px;background:#F4F1EB;border:1px solid #D4D2CA"></div>
+          <div class="mono mt-s" style="font-size:11px">#F4F1EB</div><p class="note" style="margin-top:4px">Label on black</p>
         </div></div>
       </div>
 
       <div class="grid g2 mt-m">
-        <div class="frame"><div class="frame-body" style="background:#ECEBE5"><p class="lab" style="color:#697873">on paper</p><div class="row mt-s"><span class="btn">Get a live demo</span></div></div></div>
-        <div class="frame"><div class="frame-body stage"><p class="lab">on the dark band</p><div class="row mt-s"><span class="btn">Get a live demo</span></div></div></div>
+        <div class="frame"><div class="frame-body" style="background:#ECEBE5"><p class="lab" style="color:#697873">on paper</p><div class="row mt-s"><span class="btn">Upgrade</span><span class="btn strong">Manage billing</span></div></div></div>
+        <div class="frame"><div class="frame-body stage"><p class="lab">on the dark band</p><div class="row mt-s"><span class="btn">Acknowledge</span><span class="btn strong">Reassign</span></div></div></div>
       </div>
 
       <div class="callout warn mt-m">The token spelling and the button spelling differ by one digit: <span class="tok">--sre-amber</span> is <b>#F0A43A</b>, the button literal is <b>#F0A439</b>. They are indistinguishable on screen but they are two values in one codebase. Pick <span class="tok">#F0A439</span> and make the token match.</div>
@@ -1236,7 +1407,7 @@ a.acard:hover h5{color:var(--accent)}
     <div class="bd">
       <p class="lab">Foundations / Typography</p>
       <h2 class="mt-s">Host Grotesk argues. DM Mono reports.</h2>
-      <p class="lede">Two self-hosted families, split by meaning. Host Grotesk carries prose, field labels and human-readable states. DM Mono carries navigation, action labels, code and machine-readable facts such as timestamps, IDs, paths, tokens and measurements. Navigation and action labels are uppercase; literal source code keeps its syntax casing.</p>
+      <p class="lede">Two self-hosted families, split by reading mode. Host Grotesk carries prose, field labels, navigation, actions and human-readable states in sentence case. DM Mono is reserved for machine-readable facts such as timestamps, IDs, paths, tokens and measurements.</p>
 
       <div class="grid g2 mt-l">
         <div class="fontcard">
@@ -1265,16 +1436,14 @@ a.acard:hover h5{color:var(--accent)}
 }
 
 .mono,.tech,.lab,.eyebrow,.rail .mk{ text-transform:<b>uppercase</b>; }
-.btn,.ready-button,.navlinks a,.sre-tab{
-  font-family:<b>var(--font-mono)</b>!important;
-  font-variant-ligatures:<b>none</b>;
-  letter-spacing:<b>var(--tracking-action)</b>;
-  text-transform:<b>uppercase</b>;
-}
-.field label,.chip{ font-family:<b>var(--font-sans)</b>; }</pre>
+.btn,.pgh-nav a,.snav a,.field label,.chip,.status{
+  font-family:<b>var(--font-sans)</b>;
+  letter-spacing:<b>0</b>;
+  text-transform:<b>none</b>;
+}</pre>
         </div>
       </div>
-      <p class="note">Preserve source casing inside <span class="tok">code</span>, <span class="tok">pre</span>, file names, service names and exact tokens. Navigation and action labels use uppercase DM Mono with <span class="tok">.04em</span> tracking; prose and other sentence-case interface language stay in Host Grotesk.</p>
+      <p class="note">Preserve source casing inside <span class="tok">code</span>, <span class="tok">pre</span>, file names, service names and exact tokens. Product navigation and actions stay sentence case in Host Grotesk; DM Mono remains for data a responder scans rather than language they read.</p>
     </div>
   </div>
 </section>
@@ -1310,9 +1479,9 @@ a.acard:hover h5{color:var(--accent)}
           <div class="type-spec">16px · lh 1.5</div>
         </div>
         <div class="type-row">
-          <div class="type-name">UI</div>
+          <div class="type-name">Landing CTA</div>
           <div class="s-ui">Get a live demo</div>
-          <div class="type-spec">14px DM Mono<br>uppercase · .04em · w500</div>
+          <div class="type-spec">14px DM Mono<br>marketing only</div>
         </div>
         <div class="type-row">
           <div class="type-name">Meta</div>
@@ -1517,8 +1686,8 @@ a.acard:hover h5{color:var(--accent)}
     <div class="mk">SHAPE</div>
     <div class="bd">
       <p class="lab">Foundations / Geometry</p>
-      <h2 class="mt-s">Square, with one corner cut.</h2>
-      <p class="lede">Radius is zero. The signature is a notch on the bottom-right corner, cut with clip-path. It comes in two sizes because it is applied at two scales — 14px on actions and cards, 18px on product panels, 24px on the very wide integration card.</p>
+      <h2 class="mt-s">Square controls. One cut on content.</h2>
+      <p class="lede">Radius is zero across the system. Buttons, icon buttons, inputs and segmented controls are complete rectangles. The bottom-right notch belongs only to content containers: 14px on cards, 18px on product panels and 24px on the wide integration card.</p>
 
       <div class="frame mt-l">
         <div class="frame-bar"><span class="t">the cut</span><span class="src">--grid-cut / --sre-notch</span></div>
@@ -1533,7 +1702,7 @@ a.acard:hover h5{color:var(--accent)}
       </div>
 
       <div class="geo mt-m">
-        <div class="geo-demo cut14">14px · actions, cards</div>
+        <div class="geo-demo cut14">14px · cards</div>
         <div class="geo-demo cut18">18px · SRE panels</div>
         <div class="geo-demo cut24">24px · case card</div>
         <div class="geo-demo r2">2px · chips only</div>
@@ -1610,7 +1779,7 @@ a.acard:hover h5{color:var(--accent)}
 outline-offset:3px;</pre>
           <div class="focus-demo">
             <button class="btn sm forced" type="button">Focused action</button>
-            <span class="btn ghost sm forced">Focused ghost</span>
+            <span class="btn secondary sm forced">Focused secondary</span>
           </div>
           <p class="note">Tab through this page to see the real ring — same declaration.</p>
         </div>
@@ -1783,7 +1952,7 @@ outline-offset:3px;</pre>
               <h4>checkout-api</h4>
               <span class="chip-out red">Triggered</span>
               <div class="acts">
-                <button type="button" class="btn ghost sm">Edit service</button>
+                <button type="button" class="btn secondary sm">Edit service</button>
                 <button type="button" class="btn sm">Acknowledge</button>
                 <button type="button" class="ibtn" aria-label="More actions">
                   <span class="ui-icon icon-more icon-sm" aria-hidden="true"></span>
@@ -1821,7 +1990,7 @@ outline-offset:3px;</pre>
           <div class="frame-body">
             <div class="pgh sz-lg" style="padding-bottom:18px">
               <div class="ttl"><h4>Incidents</h4>
-                <div class="acts"><button type="button" class="btn ghost sm">Export</button></div>
+                <div class="acts"><button type="button" class="btn secondary sm">Export</button></div>
               </div>
               <p class="desc" style="margin-bottom:0">Everything paging right now, plus the last 30 days.</p>
             </div>
@@ -1902,28 +2071,195 @@ outline-offset:3px;</pre>
 </section>
 
 
+<section id="oncall" class="section" aria-labelledby="oncall-title">
+  <div class="sec-rail">
+    <div class="mk">ON CALL</div>
+    <div class="bd">
+      <p class="lab">Product pattern / On-call</p>
+      <h2 id="oncall-title" class="mt-s">Know who owns the next page.</h2>
+      <p class="lede">A schedule answers who is responsible and when they hand off. An escalation policy answers what happens when that person does not acknowledge. The workflow follows that operational order while the visual language stays native to OpsTracer.</p>
+
+      <div class="frame mt-l">
+        <div class="frame-bar"><span class="t">schedule overview</span><span class="src">weekly coverage</span></div>
+        <div class="frame-body pad-0">
+          <div class="oc-app">
+            <div class="oc-head">
+              <div class="oc-head-copy">
+                <div class="row" style="gap:8px"><h4>Platform primary</h4><span class="status success">Coverage active</span></div>
+                <p>Primary response schedule for production services.</p>
+              </div>
+              <div class="acts">
+                <button type="button" class="btn secondary sm">Create override</button>
+                <button type="button" class="btn sm">Edit schedule</button>
+              </div>
+            </div>
+
+            <div class="oc-toolbar">
+              <div class="segmented" role="group" aria-label="Schedule view">
+                <button type="button" class="btn sm" aria-pressed="true">Week</button>
+                <button type="button" class="btn sm" aria-pressed="false">Rotation</button>
+              </div>
+              <div class="oc-range">
+                <button type="button" class="ib" aria-label="Previous week"><span class="ui-icon icon-arrow-left icon-sm" aria-hidden="true"></span></button>
+                <button type="button" class="ib" aria-label="Current week"><span class="ui-icon icon-calendar icon-sm" aria-hidden="true"></span></button>
+                <strong>07–13 Sep 2026</strong>
+                <button type="button" class="ib" aria-label="Next week"><span class="ui-icon icon-arrow-right icon-sm" aria-hidden="true"></span></button>
+              </div>
+            </div>
+
+            <div class="oc-layout">
+              <aside class="oc-now" aria-label="Current coverage">
+                <span class="oc-now-title">On call now</span>
+                <div class="oc-person">
+                  <span class="oc-avatar" aria-hidden="true">LP</span>
+                  <span><strong>Linh Pham</strong><small>Primary · Platform</small></span>
+                </div>
+                <div class="oc-handoff"><b>09:00 tomorrow</b><span>Handoff to Minh Tran</span></div>
+                <div class="oc-rules">
+                  <div class="oc-rule"><span>Timezone</span><b>Asia/Ho_Chi_Minh</b></div>
+                  <div class="oc-rule"><span>Cycle</span><b>Daily</b></div>
+                  <div class="oc-rule"><span>Handoff</span><b>09:00</b></div>
+                  <div class="oc-rule"><span>Members</span><b>4</b></div>
+                </div>
+              </aside>
+
+              <div class="oc-calendar sre" tabindex="0" aria-label="Weekly schedule. Scroll horizontally to see all days.">
+                <div class="oc-week" role="grid" aria-label="Coverage from 7 to 13 September 2026">
+                  <div class="oc-time-axis" aria-hidden="true">
+                    <div class="oc-time-head">ICT</div>
+                    <div class="oc-times"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell">
+                    <div class="oc-day-head"><b>Mon</b><span>07</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">AN</span><strong>An Nguyen</strong><span class="time">09:00–09:00</span><span class="time">Primary</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell">
+                    <div class="oc-day-head"><b>Tue</b><span>08</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">MT</span><strong>Minh Tran</strong><span class="time">09:00–09:00</span><span class="time">Primary</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell">
+                    <div class="oc-day-head"><b>Wed</b><span>09</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">TH</span><strong>Thu Ha</strong><span class="time">09:00–09:00</span><span class="time">Primary</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell" aria-current="date">
+                    <div class="oc-day-head"><b>Thu</b><span>10</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">LP</span><strong>Linh Pham</strong><span class="time">09:00–09:00</span><span class="chip-solid green">On call</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell">
+                    <div class="oc-day-head"><b>Fri</b><span>11</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">MT</span><strong>Minh Tran</strong><span class="time">09:00–09:00</span><span class="time">Primary</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell">
+                    <div class="oc-day-head"><b>Sat</b><span>12</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">AN</span><strong>An Nguyen</strong><span class="time">09:00–09:00</span><span class="time">Primary</span></div>
+                  </div>
+                  <div class="oc-day" role="gridcell">
+                    <div class="oc-day-head"><b>Sun</b><span>13</span></div>
+                    <div class="oc-shift"><span class="oc-avatar" aria-hidden="true">LP</span><strong>Linh Pham</strong><span class="time">09:00–09:00</span><span class="time">Primary</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="frame mt-m">
+        <div class="frame-bar"><span class="t">schedule and escalation</span><span class="src">ordered routing</span></div>
+        <div class="frame-body pad-0">
+          <div class="oc-config">
+            <form class="oc-config-form">
+              <h4>Primary rotation</h4>
+              <p class="oc-config-intro">The order below becomes the daily rotation at 09:00 ICT.</p>
+              <div class="field-stack">
+                <div class="field"><label for="oc-name">Schedule name</label><input id="oc-name" value="Platform primary"></div>
+                <div class="field-pair">
+                  <div class="field"><label for="oc-zone">Timezone</label><select id="oc-zone"><option>Asia/Ho_Chi_Minh</option></select></div>
+                  <div class="field"><label for="oc-handoff">Handoff</label><input id="oc-handoff" type="time" value="09:00"></div>
+                </div>
+                <div class="field"><label for="oc-cycle">Rotation cycle</label><select id="oc-cycle"><option>Every day</option><option>Every week</option></select></div>
+                <div class="field">
+                  <label>Rotation order</label>
+                  <div class="oc-members">
+                    <div class="oc-member"><span class="order">01</span><span class="oc-avatar" aria-hidden="true">LP</span><strong>Linh Pham</strong><small>24h</small></div>
+                    <div class="oc-member"><span class="order">02</span><span class="oc-avatar" aria-hidden="true">MT</span><strong>Minh Tran</strong><small>24h</small></div>
+                    <div class="oc-member"><span class="order">03</span><span class="oc-avatar" aria-hidden="true">AN</span><strong>An Nguyen</strong><small>24h</small></div>
+                    <div class="oc-member"><span class="order">04</span><span class="oc-avatar" aria-hidden="true">TH</span><strong>Thu Ha</strong><small>24h</small></div>
+                  </div>
+                  <button type="button" class="btn secondary sm">Add member</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="oc-policy">
+              <div class="oc-policy-head">
+                <div><h4>Checkout escalation</h4><p class="oc-config-intro">Notify in order until somebody acknowledges.</p></div>
+              </div>
+              <div class="oc-policy-flow">
+                <div class="oc-policy-step">
+                  <span class="oc-step-no">01</span>
+                  <span class="oc-step-copy"><span>Notify</span><strong>Platform primary + Linh Pham</strong></span>
+                  <span class="oc-target">Schedule + person</span>
+                </div>
+                <div class="oc-wait"><span class="ui-icon icon-clock icon-sm" aria-hidden="true"></span><span>If unacknowledged after</span><b>5 minutes</b></div>
+                <div class="oc-policy-step">
+                  <span class="oc-step-no">02</span>
+                  <span class="oc-step-copy"><span>Notify</span><strong>Minh Tran + #incident</strong></span>
+                  <span class="oc-target">Person + Slack</span>
+                </div>
+                <div class="oc-wait"><span class="ui-icon icon-clock icon-sm" aria-hidden="true"></span><span>If unacknowledged after</span><b>5 minutes</b></div>
+              </div>
+              <div class="oc-policy-foot">
+                <label class="oc-repeat"><input type="checkbox" checked>Repeat policy twice</label>
+                <button type="button" class="btn secondary sm">Add step</button>
+                <button type="button" class="btn sm">Save policy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="frame mt-m">
+        <div class="frame-bar"><span class="t">usage rules</span></div>
+        <div class="frame-body pad-0">
+          <div class="bp">
+            <div><span class="n">schedule</span><span class="w">who + when</span><span>Always expose the current owner, next handoff, timezone and rotation order.</span></div>
+            <div><span class="n">escalation</span><span class="w">ordered steps</span><span>Each step says who is notified and exactly how long the policy waits.</span></div>
+            <div><span class="n">identity</span><span class="w">written</span><span>A person's name is always present; colour never becomes an identity key.</span></div>
+            <div><span class="n">live signal</span><span class="w">amber + word</span><span>Only today's column and the explicit “On call” state receive live emphasis.</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="note mt-m">Workflow reference: <a href="https://www.youtube.com/watch?v=eUQiaTZg80M&amp;t=65s">Rootly — Creating Schedules + Escalation Policies</a>. Structure is adapted; colour, type, hierarchy and geometry remain OpsTracer-native.</p>
+    </div>
+  </div>
+</section>
+
+
 <section id="buttons" class="section">
   <div class="sec-rail">
     <div class="mk">ACTION</div>
     <div class="bd">
       <p class="lab">Components / Buttons</p>
-      <h2 class="mt-s">Clear actions, amber, cut at the corner.</h2>
-      <p class="lede">Button labels use DM Mono in uppercase with <span class="tok">.04em</span> tracking, giving every action the same compact technical voice as navigation. Every button is square with the 14px notch. There is no blue primary anywhere in the system — an earlier revision had one and layer 17 removed it.</p>
+      <h2 class="mt-s">One amber decision, then neutral controls.</h2>
+      <p class="lede">Product buttons use Host Grotesk in sentence case, matching the live app. Amber is reserved for the page's main create, commit or upgrade action. Warm black is the strong secondary tier; outline and text variants carry everything quieter. No status colour is reused as a routine button.</p>
 
       <div class="frame mt-l">
         <div class="frame-bar"><span class="t">variants</span><span class="src">.btn</span></div>
         <div class="frame-body">
           <div class="row">
             <button class="btn" type="button">Primary</button>
-            <button class="btn ghost" type="button">Ghost</button>
+            <button class="btn strong" type="button">Strong secondary</button>
+            <button class="btn secondary" type="button">Secondary</button>
             <button class="btn is-disabled" type="button" disabled>Disabled</button>
           </div>
           <div class="row mt-m">
             <button class="btn sm" type="button">Primary sm</button>
-            <button class="btn ghost sm" type="button">Ghost sm</button>
+            <button class="btn strong sm" type="button">Strong sm</button>
+            <button class="btn secondary sm" type="button">Secondary sm</button>
           </div>
           <div class="mt-m"><button class="btn btn-lead" type="button">Get a live demo</button></div>
-          <p class="note">The lead button is hero-only: 296px minimum, DM Mono 18px uppercase, arrow pinned 28px right, no border.</p>
+          <p class="note">The lead button is hero-only: 296px minimum, Host Grotesk 18px medium in sentence case, arrow pinned 28px right, no border.</p>
         </div>
       </div>
       <div class="frame mt-m">
@@ -1931,7 +2267,8 @@ outline-offset:3px;</pre>
         <div class="frame-body">
           <div class="row">
             <button type="button" class="btn">Acknowledge</button>
-            <button type="button" class="btn ghost">Reassign</button>
+            <button type="button" class="btn strong">Reassign</button>
+            <button type="button" class="btn secondary">Add note</button>
             <button type="button" class="btn danger">Close incident</button>
             <button type="button" class="btn invisible">Cancel</button>
             <button type="button" class="btn aslink">View evidence</button>
@@ -1944,7 +2281,7 @@ outline-offset:3px;</pre>
           <div class="row mt-m">
             <button type="button" class="btn">
               <span class="ui-icon icon-check icon-sm" aria-hidden="true"></span>With leading icon</button>
-            <button type="button" class="btn ghost">Open runbook
+            <button type="button" class="btn secondary">Open runbook
               <span class="ui-icon icon-arrow-right icon-sm" aria-hidden="true"></span></button>
             <button type="button" class="btn is-loading"><span>Acknowledging</span></button>
             <button type="button" class="btn inactive">Escalate</button>
@@ -1953,6 +2290,22 @@ outline-offset:3px;</pre>
           <p class="note">Danger is <span class="tok">--crit</span>, not amber — the one place the
             action colour is allowed to change, because closing an incident is not the same gesture
             as acknowledging one.</p>
+        </div>
+      </div>
+
+      <div class="frame mt-m">
+        <div class="frame-bar"><span class="t">billing page hierarchy</span><span class="src">live product audit</span></div>
+        <div class="frame-body">
+          <div class="row">
+            <button type="button" class="btn">Upgrade</button>
+            <button type="button" class="btn strong">Manage billing</button>
+            <div class="segmented lg" role="group" aria-label="Billing interval">
+              <button type="button" class="btn" aria-pressed="true">Monthly</button>
+              <button type="button" class="btn" aria-pressed="false">Yearly</button>
+            </div>
+            <button type="button" class="btn aslink">Contact us</button>
+          </div>
+          <p class="note">Upgrade is the conversion action. Manage billing is important but administrative, so it uses warm black. Monthly and Yearly are one segmented choice whose selected state is black, not amber. Contact us remains a text action.</p>
         </div>
       </div>
 
@@ -1967,9 +2320,9 @@ outline-offset:3px;</pre>
       </div>
 
       <div class="frame mt-m">
-        <div class="frame-bar"><span class="t">the ghost is an outline, not a second fill</span></div>
+        <div class="frame-bar"><span class="t">secondary is an outline, not a weak primary</span></div>
         <div class="frame-body">
-          <p class="note" style="margin-top:0">Ghost rests on <span class="tok">--line</span> with the band's own ink, and on hover both border and label go amber. It never takes a fill, so the amber button stays the only filled object in a band.</p>
+          <p class="note" style="margin-top:0">Secondary rests on <span class="tok">--line-2</span> with the band's own ink, and gains a quiet surface on hover. It does not turn amber: hover feedback must not promote its hierarchy.</p>
         </div>
       </div>
 
@@ -1977,10 +2330,10 @@ outline-offset:3px;</pre>
         <div class="frame-bar"><span class="t">anatomy</span></div>
         <div class="frame-body pad-0">
           <div class="bp">
-            <div><span class="n">padding</span><span class="w">11px 20px</span><span>8px 15px small · 18px 50px lead</span></div>
-            <div><span class="n">type</span><span class="w">DM Mono 14px</span><span>uppercase · .04em · w500 · 18px on the lead</span></div>
-            <div><span class="n">fill</span><span class="w">#F0A439</span><span>label #171411 · hover #FFB95E</span></div>
-            <div><span class="n">radius</span><span class="w">0</span><span>plus the 14px corner cut, outline repainted</span></div>
+            <div><span class="n">padding</span><span class="w">9px 20px</span><span>6px 15px small · 18px 50px lead</span></div>
+            <div><span class="n">type</span><span class="w">Host 14px</span><span>sentence case · w500 · no added tracking</span></div>
+            <div><span class="n">fills</span><span class="w">amber / black</span><span>primary #F0A439 · strong secondary #171411</span></div>
+            <div><span class="n">shape</span><span class="w">radius 0</span><span>complete rectangle · no clip-path or corner cut</span></div>
             <div><span class="n">hover</span><span class="w">−2px Y</span><span>fill brightens; no scale, no shadow</span></div>
           </div>
         </div>
@@ -2026,16 +2379,13 @@ outline-offset:3px;</pre>
       </div>
 
       <div class="frame mt-m">
-        <div class="frame-bar"><span class="t">the notch scales with the object</span></div>
+        <div class="frame-bar"><span class="t">complete rectangular hit area</span></div>
         <div class="frame-body">
-          <p class="note" style="margin-top:0">14px is the cut for anything 40px and taller. At 32px
-            it eats a third of the edge, so the cut steps down to 8px; below 28px the object is
-            square and carries no cut at all. Same rule for inputs, filled chips and menu items —
-            written here because icon buttons are where it first bites.</p>
+          <p class="note" style="margin-top:0">Icon buttons never inherit the card notch. Their visual box and hit area stay rectangular at every size, so the affordance remains predictable and no corner disappears around a small glyph.</p>
           <div class="bp mt-s">
-            <div><span class="n">40px and up</span><span class="w">14px cut</span><span>buttons, cards, panels, dialogs</span></div>
-            <div><span class="n">28–40px</span><span class="w">8px cut</span><span>icon buttons, inputs, selects</span></div>
-            <div><span class="n">under 28px</span><span class="w">square</span><span>chips, counters, small icon buttons, menu rows</span></div>
+            <div><span class="n">large</span><span class="w">40px</span><span>standalone icon action · full rectangle</span></div>
+            <div><span class="n">medium</span><span class="w">32px</span><span>title and toolbar action · full rectangle</span></div>
+            <div><span class="n">small</span><span class="w">26px</span><span>dense table row only · full rectangle</span></div>
           </div>
         </div>
       </div>
@@ -2147,30 +2497,38 @@ outline-offset:3px;</pre>
     <div class="mk">STATE</div>
     <div class="bd">
       <p class="lab">Components / State chips</p>
-      <h2 class="mt-s">Outlined for a live state, filled for a classification.</h2>
-      <p class="lede">Two chip shapes, both Host Grotesk 12px at 2px radius. An outlined chip reports what a row is doing right now. A filled chip classifies a piece of evidence — cause, effect, recommendation — and carries its hue's own line and ground.</p>
+      <h2 class="mt-s">State is semantic. Role is neutral.</h2>
+      <p class="lede">A product status always combines a word, a dot and an accessible semantic tint. Roles such as Owner and Admin are identity metadata, not health or warning signals, so they stay neutral. Evidence classifications retain the brighter SRE quartet inside dark operational panels.</p>
 
       <div class="grid g2 mt-l">
-        <div class="frame"><div class="frame-bar"><span class="t">outlined · live state</span></div><div class="frame-body stage">
-          <div class="row"><span class="chip-out red">Triggered</span><span class="chip-out amber">Changed</span><span class="chip-out green">Resolved</span><span class="chip-out blue">Correlated</span></div>
-          <p class="note" style="color:#918981">1px border in the hue, transparent ground. Used in the STATE column of an evidence panel.</p>
+        <div class="frame"><div class="frame-bar"><span class="t">product status · paper</span></div><div class="frame-body">
+          <div class="row"><span class="status success">Active</span><span class="status warning">Pending</span><span class="status danger">Triggered</span><span class="status info">Acknowledged</span><span class="status neutral">Disabled</span></div>
+          <p class="note">Darker text passes AA on the light product surface; the pale tint groups the label without reading like a button.</p>
         </div></div>
-        <div class="frame"><div class="frame-bar"><span class="t">filled · classification</span></div><div class="frame-body stage">
-          <div class="row"><span class="chip-solid red">Root cause</span><span class="chip-solid amber">Effect</span><span class="chip-solid green">Recommended</span><span class="chip-solid blue">Linked</span></div>
-          <p class="note" style="color:#918981">Hue line on hue ground. Used inline beside an event title.</p>
+        <div class="frame"><div class="frame-bar"><span class="t">role and relationship · neutral</span></div><div class="frame-body">
+          <div class="row"><span class="role-badge">Owner</span><span class="role-badge">Admin</span><span class="chip-out neutral">Current plan</span></div>
+          <p class="note">No dot and no amber. These labels describe who or which record, not whether the system is healthy.</p>
         </div></div>
       </div>
 
       <div class="frame mt-m">
-        <div class="frame-bar"><span class="t">status dots</span></div>
+        <div class="frame-bar"><span class="t">evidence state and classification · dark panel</span></div>
         <div class="frame-body stage">
-          <div class="row" style="gap:26px">
-            <span class="row" style="gap:9px"><i class="dot live"></i><span style="font-size:12px;color:#DED9D3">firing</span></span>
-            <span class="row" style="gap:9px"><i class="dot amber"></i><span style="font-size:12px;color:#DED9D3">in flight</span></span>
-            <span class="row" style="gap:9px"><i class="dot green"></i><span style="font-size:12px;color:#DED9D3">healthy</span></span>
-            <span class="row" style="gap:9px"><i class="dot idle" style="border-color:#39322D"></i><span style="font-size:12px;color:#DED9D3">pending</span></span>
+          <div class="row"><span class="chip-solid red">Triggered</span><span class="chip-solid amber">Changed</span><span class="chip-solid green">Resolved</span><span class="chip-solid blue">Correlated</span><span class="chip-solid red">Root cause</span><span class="chip-solid green">Recommended</span></div>
+          <p class="note" style="color:#918981">Every evidence state and classification uses the same deep semantic tint, hue-matched border and bright label. This high-chroma treatment stays inside the SRE dark surface.</p>
+        </div>
+      </div>
+
+      <div class="frame mt-m">
+        <div class="frame-bar"><span class="t">semantic mapping</span><span class="src">WCAG AA on --surf</span></div>
+        <div class="frame-body pad-0">
+          <div class="bp">
+            <div><span class="n">success</span><span class="w">#1C7053</span><span>active, healthy, resolved · 5.41:1</span></div>
+            <div><span class="n">warning</span><span class="w">#8A4B0F</span><span>pending, delayed, needs attention · 6.11:1</span></div>
+            <div><span class="n">danger</span><span class="w">#A6392E</span><span>triggered, failed, destructive · 5.82:1</span></div>
+            <div><span class="n">info</span><span class="w">#3158A8</span><span>acknowledged, linked, scheduled · 6.11:1</span></div>
+            <div><span class="n">neutral</span><span class="w">#394744</span><span>disabled, draft, role, current relation · 8.76:1</span></div>
           </div>
-          <p class="note" style="color:#918981">The 4px halo marks the state that is currently changing. A settled dot is solid and quiet.</p>
         </div>
       </div>
     </div>
@@ -2196,9 +2554,9 @@ outline-offset:3px;</pre>
             <div class="steps" id="steps">
               <div class="step lit"><span class="tm">00:00</span><span class="gut"></span><span class="tx">Latency alert arrives from Datadog.</span></div>
               <div class="step"><span class="tm">00:02</span><span class="gut"></span><span class="tx">Routed to Checkout API. Policy pages the API on-call.</span></div>
-              <div class="step"><span class="tm">02:19</span><span class="gut"></span><span class="tx">Acknowledged from mobile. <span class="pill ok">Acked</span></span></div>
+              <div class="step"><span class="tm">02:19</span><span class="gut"></span><span class="tx">Acknowledged from mobile. <span class="chip-solid green">Acked</span></span></div>
               <div class="step"><span class="tm">04:41</span><span class="gut"></span><span class="tx">Deploy correlated — <span class="tech">checkout-api@1842</span>.</span></div>
-              <div class="step"><span class="tm">11:08</span><span class="gut"></span><span class="tx">Rollback verified, error rate 0.3%. <span class="pill ok">Resolved</span></span></div>
+              <div class="step"><span class="tm">11:08</span><span class="gut"></span><span class="tx">Rollback verified, error rate 0.3%. <span class="chip-solid green">Resolved</span></span></div>
             </div>
             <div class="tlfoot">4 correlated events · captured automatically · <b>MTTA 2m 19s</b></div>
           </div>
@@ -2225,7 +2583,7 @@ outline-offset:3px;</pre>
       <div class="sre mt-l">
         <div class="sre-bar">
           <span class="id"><i class="dot live"></i>INC-2841 · CHECKOUT LATENCY</span>
-          <span class="acts"><span>Search</span><span>Export</span><span class="chip-out red">Live</span></span>
+          <span class="acts"><span>Search</span><span>Export</span><span class="chip-solid red">Live</span></span>
         </div>
         <div class="sre-tabs" role="tablist" aria-label="Evidence filter">
           <button class="sre-tab" role="tab" aria-selected="true" type="button">All evidence</button>
@@ -2245,19 +2603,19 @@ outline-offset:3px;</pre>
             <span class="tm">08:42</span>
             <span class="sig"><i class="sre-mark red"><span class="ui-icon icon-alert" aria-hidden="true"></span></i>Alert opened</span>
             <span class="ev">p95 latency 4.8s</span>
-            <span><span class="chip-out red">Triggered</span></span>
+            <span><span class="chip-solid red">Triggered</span></span>
           </div>
           <div class="sre-row">
             <span class="tm">08:44</span>
             <span class="sig"><i class="sre-mark blue"><span class="ui-icon icon-deploy" aria-hidden="true"></span></i>Deploy found</span>
             <span class="ev mono">checkout-api@1842</span>
-            <span><span class="chip-out amber">Changed</span></span>
+            <span><span class="chip-solid amber">Changed</span></span>
           </div>
           <div class="sre-row">
             <span class="tm">08:53</span>
             <span class="sig"><i class="sre-mark green"><span class="ui-icon icon-check" aria-hidden="true"></span></i>Rollback verified</span>
             <span class="ev">error rate 0.3%</span>
-            <span><span class="chip-out green">Resolved</span></span>
+            <span><span class="chip-solid green">Resolved</span></span>
           </div>
         </div>
         <div class="sre-foot"><span>4 correlated events</span><span class="live">Timeline captured automatically</span></div>
@@ -2267,7 +2625,7 @@ outline-offset:3px;</pre>
         <div class="frame"><div class="frame-body"><p class="lab">Header bar</p><p class="note" style="margin-top:8px">Live dot, incident ID in mono uppercase, then text actions and a Live chip pushed right.</p></div></div>
         <div class="frame"><div class="frame-body"><p class="lab">Filter tabs</p><p class="note" style="margin-top:8px">Square outlined buttons. The selected one takes the <span class="tok">--surf-2</span> fill and full ink.</p></div></div>
         <div class="frame"><div class="frame-body"><p class="lab">Stat strip</p><p class="note" style="margin-top:8px">Four equal cells split by vertical rules. The technical key is uppercase mono; values use DM Mono only for time and severity, while people and states stay in Host Grotesk.</p></div></div>
-        <div class="frame"><div class="frame-body"><p class="lab">Rows</p><p class="note" style="margin-top:8px">70px / 1.3fr / 1.2fr / 120px. A circular outlined mark carries the row's hue; the state chip repeats it in words.</p></div></div>
+        <div class="frame"><div class="frame-body"><p class="lab">Rows</p><p class="note" style="margin-top:8px">70px / 1.3fr / 1.2fr / 120px. Below 760px, evidence hides and state stays in a third end-aligned column; below 400px, state stacks under the signal rather than under the time. A circular outlined mark carries the row's hue; the state chip repeats it in words.</p></div></div>
       </div>
     </div>
   </div>
@@ -2309,7 +2667,7 @@ outline-offset:3px;</pre>
           <p class="lab mt-m">How to prevent recurrence</p>
           <div class="rec-card">
             <span>Guard undefined product data before rendering and add a payload-contract test to the deployment gate.</span>
-            <span class="chip-out green">Recommended</span>
+            <span class="chip-solid green">Recommended</span>
           </div>
         </div>
       </div>
@@ -2327,7 +2685,7 @@ outline-offset:3px;</pre>
       <p class="lede">Portfolio metrics are three tiles split by vertical rules. Each holds a label, a single large figure at the 24/30 step, a qualifying line, and a 3px bar whose ends are labelled — the bar gives proportion without a chart.</p>
 
       <div class="sre mt-l">
-        <div class="sre-bar"><span class="id">Operational risk</span><span class="acts"><span class="chip-out green">Portfolio live</span></span></div>
+        <div class="sre-bar"><span class="id">Operational risk</span><span class="acts"><span class="chip-solid green">Portfolio live</span></span></div>
         <div class="grid g3" style="gap:0">
           <div class="tile">
             <div class="k">Reliability</div>
@@ -2368,17 +2726,17 @@ outline-offset:3px;</pre>
       <p class="lab">Guidelines / Do &amp; Don't</p>
       <h2 class="mt-s">The decisions that keep this coherent.</h2>
       <div class="dd mt-l">
-        <div class="card do"><h5>Do</h5><p>Repaint the notch outline. Clip-path removes the border along the diagonal — put it back with the gradient iso-line on every outlined element that is cut.</p></div>
-        <div class="card dont"><h5>Don't</h5><p>Leave a cut container with an open corner. A frame whose border stops short reads as a rendering bug, not a shape.</p></div>
+        <div class="card do"><h5>Do</h5><p>Keep buttons and form controls rectangular. Repaint the notch outline only on cards and panels that intentionally carry the content-container signature.</p></div>
+        <div class="card dont"><h5>Don't</h5><p>Apply the content notch to an action. A clipped button loses a corner of its hit-area silhouette and competes with the panel geometry.</p></div>
 
-        <div class="card do"><h5>Do</h5><p>Use amber for the single primary action, and for the one thing currently moving.</p></div>
-        <div class="card dont"><h5>Don't</h5><p>Introduce a second action colour. The blue in the signal quartet marks correlation and links — it is never a button.</p></div>
+        <div class="card do"><h5>Do</h5><p>Use amber for the single primary action. Use warm black for a strong administrative action or the selected item in a segmented choice.</p></div>
+        <div class="card dont"><h5>Don't</h5><p>Use amber for a role, a selected filter, a current plan or a routine secondary action. It flattens the page hierarchy.</p></div>
 
         <div class="card do"><h5>Do</h5><p>Give a scoped dark band its own <span class="tok">color:var(--ink)</span>, or its headings inherit the paper ink and disappear.</p></div>
         <div class="card dont"><h5>Don't</h5><p>Flip the whole theme to get a dark section. The bands coexist; only the band's tokens change.</p></div>
 
         <div class="card do"><h5>Do</h5><p>Use uppercase DM Mono for timestamps, IDs, paths, tokens, measurements and technical keys. Preserve original casing only in literal source code.</p></div>
-        <div class="card dont"><h5>Don't</h5><p>Set prose, field labels, service names or human-readable states in uppercase mono. Use DM Mono for navigation and action labels; use Host Grotesk whenever longer language needs sentence case.</p></div>
+        <div class="card dont"><h5>Don't</h5><p>Set prose, field labels, navigation, actions, service names or human-readable states in uppercase mono. Product language stays sentence case in Host Grotesk.</p></div>
 
         <div class="card do"><h5>Do</h5><p>Pair every state colour with a word. The chip says "Resolved" as well as being green.</p></div>
         <div class="card dont"><h5>Don't</h5><p>Rely on a dot alone. A colour with no label fails the moment the reader is colour-blind or the screen is dimmed.</p></div>
@@ -2417,9 +2775,10 @@ outline-offset:3px;</pre>
       </div>
       <div class="callout mt-m">The component set is being built against
         <b>Primer product</b> as the reference for coverage — not for its look. 62 components audited;
-        wave 1, the app shell, is in this file. Waves 2 and 3 — forms, the real data table, the
-        overlay layer, empty and loading states — are not here yet, and a screen that needs one
-        should say so rather than invent it.</div>
+        wave 1, the app shell, is in this file. Wave 2 now starts with text/select fields and the
+        On-call schedule-and-escalation pattern. The real data table, validation, overlay layer,
+        empty and loading states are not here yet, and a screen that needs one should say so rather
+        than invent it.</div>
     </div>
   </div>
 </section>
@@ -2467,6 +2826,7 @@ outline-offset:3px;</pre>
             <div><span class="n">layer 17</span><span class="w">action</span><span>Every primary action becomes brand amber with an ink label.</span></div>
             <div><span class="n">layer 18</span><span class="w">hierarchy</span><span>The quietest text tier lifts to #A49C95.</span></div>
             <div><span class="n">layer 22</span><span class="w">type</span><span>Canonical font assignment, authored last and marked important.</span></div>
+            <div><span class="n">product audit</span><span class="w">10.09.2026</span><span>Host sentence-case controls, warm-black secondary tier, semantic light-surface statuses and neutral roles.</span></div>
           </div>
         </div>
       </div>
@@ -2497,7 +2857,7 @@ outline-offset:3px;</pre>
             <div><span class="n">warm paper, cool ink</span><span class="w">drift</span><span>Layer 6 warmed the surfaces but left the ink ramp cool. Warm the ink or cool the paper — currently neither.</span></div>
             <div><span class="n">#F0A439 vs #F0A43A</span><span class="w">drift</span><span>The button literal and the amber token differ by one digit. Pick one.</span></div>
             <div><span class="n">22 override layers</span><span class="w">debt</span><span>The palette can only be known by resolving it in a browser. Flatten into one token block.</span></div>
-            <div><span class="n">dead CSS</span><span class="w">debt</span><span>Form controls, key/value rows, activity log and a control-plane panel are styled but never rendered.</span></div>
+            <div><span class="n">forms wave</span><span class="w">partial</span><span>Text and select fields now ship in the On-call pattern; validation, errors, loading and destructive confirmation still need specimens.</span></div>
             <div><span class="n">legacy radii</span><span class="w">debt</span><span>A few panels still carry 5–6px corners from before the square direction. Square them when touched.</span></div>
             <div><span class="n">two notch sizes</span><span class="w">open</span><span>14px and 18px both ship, plus 24px on one card. The rule is by scale, but it is not written down anywhere but here.</span></div>
             <div><span class="n">mixed colour spaces</span><span class="w">open</span><span>The RCA panel uses oklch; everything else uses hex. Keep oklch scoped.</span></div>
@@ -2508,7 +2868,7 @@ outline-offset:3px;</pre>
         </div>
       </div>
 
-      <p class="note mt-m">Source of truth: <span class="tok">opstracer-landing-page/index.html</span>, resolved in a browser. When this document and the rendered page disagree, change this document.</p>
+      <p class="note mt-m">Source of truth: the live <span class="tok">app.dev.opstracer.ai</span> routes for product UI and <span class="tok">landing.html</span> for marketing. When this document and the relevant rendered surface disagree, the rendered surface wins.</p>
     </div>
   </div>
 </section>
@@ -2586,6 +2946,18 @@ outline-offset:3px;</pre>
         if(!ok) return;
         btn.dataset.copied = 'true';
         window.setTimeout(function(){ delete btn.dataset.copied; }, 1200);
+      });
+    });
+  });
+
+  /* ---- segmented controls ---------------------------------------------- */
+  document.querySelectorAll('.segmented').forEach(function(group){
+    var buttons = [].slice.call(group.querySelectorAll('button[aria-pressed]'));
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        buttons.forEach(function(other){
+          other.setAttribute('aria-pressed', String(other === btn));
+        });
       });
     });
   });
