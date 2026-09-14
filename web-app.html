@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="OpsTracer web application rebuilt with the DS-02 product design system.">
   <title>OpsTracer · Web app</title>
-  <link rel="stylesheet" href="web-app.css?v=25">
+  <link rel="stylesheet" href="web-app.css?v=30">
 </head>
 <body>
   <a class="sr-only" href="#app-content">Skip to content</a>
@@ -17,8 +17,8 @@
       <div class="nav-group"><span class="nav-label">WORKSPACE</span><nav class="nav-list">
         <button class="nav-item is-active" data-route="dashboard"><span class="nav-icon icon-grid"></span><span>Overview</span></button>
         <button class="nav-item" data-route="incidents"><span class="nav-icon icon-alert"></span><span>Incidents</span></button>
-        <button class="nav-parent" type="button" aria-expanded="true"><span class="nav-icon icon-routing"></span><span>Alert routing</span><span class="chevron">⌃</span></button>
-        <div class="nav-child nav-list">
+        <button class="nav-parent" type="button" aria-expanded="true" aria-controls="alert-routing-menu"><span class="nav-icon icon-routing"></span><span>Alert routing</span><span class="chevron">⌃</span></button>
+        <div class="nav-child nav-list" id="alert-routing-menu">
           <button class="nav-item" data-route="services"><span class="nav-icon icon-service"></span><span>Services</span></button>
           <button class="nav-item" data-route="policies"><span class="nav-icon icon-policy"></span><span>Escalation policies</span></button>
           <button class="nav-item" data-route="rules"><span class="nav-icon icon-route"></span><span>Routing rules</span></button>
@@ -108,7 +108,7 @@
               <section class="schedule-calendar" aria-labelledby="schedule-calendar-title">
                 <header class="schedule-calendar-head">
                   <div><h2 id="schedule-calendar-title">September 2026</h2><p>Week of 14–20 September · Asia/Saigon</p></div>
-                  <div class="calendar-toolbar"><button class="btn secondary small">Today</button><select class="select compact" aria-label="Calendar view"><option>Week</option><option>Month</option></select><button class="icon-btn" aria-label="Previous week">←</button><button class="icon-btn" aria-label="Next week">→</button></div>
+                  <div class="calendar-toolbar"><button class="btn secondary">Today</button><select class="select compact" aria-label="Calendar view"><option>Week</option><option>Month</option></select><button class="icon-btn" aria-label="Previous week">←</button><button class="icon-btn" aria-label="Next week">→</button></div>
                 </header>
                 <div class="week-calendar" role="region" aria-label="Weekly on-call schedule" tabindex="0">
                   <div class="week-head" role="row"><span aria-hidden="true"></span><div role="columnheader"><small>Mon</small><strong>14</strong></div><div role="columnheader"><small>Tue</small><strong>15</strong></div><div class="is-today" role="columnheader"><small>Wed</small><strong>16</strong></div><div role="columnheader"><small>Thu</small><strong>17</strong></div><div role="columnheader"><small>Fri</small><strong>18</strong></div><div role="columnheader"><small>Sat</small><strong>19</strong></div><div role="columnheader"><small>Sun</small><strong>20</strong></div></div>
@@ -217,7 +217,7 @@
       'account-menu':'<span class="popover-label">vu.nguyen@c0x12c.com</span><button data-route="settings">Organization settings <span>→</span></button><hr><button data-toast="Sign out is disabled in this prototype">Sign out</button>',
       'workspace-menu':'<span class="popover-label">Current workspace</span><button><span>Khoa Test</span><span class="tag success">Admin</span></button><hr><button data-route="settings">Manage organization <span>→</span></button>'};
     function closeMenu(){popover.classList.remove('is-open');popover.setAttribute('aria-hidden','true');document.querySelectorAll('[data-menu]').forEach(item=>item.setAttribute('aria-expanded','false'))}
-    document.querySelectorAll('[data-menu]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();const rect=button.getBoundingClientRect();popover.innerHTML=menuHtml[button.dataset.menu];popover.querySelectorAll('button').forEach(item=>item.setAttribute('role','menuitem'));popover.style.top=`${Math.min(rect.bottom+6,innerHeight-190)}px`;popover.style.left=`${Math.max(8,Math.min(rect.right-220,innerWidth-228))}px`;popover.classList.add('is-open');popover.setAttribute('aria-hidden','false');button.setAttribute('aria-expanded','true')}));
+    document.querySelectorAll('[data-menu]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();const rect=button.getBoundingClientRect();popover.innerHTML=menuHtml[button.dataset.menu];popover.querySelectorAll('button').forEach(item=>item.setAttribute('role','menuitem'));popover.style.top=`${Math.min(rect.bottom+6,innerHeight-190)}px`;popover.style.left=`${Math.max(8,Math.min(rect.left,innerWidth-228))}px`;popover.classList.add('is-open');popover.setAttribute('aria-hidden','false');button.setAttribute('aria-expanded','true')}));
     popover.addEventListener('click',event=>{if(event.target.closest('[data-route],[data-toast]'))closeMenu()});document.addEventListener('click',event=>{if(!event.target.closest('#menu-popover,[data-menu]'))closeMenu()});
     document.querySelectorAll('.nav-icon,.workspace-mark').forEach(icon=>icon.setAttribute('aria-hidden','true'));document.querySelectorAll('.calendar-toolbar .icon-btn').forEach((button,index)=>button.setAttribute('aria-label',index?'Next week':'Previous week'));document.querySelector('.calendar-toolbar .select')?.setAttribute('aria-label','Calendar view');document.querySelectorAll('.definition-list>div').forEach(row=>{const control=row.querySelector('input,select,textarea'),label=row.querySelector('dt strong');if(control&&label&&!control.getAttribute('aria-label'))control.setAttribute('aria-label',label.textContent.trim())});document.querySelectorAll('[data-route]:not(button):not(a)').forEach(item=>{item.tabIndex=0;item.setAttribute('role','link');item.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();showRoute(item.dataset.route)}})});
     document.querySelector('[data-page="policy-detail"] .page-body')?.insertAdjacentHTML('beforeend','<div class="danger-zone"><div><h3>Delete this escalation policy</h3><p>Only possible after services and routing rules use another policy.</p></div><button class="btn danger">Delete policy</button></div>');

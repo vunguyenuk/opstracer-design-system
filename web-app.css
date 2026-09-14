@@ -83,6 +83,7 @@ a {
 }
 
 .workspace {
+    width: 100%;
     height: 44px;
     padding: 0 6px;
     display: flex;
@@ -273,10 +274,29 @@ a {
     border-left: .5px solid var(--border)
 }
 
+.nav-child[hidden] {
+    display: none
+}
+
 .account {
     margin-top: auto;
     padding-top: 12px;
     border-top: .5px solid var(--divider)
+}
+
+.account .workspace {
+    padding-inline: var(--space-xs);
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr) 16px;
+    column-gap: var(--space-xs)
+}
+
+.account .avatar {
+    justify-self: center
+}
+
+.account .chevron {
+    margin-left: 0
 }
 
 .avatar {
@@ -1389,7 +1409,13 @@ a {
     gap: var(--space-xs)
 }
 
-.calendar-toolbar .select {
+.calendar-toolbar>.btn {
+    width: auto;
+    padding-inline: var(--space-xs);
+    flex: none
+}
+
+.calendar-toolbar>.select {
     width: 88px;
     flex: none
 }
@@ -1728,10 +1754,19 @@ a {
 }
 
 .dialog-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
     padding: 20px;
     display: grid;
+    align-content: start;
+    grid-auto-rows: max-content;
     gap: 16px;
     overflow: auto
+}
+
+.dialog-body > .panel {
+    min-height: max-content
 }
 
 .dialog-footer {
@@ -1814,6 +1849,16 @@ a {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px
+}
+
+.form-grid > * {
+    min-width: 0
+}
+
+.input,
+.select,
+.textarea {
+    min-width: 0
 }
 
 .form-grid .full {
