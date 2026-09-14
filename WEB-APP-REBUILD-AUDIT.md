@@ -38,7 +38,7 @@ Read-only audit completed 13 September 2026 against `https://app.dev.opstracer.a
 | Teams | `?tab=teams` | team list, member count, create/detail |
 | Invitations | `?tab=invitations` | search, role filter, empty state, invite email/role/teams form |
 | Notifications | `?tab=notifications` | ordered delivery toggle, delivery preview, limitation/help copy, save state |
-| Shell | all routes | workspace switcher, collapsible sidebar, account menu, organization settings/sign out, light/dark/system selector |
+| Shell | all routes | workspace switcher, collapsible sidebar, account menu, organization settings/sign out; unsupported theme switching is intentionally omitted until token modes exist |
 
 ## Component remapping contract
 
@@ -55,7 +55,7 @@ The live application is the source for workflows, labels, domain semantics, and 
 | Tags | minimum 18px, inline-flex center alignment, one-line text |
 | Tables/lists | 40px header, 58px standard row, restrained 0.5px internal dividers |
 | Cards/panels | 12px radius, one border and card shadow; no nested decorative shells |
-| Dialogs | 16px radius, 520px default/680px wide, stable header/footer, internal scroll |
+| Side panels | 480px right-anchored drawer, full viewport height, 16px leading radius, stable header/footer, focus containment and internal scroll |
 | Calendar | 52px toolbar, 7-column semantic grid, consistent shift chips and overflow handling |
 | Progress | 6px track with semantic fill; label/value share one baseline |
 | Typography | Host Grotesk for human UI; DM Mono only for IDs, keys, times, metrics and machine facts |

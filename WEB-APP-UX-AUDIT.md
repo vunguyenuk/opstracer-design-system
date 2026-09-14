@@ -8,10 +8,10 @@ Audit scope: all 18 local routes in `web-app.html`, their shared navigation, con
 | --- | ---: | --- |
 | Accessibility | 3/4 | Named icon controls, active navigation state, keyboard tabs, dialog focus containment, runtime form labels, and reduced-motion support are present. Real submission validation remains prototype-only. |
 | Performance | 4/4 | Static local assets, no runtime framework, no layout-reading loop, and transform-only drawer motion. |
-| Responsive design | 3/4 | 44px mobile targets, drawer scrim/dismissal, single-column reflow, and contained table overflow. Physical-device verification remains outstanding. |
+| Responsive design | 4/4 | 44px mobile targets, right-side drawer, single-column reflow, contained table overflow, and route-by-route breakpoint verification are complete. |
 | Theming | 4/4 | Product colour, surface, overlay, elevation, and z-index values resolve through shared tokens. |
 | Anti-patterns | 4/4 | No decorative side stripe, dark evidence slab, gradient text, injected brand chrome, or speculative dashboard metrics. |
-| **Total** | **18/20** | **Excellent — minor functional hardening remains.** |
+| **Total** | **19/20** | **Excellent — production data handling remains.** |
 
 ## Defects found and resolved
 
@@ -22,11 +22,12 @@ Audit scope: all 18 local routes in `web-app.html`, their shared navigation, con
 - **P2 — Mobile reach and dismissal:** navigation and controls use 44px touch targets below 680px. The drawer now has a scrim and closes when the user selects outside it.
 - **P2 — State and keyboard gaps:** active navigation exposes `aria-current`; tabs expose tab roles, selected state, arrow-key navigation and related tab panels; segmented controls expose pressed state; dialogs keep focus inside, support Escape, and return focus on close.
 - **P2 — Typography floor:** functional micro-labels and avatars no longer render below 11px.
+- **P2 — State-icon optical alignment:** hidden fallback characters were still creating anonymous grid items and lifting pseudo-icons above centre. Pseudo-icons now anchor to the exact 50%/50% container centre independently of fallback content.
 - **P3 — Token drift:** overlay colours and the z-index ladder moved into shared tokens; reduced-motion behaviour now disables non-essential smooth transitions.
 
 ## Deterministic scan
 
-After remediation, `npx impeccable --json web-app.html` reports only `cramped-padding`. These 46 hits are false positives caused by the scanner evaluating structural wrappers without resolving the linked stylesheet: tables intentionally place padding on cells, panels on their header/row children, and tabs use the audited 2px inset switch geometry. Source inspection confirms 12–16px content inset for text-bearing children. The prior undersized-text and skipped-heading findings are resolved.
+After remediation, `npx impeccable --json web-app.html` reports 55 `cramped-padding`, two `clipped-overflow-container`, and two `repeated-container-text` warnings. The padding hits are scanner false positives on structural wrappers whose child rows/cells own their 12–20px inset. The two clipped containers are deliberate rounded shell/calendar clipping, while the repeated on-call name/status is necessary context across configuration, member, and calendar regions. Visual and computed-layout checks found no clipped actionable content. The prior undersized-text and skipped-heading findings remain resolved.
 
 ## UX critique
 
@@ -49,3 +50,13 @@ Cognitive-load checklist: one of eight checks fails. Settings contains five peer
 ## Remaining product-level work
 
 The local prototype visually and behaviorally represents the audited routes, but it does not submit real mutations. Production integration still needs server validation, loading/error handling, destructive confirmation with actual consequences, and persistent state. These are functional implementation requirements rather than unresolved layout or design-system defects.
+
+## Follow-up audit — 14 September 2026
+
+- **Responsive verification:** all 18 routes were exercised at 1440×1000, 1024×900, 820×900, and 375×812. Header and body share the same x-axis on every route at every breakpoint, and no route produced document-level horizontal overflow. Tables and the weekly calendar retain intentional internal scrolling rather than widening the page.
+- **On-call layout:** the former month-grid implementation was replaced with a Rootly-inspired configuration rail + weekly calendar workspace. OpsTracer schedule data remains intact: three named responders, one-week handover, Asia/Saigon, current responder, and rotation controls. At ≤1080px the configuration rail becomes three equal columns; at ≤680px it stacks above the calendar and the calendar toolbar/footer wrap without collision.
+- **Edit/add interaction:** service, policy, routing, integration, schedule, contact, team, member-role, suppression, invite, billing, and destructive actions use the shared right-side panel. The drawer remains full-height and right-anchored at every viewport, traps focus, supports Escape/outside dismissal, and returns focus to its trigger. Edit service, add escalation level, edit integration, edit schedule, add rotation, and edit team were verified to open the correct form on the first click.
+- **Integration identity:** Datadog cards, detail heading, service integration row, and source picker use platform assets. Grafana and Prometheus/Alertmanager marks were added to the picker; the generic webhook keeps a neutral deploy icon instead of inheriting a vendor mark.
+- **Billing parity:** restored current-plan invoice, SMS/voice/responder usage meters, overage-limit management, subscription actions, billing interval control, and Free/Team/Pro comparison. Billing now uses full content width and the shared card, divider, type, control, and spacing tokens.
+- **Small-control alignment:** Settings Help/Copy actions now justify to the trailing edge; mobile tabs keep horizontal access without rendering a scrollbar-like underline; dialog choices align logo, title, description, and hit area consistently.
+- **Spacing pass:** metric gutters now resolve through the shared 12px token; schedule configuration, calendar, footer, and responsive gaps use the same spacing scale. Desktop route geometry was checked programmatically for consistent header/body x alignment.
