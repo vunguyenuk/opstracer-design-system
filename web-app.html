@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="OpsTracer web application rebuilt with the DS-02 product design system.">
   <title>OpsTracer · Web app</title>
-  <link rel="stylesheet" href="web-app.css?v=7">
+  <link rel="stylesheet" href="web-app.css?v=10">
 </head>
 <body>
   <a class="sr-only" href="#app-content">Skip to content</a>
@@ -35,7 +35,7 @@
 
     <main class="wa-main" id="app-content" tabindex="-1">
       <header class="wa-topbar">
-        <div class="crumbs"><button class="icon-btn" id="mobile-nav" aria-label="Toggle navigation"><span class="nav-icon icon-menu" aria-hidden="true"></span></button><span>OpsTracer</span><span>/</span><strong id="current-crumb">Overview</strong></div>
+        <div class="crumbs"><button class="icon-btn" id="mobile-nav" aria-label="Toggle navigation"><span class="nav-icon icon-menu" aria-hidden="true"></span></button><span class="nav-icon icon-grid" aria-hidden="true"></span><span>OpsTracer</span><span>/</span><strong id="current-crumb">Overview</strong></div>
       </header>
 
       <div class="wa-content">
@@ -85,7 +85,52 @@
 
         <section class="page" data-page="schedules"><header class="page-header"><div><h1>On-call</h1><p>Schedules rotate responders through the pager while escalation policies stay stable.</p></div><button class="btn primary" data-dialog="schedule">＋ New schedule</button></header><div class="page-body"><div class="table-wrap"><table class="data-table"><thead><tr><th>Name</th><th>On call now</th><th>Turn</th><th>People</th></tr></thead><tbody><tr data-route="schedule-detail"><td><span class="cell-title">OpsTracer Oncall</span></td><td><span class="tag success dot">Khoa Dang Huynh</span></td><td>1 week</td><td>3</td></tr></tbody></table></div></div></section>
 
-        <section class="page" data-page="schedule-detail"><header class="detail-head"><div class="detail-title-row"><div><h1>OpsTracer Oncall</h1><p>Every 1 week, handing over in Asia/Saigon.</p></div><div class="inline-actions"><button class="btn secondary" data-dialog="schedule">Edit schedule</button><button class="btn danger">Delete schedule</button></div></div></header><div class="page-body"><div class="metric-row panel"><div class="metric"><small>On call now</small><strong style="font-family:var(--font);font-size:15px">Khoa Dang Huynh</strong></div><div class="metric"><small>Turn</small><strong>1 week</strong></div><div class="metric"><small>Time zone</small><strong style="font-size:15px">Asia/Saigon</strong></div></div><div class="subnav"><div><h2 class="section-title">Calendar</h2><p class="section-help">Select a shift to inspect it or arrange cover.</p></div><div class="inline-actions"><span class="tag success dot">On call now</span><span class="tag warning dot">Rotation</span><span class="tag danger dot">No one</span></div></div><div class="panel calendar-shell" style="margin-top:12px"><div class="calendar-toolbar"><button class="btn secondary small">Today</button><select class="select compact"><option>Month</option><option>Week</option></select><button class="icon-btn">←</button><button class="icon-btn">→</button><strong>September 2026</strong></div><div class="month-grid" id="month-grid"></div></div></div></section>
+        <section class="page" data-page="schedule-detail">
+          <header class="detail-head"><div class="detail-title-row"><div><h1>OpsTracer Oncall</h1><p>Every 1 week, handing over in Asia/Saigon.</p></div><div class="inline-actions"><button class="btn secondary" data-dialog="schedule">Edit schedule</button><button class="btn danger">Delete schedule</button></div></div></header>
+          <div class="page-body">
+            <div class="schedule-workspace">
+              <aside class="schedule-config" aria-label="Schedule configuration">
+                <section class="schedule-config-section">
+                  <h2>Schedule details</h2>
+                  <dl class="schedule-facts"><div><dt>On call now</dt><dd><span class="tag success dot">Khoa Dang Huynh</span></dd></div><div><dt>Handover</dt><dd class="mono">Every 1 week</dd></div><div><dt>Time zone</dt><dd>Asia/Saigon</dd></div></dl>
+                </section>
+                <section class="schedule-config-section">
+                  <header><h2>Members</h2><span class="tag">3</span></header>
+                  <ul class="schedule-members"><li><span class="member-avatar">KD</span><span><strong>Khoa Dang Huynh</strong><small>On call now</small></span></li><li><span class="member-avatar">KH</span><span><strong>Khoa Huỳnh</strong><small>Next in rotation</small></span></li><li><span class="member-avatar">KĐ</span><span><strong>Khoa Huỳnh Đăng</strong><small>Rotation member</small></span></li></ul>
+                </section>
+                <section class="schedule-config-section">
+                  <h2>Rotation</h2>
+                  <dl class="schedule-facts"><div><dt>Turn length</dt><dd>1 week</dd></div><div><dt>Starts</dt><dd>Monday · 00:00</dd></div></dl>
+                  <button class="btn text schedule-add" data-toast="A new rotation draft was added">＋ Add rotation</button>
+                </section>
+              </aside>
+
+              <section class="schedule-calendar" aria-labelledby="schedule-calendar-title">
+                <header class="schedule-calendar-head">
+                  <div><h2 id="schedule-calendar-title">September 2026</h2><p>Week of 14–20 September · Asia/Saigon</p></div>
+                  <div class="calendar-toolbar"><button class="btn secondary small">Today</button><select class="select compact" aria-label="Calendar view"><option>Week</option><option>Month</option></select><button class="icon-btn" aria-label="Previous week">←</button><button class="icon-btn" aria-label="Next week">→</button></div>
+                </header>
+                <div class="week-calendar" role="region" aria-label="Weekly on-call schedule" tabindex="0">
+                  <div class="week-head" role="row"><span aria-hidden="true"></span><div role="columnheader"><small>Mon</small><strong>14</strong></div><div role="columnheader"><small>Tue</small><strong>15</strong></div><div class="is-today" role="columnheader"><small>Wed</small><strong>16</strong></div><div role="columnheader"><small>Thu</small><strong>17</strong></div><div role="columnheader"><small>Fri</small><strong>18</strong></div><div role="columnheader"><small>Sat</small><strong>19</strong></div><div role="columnheader"><small>Sun</small><strong>20</strong></div></div>
+                  <div class="week-body">
+                    <div class="week-axis" aria-hidden="true"><span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span><span>24:00</span></div>
+                    <div class="week-tracks" role="grid" aria-label="Responder coverage by day">
+                      <div class="week-track" role="gridcell"><button class="week-shift" data-toast="Monday shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong></button></div>
+                      <div class="week-track" role="gridcell"><button class="week-shift" data-toast="Tuesday shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong></button></div>
+                      <div class="week-track is-today" role="gridcell"><button class="week-shift" data-toast="Current shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong><em class="tag success dot">On call</em></button></div>
+                      <div class="week-track" role="gridcell"><button class="week-shift" data-toast="Thursday shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong></button></div>
+                      <div class="week-track" role="gridcell"><button class="week-shift" data-toast="Friday shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong></button></div>
+                      <div class="week-track" role="gridcell"><button class="week-shift" data-toast="Saturday shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong></button></div>
+                      <div class="week-track" role="gridcell"><button class="week-shift" data-toast="Sunday shift selected"><span>00:00–24:00</span><strong>Khoa Dang Huynh</strong></button></div>
+                    </div>
+                    <div class="current-time" aria-label="Current time 14:15"><span>14:15</span></div>
+                  </div>
+                </div>
+                <footer class="schedule-calendar-foot"><div><span class="tag success dot">On call now</span><span>Khoa Dang Huynh</span></div><p>Select a shift to inspect it or arrange cover.</p></footer>
+              </section>
+            </div>
+          </div>
+        </section>
 
         <section class="page" data-page="shifts"><header class="page-header"><div><h1>My shifts</h1><p>Upcoming times when a page can reach you.</p></div></header><div class="page-body"><div class="panel empty"><span class="state-mark">◫</span><h2>You are not on any schedule</h2><p>Ask an organization admin to add you to a rotation.</p></div></div></section>
 
@@ -126,12 +171,14 @@
   <script>
     const pages=[...document.querySelectorAll('[data-page]')], nav=[...document.querySelectorAll('.nav-item[data-route]')], crumb=document.getElementById('current-crumb');
     const routeNames={dashboard:'Overview',incidents:'Incidents','incident-detail':'Incident detail',services:'Services','service-detail':'Service detail',policies:'Escalation policies','policy-detail':'Policy detail',rules:'Routing rules',integrations:'Integrations','integration-detail':'Integration detail',schedules:'On-call','schedule-detail':'Schedule calendar',shifts:'My shifts',contacts:'Contact methods',billing:'Billing',settings:'Settings','member-detail':'Member detail','team-detail':'Team detail'};
-    function showRoute(route,push=true){const page=pages.find(item=>item.dataset.page===route)||pages[0];pages.forEach(item=>item.classList.toggle('is-active',item===page));nav.forEach(item=>{const active=item.dataset.route===route;item.classList.toggle('is-active',active);active?item.setAttribute('aria-current','page'):item.removeAttribute('aria-current')});crumb.textContent=routeNames[route]||'Overview';if(push)history.pushState({route},'',`#${route}`);document.getElementById('app-content').focus({preventScroll:true});window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});document.getElementById('app-sidebar').classList.remove('is-open')}
+    function closeNavigation(){appSidebar.classList.remove('is-open');document.getElementById('mobile-nav').setAttribute('aria-expanded','false')}
+    function showRoute(route,push=true){const page=pages.find(item=>item.dataset.page===route)||pages[0];pages.forEach(item=>item.classList.toggle('is-active',item===page));nav.forEach(item=>{const active=item.dataset.route===route;item.classList.toggle('is-active',active);active?item.setAttribute('aria-current','page'):item.removeAttribute('aria-current')});crumb.textContent=routeNames[route]||'Overview';if(push)history.pushState({route},'',`#${route}`);document.getElementById('app-content').focus({preventScroll:true});window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});closeNavigation()}
     document.addEventListener('click',event=>{const route=event.target.closest('[data-route]');if(route){event.preventDefault();showRoute(route.dataset.route)}const toastTrigger=event.target.closest('[data-toast]');if(toastTrigger)showToast(toastTrigger.dataset.toast)});
     window.addEventListener('popstate',()=>showRoute(location.hash.slice(1)||'dashboard',false));
     const appSidebar=document.getElementById('app-sidebar');
-    document.getElementById('mobile-nav').addEventListener('click',event=>{event.stopPropagation();appSidebar.classList.toggle('is-open')});
-    document.addEventListener('click',event=>{if(innerWidth<=680&&!event.target.closest('#app-sidebar,#mobile-nav'))appSidebar.classList.remove('is-open')});
+    document.getElementById('mobile-nav').setAttribute('aria-expanded','false');
+    document.getElementById('mobile-nav').addEventListener('click',event=>{event.stopPropagation();const open=appSidebar.classList.toggle('is-open');event.currentTarget.setAttribute('aria-expanded',String(open))});
+    document.addEventListener('click',event=>{if(innerWidth<=820&&!event.target.closest('#app-sidebar,#mobile-nav'))closeNavigation()});
     document.querySelector('.nav-parent').addEventListener('click',event=>{const open=event.currentTarget.getAttribute('aria-expanded')==='true';event.currentTarget.setAttribute('aria-expanded',String(!open));document.querySelector('.nav-child').hidden=open});
 
     document.querySelectorAll('[data-tabs]').forEach(group=>{const scope=group.dataset.tabs,tabs=[...group.querySelectorAll('.tab')],panels=[...document.querySelectorAll(`[data-tab-panel^="${scope}:"]`)];group.setAttribute('role','tablist');tabs.forEach(tab=>{const id=`tab-${scope}-${tab.dataset.tab}`,panel=panels.find(item=>item.dataset.tabPanel===`${scope}:${tab.dataset.tab}`);tab.id=id;tab.setAttribute('role','tab');tab.setAttribute('aria-selected',String(tab.classList.contains('is-active')));if(panel){panel.id=`panel-${scope}-${tab.dataset.tab}`;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',id);tab.setAttribute('aria-controls',panel.id)}});group.addEventListener('click',event=>{const tab=event.target.closest('[data-tab]');if(!tab)return;tabs.forEach(item=>{const active=item===tab;item.classList.toggle('is-active',active);item.setAttribute('aria-selected',String(active))});panels.forEach(panel=>panel.hidden=panel.dataset.tabPanel!==`${scope}:${tab.dataset.tab}`);if(scope==='incidents'){const state=tab.dataset.tab;document.querySelectorAll('[data-status]').forEach(row=>row.hidden=state!=='all'&&row.dataset.status!==state)}});group.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();const current=tabs.indexOf(document.activeElement),offset=event.key==='ArrowRight'?1:-1,next=tabs[(current+offset+tabs.length)%tabs.length];next.focus();next.click()})});

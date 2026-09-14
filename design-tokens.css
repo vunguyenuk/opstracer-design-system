@@ -34,6 +34,10 @@
   --mono:"DM Mono",monospace;
   --content-rail:1376px;
   --sidebar:252px;
+  --app-shell-gutter:10px;
+  --app-shell-join-gap:1px;
+  --app-shell-radius:12px;
+  --app-topbar-h:49px;
   --space-2xs:4px;
   --space-xs:8px;
   --space-sm:12px;

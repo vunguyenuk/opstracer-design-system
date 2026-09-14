@@ -12,7 +12,7 @@ code,.spec-label,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-n
 .skip-link:focus{top:12px}
 :focus-visible{outline:2px solid #3158a8;outline-offset:2px}
 .app-frame{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
-.sidebar{position:sticky;top:0;height:100vh;padding:10px 12px 14px;background:var(--component);display:flex;flex-direction:column;z-index:20}
+.sidebar{position:sticky;top:0;height:100vh;padding:var(--app-shell-gutter) 12px 14px;background:var(--component);display:flex;flex-direction:column;z-index:20}
 .workspace-switch{height:44px;display:flex;align-items:center;gap:10px;padding:0 6px}
 .workspace-switch img{width:126px;height:auto;display:block}
 .ds-version{margin-left:auto;font:500 10px/16px var(--mono);color:var(--muted)}
@@ -22,8 +22,8 @@ code,.spec-label,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-n
 .side-link.is-active,.mini-nav .is-active{background:var(--active);color:var(--text);font-weight:500}
 .sidebar-foot{margin-top:auto}
 .sidebar-foot p{margin:10px 8px 0;color:var(--muted);font-size:11px;line-height:16px}
-.main-shell{min-width:0;margin:10px 10px 10px 1px;border:.5px solid var(--divider);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-card);overflow:hidden}
-.topbar{position:sticky;top:0;z-index:15;height:49px;padding:8px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--divider);background:rgb(255 255 255/.94);backdrop-filter:blur(12px)}
+.main-shell{min-width:0;margin:var(--app-shell-gutter) var(--app-shell-gutter) var(--app-shell-gutter) var(--app-shell-join-gap);border:.5px solid var(--divider);border-radius:var(--app-shell-radius);background:var(--surface);box-shadow:var(--shadow-card);overflow:hidden}
+.topbar{position:sticky;top:0;z-index:15;height:var(--app-topbar-h);padding:8px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--divider);background:var(--surface-translucent);backdrop-filter:blur(12px)}
 .crumb{display:flex;align-items:center;gap:7px;min-width:0;color:var(--muted);white-space:nowrap}
 .crumb strong{color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis}
 .crumb .icon{width:14px;height:14px}
