@@ -30,6 +30,9 @@
   --blue:#3158a8;
   --blue-bg:#edf2ff;
   --blue-line:#a9bce8;
+  --code:#5b3fa8;
+  --code-bg:#f2edfd;
+  --code-line:#c3b1ec;
   --font:"Host Grotesk",sans-serif;
   --mono:"DM Mono",monospace;
   --content-rail:1376px;
@@ -47,8 +50,8 @@
   --space-2xl:48px;
   --space-3xl:64px;
   --space-4xl:96px;
-  --control-h:44px;
-  --control-h-compact:32px;
+  --control-h:36px; /* every input, select and date/number field — one size across product and marketing */
+  --control-h-compact:32px; /* icon buttons and menu rows only — never fields */
   --control-radius:8px;
   --control-radius-compact:6px;
   --control-pad:12px;

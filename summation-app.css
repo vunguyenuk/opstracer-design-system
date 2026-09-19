@@ -107,10 +107,10 @@ code,.spec-label,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-n
 .field input,.select{height:var(--control-h);padding:0 var(--control-pad)}
 .field input::placeholder,.field textarea::placeholder{color:var(--disabled)}
 .field input:focus-visible,.field textarea:focus-visible,.select:focus-visible{outline:0;border-color:var(--action);box-shadow:0 0 0 .5px var(--action)}
-.field.compact input,.field.compact .select,.compact-control{height:var(--control-h-compact);padding-inline:var(--control-pad-compact);border-radius:var(--control-radius-compact)}
+.field.compact input,.field.compact .select,.compact-control{height:var(--control-h);padding-inline:var(--control-pad);border-radius:var(--control-radius)}
 .select{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .select .icon{width:12px;height:12px}
-.field textarea{min-height:88px;padding:10px 12px;line-height:20px;resize:vertical}
+.field textarea{min-height:88px;padding:8px var(--control-pad);line-height:20px;resize:vertical}
 .field-cluster{padding:16px;border:.5px solid var(--divider);border-radius:12px;background:var(--surface-subtle)}
 .field-cluster .field+.field{margin-top:14px}
 .connector-select-demo{display:grid;gap:6px}
@@ -262,7 +262,7 @@ code,.spec-label,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-n
 .settings-subheading+.settings-definition-row+.settings-subheading{margin-top:38px}
 .settings-subheading strong,.settings-definition-row strong,.settings-integration-row strong{font-weight:500}
 .settings-definition-row{min-height:80px;padding:14px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;border-bottom:.5px solid var(--divider)}
-.settings-definition-row .select{width:140px;height:32px;padding:0 12px;border-radius:8px}
+.settings-definition-row .select{width:140px;height:var(--control-h);padding:0 var(--control-pad);border-radius:var(--control-radius)}
 .settings-integration-row{height:72px;padding:12px 16px;display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;border:.5px solid var(--divider);border-radius:12px;box-shadow:var(--shadow-card)}
 .integration-mark{width:32px;height:32px;display:grid;place-items:center;border-radius:8px;background:var(--component)}
 .integration-mark .icon{width:16px;height:16px}
@@ -488,7 +488,7 @@ code,.spec-label,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-n
 .settings-content{padding:56px 24px 32px}
 .settings-close{top:10px;right:10px;width:44px;height:44px}
 .settings-profile-list .text-action{min-height:44px}
-.settings-definition-row .select{height:44px}
+.settings-definition-row .select{height:var(--control-h)}
 .settings-member-table,.settings-usage-table{overflow-x:auto}
 .settings-usage-table>[role="row"]{min-width:560px}
 .data-list,.schedule-table,.incident-feed{overflow-x:auto}
