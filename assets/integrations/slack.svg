@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="title">
+  <title id="title">Slack</title>
+  <path fill="#36C5F0" d="M5.2 14.8a2.2 2.2 0 1 1-2.2-2.2h2.2v2.2zm1.1 0a2.2 2.2 0 1 1 4.4 0v5.5a2.2 2.2 0 1 1-4.4 0v-5.5z"/>
+  <path fill="#2EB67D" d="M9.2 5.2A2.2 2.2 0 1 1 11.4 3v2.2H9.2zm0 1.1a2.2 2.2 0 1 1 0 4.4H3.7a2.2 2.2 0 1 1 0-4.4h5.5z"/>
+  <path fill="#ECB22E" d="M18.8 9.2a2.2 2.2 0 1 1 2.2 2.2h-2.2V9.2zm-1.1 0a2.2 2.2 0 1 1-4.4 0V3.7a2.2 2.2 0 1 1 4.4 0v5.5z"/>
+  <path fill="#E01E5A" d="M14.8 18.8a2.2 2.2 0 1 1-2.2 2.2v-2.2h2.2zm0-1.1a2.2 2.2 0 1 1 0-4.4h5.5a2.2 2.2 0 1 1 0 4.4h-5.5z"/>
+</svg>
