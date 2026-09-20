@@ -2187,21 +2187,6 @@ a {
 /* ==========================================================================
    Incident fidelity pass — real tab views, production chrome and brands
    ========================================================================== */
-.brand-home {
-    width: 126px;
-    height: 36px;
-    margin: 4px 8px 8px;
-    display: flex;
-    align-items: center;
-    flex: none
-}
-
-.brand-home img {
-    display: block;
-    width: 118px;
-    max-height: 27px
-}
-
 .wa-topbar {
     gap: var(--space-md)
 }
@@ -2356,7 +2341,6 @@ a {
     line-height: 18px
 }
 
-:root[data-theme="dark"] .brand-home img,
 :root[data-theme="dark"] .brand-icon[src*="github"] {
     filter: invert(1)
 }
@@ -2376,10 +2360,6 @@ a {
 }
 
 @media(max-width:760px) {
-    .brand-home {
-        display: none
-    }
-
     .global-search {
         display: none
     }
@@ -6654,10 +6634,6 @@ button.chip.is-selected {
 }
 
 /* Keep these route-state overrides after legacy incident rules. */
-.wa-shell.is-collapsed .brand-home {
-    display: none
-}
-
 .incident-ai-page[data-incident-view="overview"] .incident-main>.incident-overview-view {
     display: block
 }
