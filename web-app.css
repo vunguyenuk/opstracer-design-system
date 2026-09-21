@@ -1,4 +1,4 @@
-@import url("design-tokens.css?v=24");
+@import url("design-tokens.css?v=25");
 @import url("billing-system.css?v=25");
 
 * {
@@ -1522,8 +1522,8 @@ a {
 }
 
 .week-head .is-today strong {
-    background: var(--action);
-    color: var(--surface)
+    background: var(--current-rota, var(--action));
+    color: var(--inverse-ink)
 }
 
 .week-body {
@@ -3396,10 +3396,6 @@ a {
     background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--rota) 14%, transparent) 6px 12px)
 }
 
-.week-shift.is-now {
-    box-shadow: 0 0 0 1px var(--green) inset
-}
-
 .week-shift .shift-who {
     max-width: 100%;
     display: flex;
@@ -3431,6 +3427,30 @@ a {
 .week-track.is-today .week-shift {
     border-color: color-mix(in srgb, var(--rota) 38%, transparent);
     background-color: color-mix(in srgb, var(--rota) 9%, var(--surface))
+}
+
+.week-track.is-today .week-shift.is-now,
+.week-shift.is-now {
+    border-color: var(--rota);
+    background: var(--rota);
+    color: var(--inverse-ink);
+    box-shadow: none
+}
+
+.week-shift.is-now:hover {
+    background: var(--rota)
+}
+
+.week-shift.is-now span,
+.week-shift.is-now strong {
+    color: var(--inverse-ink)
+}
+
+.week-shift.is-now .avatar,
+.week-shift.is-now .tag {
+    border-color: var(--inverse-ink);
+    background: var(--inverse-ink);
+    color: var(--inverse-surface)
 }
 
 .week-axis {
@@ -3511,8 +3531,8 @@ a {
 }
 
 .month-cell.is-today .month-date {
-    background: var(--action);
-    color: var(--surface)
+    background: var(--current-rota, var(--action));
+    color: var(--inverse-ink)
 }
 
 .month-shift {
@@ -3543,7 +3563,14 @@ a {
 }
 
 .month-shift.is-now {
-    box-shadow: 0 0 0 1px var(--green) inset
+    border-color: var(--rota);
+    background: var(--rota);
+    color: var(--inverse-ink);
+    box-shadow: none
+}
+
+.month-shift.is-now i {
+    background: var(--inverse-ink)
 }
 
 .month-shift i {

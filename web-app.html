@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="OpsTracer web application rebuilt with the DS-02 product design system.">
   <title>OpsTracer · Web app</title>
-  <link rel="stylesheet" href="web-app.css?v=66">
+  <link rel="stylesheet" href="web-app.css?v=69">
 </head>
 <body>
   <a class="sr-only" href="#app-content">Skip to content</a>
@@ -583,7 +583,7 @@ group by @msg_pattern · compute count</pre><div class="inline-actions"><button 
       function renderSide(){const now=whoAt(NOW);const nowName=now.who||'Nobody';$('now-name').textContent=nowName;$('legend-now').textContent=`On call now · ${nowName}`;const nextRota=rotaAt(NOW+TURN);
         $('members').innerHTML=rota.map((n,i)=>`<li><span class="member-avatar">${initials(n)}</span><span><strong><i class="rota-dot" style="--rota:var(--rota-${i+1})"></i>${n}</strong><small class="${n===now.who?'is-now':''}">${n===now.who?'On call now':n===nextRota?'Next in rotation':'Rotation member'}</small></span></li>`).join('');
         $('override-count').textContent=overrides.length;$('overrides').innerHTML=overrides.length?overrides.map((o,i)=>`<li><span class="member-avatar">${initials(o.who)}</span><span><strong>${o.who}</strong><small>${fmt(o.from)} → ${fmt(o.until)}</small></span><button class="icon-btn more-btn" data-remove-override="${i}" aria-label="Remove override for ${o.who}"><i class="ico li-x" aria-hidden="true"></i></button></li>`).join(''):'<li class="empty-line">No cover arranged. Select a shift to hand it to someone.</li>'}
-      function render(){const mid=view==='week'?renderWeek():renderMonth();const p=parts(mid);root.querySelector('#schedule-calendar-title').textContent=`${MONTHS[p.m]} ${p.y}`;root.querySelector('[data-sched-action="view"]').value=view;root.querySelectorAll('[data-sched-action="prev"],[data-sched-action="next"]').forEach(b=>b.setAttribute('aria-label',`${b.dataset.schedAction==='prev'?'Previous':'Next'} ${view}`));renderSide()}
+      function render(){const current=whoAt(NOW);root.style.setProperty('--current-rota',current.who?colorOf(current.who):'var(--rota-none)');const mid=view==='week'?renderWeek():renderMonth();const p=parts(mid);root.querySelector('#schedule-calendar-title').textContent=`${MONTHS[p.m]} ${p.y}`;root.querySelector('[data-sched-action="view"]').value=view;root.querySelectorAll('[data-sched-action="prev"],[data-sched-action="next"]').forEach(b=>b.setAttribute('aria-label',`${b.dataset.schedAction==='prev'?'Previous':'Next'} ${view}`));renderSide()}
       root.addEventListener('click',event=>{const act=event.target.closest('[data-sched-action]')?.dataset.schedAction;if(act==='today')anchor=NOW;if(act==='prev'||act==='next'){const dir=act==='prev'?-1:1;if(view==='week')anchor+=dir*7*D;else{const p=parts(anchor);anchor=sg(p.y,p.m+1+dir,1,12)}}if(['today','prev','next'].includes(act))render();const rm=event.target.closest('[data-remove-override]');if(rm){overrides.splice(Number(rm.dataset.removeOverride),1);render();showToast('Override removed; the rotation takes the shift back')}});
       root.addEventListener('change',event=>{if(event.target.matches('[data-sched-action="view"]')){view=event.target.value;render()}});
       /* Shift drawer */

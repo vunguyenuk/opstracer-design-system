@@ -118,6 +118,7 @@ Preserve these values unless the user explicitly changes them and the shared var
 - Timeline rows are 44px apart. Each timeline node is 28px with a 16px Lucide icon, white `--surface` background, `--border` gray outline and `--text` icon colour.
 - The timeline connector and every node derive from the same track-center variables. Expanded detail aligns with the content column; it must not introduce a second stray vertical rule.
 - Timeline summary and expanded detail must be rendered from the same event object. Never relabel only the summary.
+- In schedule calendars, keep the Members list neutral. Only the shift covering the current time uses its assigned `--rota` colour at full strength; its text is white and its avatar/status surfaces are white with dark text. The current-day marker uses that same member colour in Week and Month views. Keep the written “On call” label so colour is never the only state indicator.
 - Only the selected Incident tab renders its corresponding main content. Do not turn the page back into one long stack of all sections.
 
 ## Approved Service detail decisions
