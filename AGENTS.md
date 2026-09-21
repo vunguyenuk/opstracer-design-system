@@ -58,6 +58,8 @@ After editing:
 - Product body text is 13px with approximately 18–20px line-height; form controls are 14px.
 - Page/detail `h1`: 28/34px, weight 500. Section title and standard panel `h2`: 16/22px, weight 600.
 - Secondary/helper copy must use `--muted` and remain at least 12px/17px.
+- Web-app page and detail headers start with the actual `h1`; do not add page-type eyebrow labels such as `Service`, `Person`, `Team` or `Escalation policy` above it.
+- Omit empty-description placeholders such as `No description yet` from headers and list rows. When an editable detail field must remain visible, render its empty value as an em dash.
 - Do not invent isolated type sizes or use font size to compensate for incorrect spacing.
 - Preserve real text; do not replace a logo with typed brand text.
 
@@ -75,7 +77,7 @@ After editing:
 - Use the shared 36/32/28px hierarchy: primary 36px, default 32px, compact 28px.
 - Primary action: 8px radius and 12px inline padding. Default/compact: 6px radius and 10/8px inline padding.
 - Do not make every action primary. Use one consequential primary action per context.
-- Tags are labels, not buttons: minimum 18px height, 6px inline padding, nowrap and semantic written text.
+- Tags are labels, not buttons: minimum 18px height, 6px inline padding, `--tag-radius` (4px), nowrap and semantic written text. Do not turn them back into fully rounded pills.
 - Visually compact controls must retain an adequate hit target. Minimum WCAG target is 24px; target 44px on touch layouts using padding or pseudo-elements.
 - Header actions must align on the same row and top edge as their associated title/status on desktop.
 
@@ -103,11 +105,14 @@ After editing:
 - At or below 1180px, the incident utility rail stacks below the main column. At 820px the application navigation becomes a drawer. At 720/680px analytical grids collapse and long tab rows scroll.
 - Never solve responsive problems by hiding critical actions or shrinking text below the system scale.
 
-## Approved Incident AI details
+## Approved Incident workspace details
 
 Preserve these values unless the user explicitly changes them and the shared variant is updated:
 
-- Incident title and status share one row; title-to-metadata gap is 8px.
+- Every incident detail route uses the shared incident workspace shell: priority tile, title/status row, aligned header actions, five-column context strip, underline navigation and a persistent utility rail. Do not fall back to the legacy tags-above-title header.
+- Standard incidents expose Overview and Timeline as real tabs; only the selected tab's main content is visible. Their context and timeline data remain incident-specific rather than copied from the AI example.
+- Incident tab changes preserve the current scroll position. Do not call `scrollIntoView` or otherwise move the viewport when a tab is selected by pointer or keyboard.
+- Incident status follows the final title word in normal inline flow, including when a long title wraps. Apply the shared 2px optical lift so the compact label sits visually centred against the larger title type; title-to-metadata gap is 8px.
 - Header action buttons are 36px high and aligned with the title block.
 - Utility rail headers use a compact 44px rhythm. `Paging progress` and `Responders` bodies start 12px below the header divider.
 - Timeline rows are 44px apart. Each timeline node is 28px with a 16px Lucide icon, white `--surface` background, `--border` gray outline and `--text` icon colour.
@@ -117,6 +122,7 @@ Preserve these values unless the user explicitly changes them and the shared var
 
 ## Approved Service detail decisions
 
+- The service title begins the header directly, without a `Service` eyebrow or an empty-description placeholder.
 - Service tabs and the active tab's primary action share one `tabbar` row on desktop. `Add integration` appears only for Integrations; `Add suppression` appears only for Suppressions.
 - Event handling follows one scan path: organization-wide grouping warning → reader identity/logic → severity mapping → grouped-incident history → lifecycle explanation.
 - The organization-wide grouping warning uses the amber semantic callout with a real 14–16px outline information icon. Do not replace it with plain orange text or an oversized alert.
@@ -128,7 +134,7 @@ Preserve these values unless the user explicitly changes them and the shared var
 
 ## Approved Member detail decisions
 
-- The member header contains avatar, `Person` eyebrow, name, description and email/copy action; role/remove actions align at the opposite edge on desktop.
+- The member header contains avatar, name, description and email/copy action; role/remove actions align at the opposite edge on desktop. It does not use a `Person` eyebrow.
 - The content layout is a two-column details/contact composition (`1.65fr / 1fr`) and collapses to one column below 1180px.
 - Member card headers are 64px with a 20px outline icon and 16px internal gap.
 - Member fact rows are 80px and use dividers only between rows. Fact icons occupy a 24px alignment box.

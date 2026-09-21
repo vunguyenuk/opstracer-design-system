@@ -1,4 +1,4 @@
-@import url("design-tokens.css");
+@import url("design-tokens.css?v=24");
 @import url("billing-system.css");
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;background:var(--component);font-kerning:normal}
@@ -94,7 +94,7 @@ code,.spec-label,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-n
 .icon-button .icon{width:16px;height:16px}
 .icon-button.small .icon{width:14px;height:14px}
 .icon{display:inline-block;flex:none;width:14px;height:14px;background:currentColor;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
-.tag{min-height:18px;padding:0 6px;border:.5px solid var(--border);border-radius:6px;background:var(--component);display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;color:var(--text);font-size:12px;line-height:17px;font-weight:400;font-style:normal;white-space:nowrap}
+.tag{min-height:18px;padding:0 6px;border:.5px solid var(--border);border-radius:var(--tag-radius);background:var(--component);display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;color:var(--text);font-size:12px;line-height:17px;font-weight:400;font-style:normal;white-space:nowrap}
 .tag.success{color:var(--green);border-color:var(--green-line);background:var(--green-bg)}
 .tag.danger{color:var(--red);border-color:var(--red-line);background:var(--red-bg)}
 .tag.warning{color:var(--amber);border-color:var(--amber-line);background:var(--amber-bg)}

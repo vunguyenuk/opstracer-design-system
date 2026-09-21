@@ -1,4 +1,4 @@
-@import url("design-tokens.css?v=23");
+@import url("design-tokens.css?v=24");
 @import url("billing-system.css?v=25");
 
 * {
@@ -523,7 +523,7 @@ a {
     align-items: center;
     justify-content: center;
     border: .5px solid var(--border);
-    border-radius: 6px;
+    border-radius: var(--tag-radius);
     background: var(--component);
     font-size: 12px;
     line-height: 17px;
@@ -640,8 +640,9 @@ a {
 .tab.is-active::after {
     content: "";
     position: absolute;
+    z-index: 1;
     right: 0;
-    bottom: -1px;
+    bottom: 0;
     left: 0;
     height: 2px;
     border-radius: 2px 2px 0 0;
@@ -2454,15 +2455,6 @@ a {
 /* ==========================================================================
    Live-parity additions (audit 18 Sep 2026 against app.opstracer.ai)
    ========================================================================== */
-
-.eyebrow {
-    display: block;
-    margin-bottom: var(--space-2xs);
-    color: var(--muted);
-    font: 500 11px/16px var(--mono);
-    letter-spacing: .06em;
-    text-transform: uppercase
-}
 
 .muted {
     color: var(--muted)
@@ -4281,12 +4273,6 @@ small {
     display: none
 }
 
-.eyebrow {
-    margin-bottom: 6px;
-    font: 400 12px/17px var(--mono);
-    letter-spacing: .08em
-}
-
 /* Buttons ---------------------------------------------------------------- */
 .btn {
     border: .5px solid transparent;
@@ -6007,7 +5993,7 @@ small {
 .ai-facts>div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px }
 .ai-facts dt { color: var(--muted); font-size: 12px; line-height: 20px }
 .ai-facts dd { margin: 0; line-height: 20px }
-.incident-ai-page .detail-head { padding-bottom: var(--space-md) }
+.incident-workspace-page .detail-head { padding-bottom: var(--space-md) }
 .incident-title-line { display: flex; align-items: flex-start; gap: var(--space-md) }
 .incident-title-line .incident-tags { margin-bottom: var(--space-2xs) }
 .incident-priority { width: 64px; height: 56px; display: grid; place-items: center; flex: none; border: .5px solid var(--red-line); border-radius: var(--control-radius); background: var(--red-bg); color: var(--red); font-size: 24px; line-height: 1; font-weight: 600 }
@@ -6023,7 +6009,7 @@ small {
 .incident-meta-strip strong { overflow: hidden; font-size: 13px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap }
 .incident-tabbar { margin-top: 0 }
 .incident-tabbar .tabs { padding-inline: var(--space-2xs) }
-.incident-ai-page>.page-body { padding-top: var(--space-md) }
+.incident-workspace-page>.page-body { padding-top: var(--space-md) }
 .incident-ai-page .incident-main>.panel:first-child { display: none }
 .incident-ai-page .ai-section>.section-row,.incident-ai-page .run-strip { display: none }
 .incident-ai-page .ai-body>.ai-block,.incident-ai-page .ai-feedback { display: none }
@@ -6669,6 +6655,16 @@ button.chip.is-selected {
     display: block
 }
 
+.incident-standard-page[data-incident-view="overview"] .timeline-section,
+.incident-standard-page[data-incident-view="timeline"] .incident-context-view,
+.incident-standard-page[data-incident-view="timeline"] .closing-note {
+    display: none
+}
+
+.incident-standard-page[data-incident-view="timeline"] .timeline-section {
+    display: block
+}
+
 /* The source incident layout ends its utility rail at Actions. */
 .wa-shell:has(.incident-ai-page.is-active) .account,
 .incident-ai-page .incident-aside>.deploy-panel,
@@ -6678,14 +6674,18 @@ button.chip.is-selected {
 
 /* Incident-specific density: GitHub-style labels, compact icons and actions. */
 .incident-heading-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    flex-wrap: wrap
+    display: block;
 }
 
 .incident-heading-row h1 {
-    margin: 0
+    min-width: 0;
+    margin: 0;
+    display: inline
+}
+
+.incident-heading-row .incident-status {
+    margin-left: var(--space-sm);
+    vertical-align: 2px
 }
 
 .incident-title-copy {
@@ -6698,27 +6698,27 @@ button.chip.is-selected {
     margin-top: 0
 }
 
-.incident-ai-page .incident-title-line {
-    align-items: center
+.incident-workspace-page .incident-title-line {
+    align-items: flex-start
 }
 
-.incident-ai-page .incident-head .detail-title-row>.inline-actions {
+.incident-workspace-page .incident-head .detail-title-row>.inline-actions {
     margin-top: 0;
     align-self: flex-start
 }
 
-.incident-ai-page .incident-head .inline-actions>.btn,
-.incident-ai-page .incident-head .inline-actions>.icon-btn {
+.incident-workspace-page .incident-head .inline-actions>.btn,
+.incident-workspace-page .incident-head .inline-actions>.icon-btn {
     min-height: var(--control-h);
     height: var(--control-h)
 }
 
-.incident-ai-page .incident-head .inline-actions>.icon-btn {
+.incident-workspace-page .incident-head .inline-actions>.icon-btn {
     width: var(--control-h)
 }
 
 @media(min-width:1000px) {
-    .incident-ai-page .detail-title-row {
+    .incident-workspace-page .detail-title-row {
         display: grid;
         grid-template-columns: minmax(0,1fr) auto;
         align-items: start;
@@ -6726,24 +6726,30 @@ button.chip.is-selected {
     }
 }
 
-.incident-ai-page .incident-priority {
+.incident-workspace-page .incident-priority {
     width: 58px;
     height: 48px;
     font-size: 20px
 }
 
-.incident-ai-page .tag {
+.incident-workspace-page .tag {
     min-height: 20px;
     padding: 0 7px;
-    border-radius: 999px;
+    border-radius: var(--tag-radius);
     font-size: 11px;
     line-height: 18px;
     white-space: nowrap
 }
 
-.incident-ai-page .tag .ico {
+.incident-workspace-page .tag .ico {
     width: 11px;
     height: 11px
+}
+
+.incident-workspace-page .incident-priority.warning {
+    border-color: var(--amber-line);
+    background: var(--amber-bg);
+    color: var(--amber)
 }
 
 .incident-ai-page .incident-status {
@@ -6813,7 +6819,7 @@ button.chip.is-selected {
 }
 
 /* Utility rail follows the compact 44px card-header rhythm. */
-.incident-ai-page .incident-aside .panel-head {
+.incident-workspace-page .incident-aside .panel-head {
     min-height: 44px;
     padding: 6px var(--space-sm);
     gap: var(--space-sm)
@@ -6855,19 +6861,19 @@ button.chip.is-selected {
 }
 
 /* Compact event stream matching the incident reference, not a table of cards. */
-.incident-ai-page #ai-timeline .section-row {
+.incident-workspace-page .timeline-section .section-row {
     min-height: 36px;
     margin-bottom: 8px;
     align-items: center
 }
 
-.incident-ai-page #ai-timeline .section-title {
+.incident-workspace-page .timeline-section .section-title {
     display: flex;
     align-items: center;
     gap: 8px
 }
 
-.incident-ai-page #ai-timeline .section-title>.ico {
+.incident-workspace-page .timeline-section .section-title>.ico {
     width: 16px;
     height: 16px
 }
@@ -6876,7 +6882,7 @@ button.chip.is-selected {
     width: 112px
 }
 
-.incident-ai-page #ai-timeline .tl-list {
+.incident-workspace-page .timeline-section .tl-list {
     --timeline-time-width: 60px;
     --timeline-track-size: 28px;
     --timeline-column-gap: var(--space-sm);
@@ -6889,15 +6895,15 @@ button.chip.is-selected {
     overflow: visible
 }
 
-.incident-ai-page #ai-timeline .tl-item {
+.incident-workspace-page .timeline-section .tl-item {
     position: relative
 }
 
-.incident-ai-page #ai-timeline .tl-item+.tl-item {
+.incident-workspace-page .timeline-section .tl-item+.tl-item {
     border-top: 0
 }
 
-.incident-ai-page #ai-timeline .tl-item:not(:last-child)::after {
+.incident-workspace-page .timeline-section .tl-item:not(:last-child)::after {
     content: "";
     position: absolute;
     z-index: 0;
@@ -6908,7 +6914,7 @@ button.chip.is-selected {
     background: var(--divider)
 }
 
-.incident-ai-page #ai-timeline .tl-item summary {
+.incident-workspace-page .timeline-section .tl-item summary {
     min-height: 44px;
     padding: 3px 0;
     grid-template-columns: var(--timeline-time-width) var(--timeline-track-size) minmax(0,1fr);
@@ -6916,18 +6922,19 @@ button.chip.is-selected {
     cursor: pointer
 }
 
-.incident-ai-page #ai-timeline .tl-item summary:hover,
-.incident-ai-page #ai-timeline .tl-item details[open] summary {
+.incident-workspace-page .timeline-section .tl-item summary:hover,
+.incident-workspace-page .timeline-section .tl-item details[open] summary {
     background: transparent
 }
 
-.incident-ai-page #ai-timeline .tl-item time {
+.incident-workspace-page .timeline-section .tl-item time {
     color: var(--muted);
     font: 400 12px/18px var(--mono);
     text-align: right
 }
 
-.incident-ai-page #ai-timeline .timeline-event-icon {
+.incident-workspace-page .timeline-section .timeline-event-icon,
+.incident-workspace-page .timeline-section .timeline-dot {
     position: relative;
     z-index: 1;
     width: var(--timeline-track-size);
@@ -6940,35 +6947,65 @@ button.chip.is-selected {
     color: var(--text)
 }
 
-.incident-ai-page #ai-timeline .timeline-event-icon>.ico {
+.incident-workspace-page .timeline-section .timeline-event-icon>.ico {
     width: 16px;
     height: 16px;
     color: inherit;
     opacity: 1
 }
 
-.incident-ai-page #ai-timeline .tl-main {
+.incident-workspace-page .timeline-section .timeline-dot::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask: var(--li-clock) center / contain no-repeat;
+    mask: var(--li-clock) center / contain no-repeat
+}
+
+.incident-workspace-page .timeline-section .timeline-dot.red::after {
+    -webkit-mask-image: var(--li-circle-alert);
+    mask-image: var(--li-circle-alert)
+}
+
+.incident-workspace-page .timeline-section .timeline-dot.green::after {
+    -webkit-mask-image: var(--li-circle-check);
+    mask-image: var(--li-circle-check)
+}
+
+.incident-workspace-page .timeline-section .timeline-dot.amber::after,
+.incident-workspace-page .timeline-section .timeline-dot.blue::after {
+    -webkit-mask-image: var(--li-user);
+    mask-image: var(--li-user)
+}
+
+.incident-workspace-page .timeline-section .timeline-dot.muted::after {
+    -webkit-mask-image: var(--li-bell);
+    mask-image: var(--li-bell)
+}
+
+.incident-workspace-page .timeline-section .tl-main {
     display: grid;
     grid-template-columns: minmax(132px,auto) minmax(0,1fr);
     align-items: center;
     gap: 12px
 }
 
-.incident-ai-page #ai-timeline .tl-main strong {
+.incident-workspace-page .timeline-section .tl-main strong {
     font-size: 12px;
     line-height: 18px
 }
 
-.incident-ai-page #ai-timeline .tl-main small {
+.incident-workspace-page .timeline-section .tl-main small {
     font-size: 11px;
     line-height: 18px
 }
 
-.incident-ai-page #ai-timeline .tl-chevron {
+.incident-workspace-page .timeline-section .tl-chevron {
     display: none
 }
 
-.incident-ai-page #ai-timeline .tl-detail {
+.incident-workspace-page .timeline-section .tl-detail {
     margin: 0 0 var(--space-xs) var(--timeline-content-start);
     padding: var(--space-sm);
     border: .5px solid var(--divider);
@@ -6978,17 +7015,15 @@ button.chip.is-selected {
 
 @media(max-width:680px) {
     .incident-heading-row {
-        align-items: center;
-        flex-direction: row;
-        gap: var(--space-xs)
+        display: block
     }
 
-    .incident-ai-page #ai-timeline .tl-main {
+    .incident-workspace-page .timeline-section .tl-main {
         grid-template-columns: 1fr;
         gap: 0
     }
 
-    .incident-ai-page #ai-timeline .tl-main small {
+    .incident-workspace-page .timeline-section .tl-main small {
         white-space: normal
     }
 }

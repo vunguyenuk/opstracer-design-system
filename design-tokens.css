@@ -56,6 +56,7 @@
   --control-h-compact:32px; /* icon buttons and menu rows only — never fields */
   --control-radius:8px;
   --control-radius-compact:6px;
+  --tag-radius:4px;
   --control-pad:12px;
   --control-pad-compact:10px;
   --button-h-primary:36px;
